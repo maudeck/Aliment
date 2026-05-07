@@ -10,125 +10,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title><?= $title; ?></title>
-    <style>
-        @import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;600;700&display=swap');
-
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        body {
-            font-family: 'Space Grotesk', sans-serif;
-            background: radial-gradient(circle at top left, #fff1d6, #f9c0a6 40%, #f07a6a 100%);
-            min-height: 100vh;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            padding: 20px;
-        }
-
-        .card {
-            background: #ffffff;
-            border-radius: 18px;
-            padding: 36px;
-            max-width: 520px;
-            width: 100%;
-            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
-        }
-
-        h1 {
-            color: #2d2a26;
-            font-size: 28px;
-            margin-bottom: 8px;
-            text-align: center;
-        }
-
-        .step {
-            text-align: center;
-            color: #7a6f66;
-            font-size: 14px;
-            margin-bottom: 24px;
-        }
-
-        .form-group {
-            margin-bottom: 18px;
-        }
-
-        label {
-            display: block;
-            margin-bottom: 6px;
-            color: #3b352f;
-            font-weight: 600;
-            font-size: 14px;
-        }
-
-        input,
-        select {
-            width: 100%;
-            padding: 12px;
-            border: 2px solid #e2d7cf;
-            border-radius: 10px;
-            font-size: 14px;
-            transition: all 0.2s ease;
-            background: #fffdfb;
-        }
-
-        input:focus,
-        select:focus {
-            outline: none;
-            border-color: #f07a6a;
-            background-color: #fff7f3;
-        }
-
-        .alert {
-            background: #ffe8e2;
-            border-left: 4px solid #f07a6a;
-            color: #7d2d24;
-            padding: 12px;
-            border-radius: 8px;
-            margin-bottom: 18px;
-            font-size: 14px;
-        }
-
-        .error-text {
-            color: #c0392b;
-            font-size: 12px;
-            margin-top: 4px;
-            display: block;
-        }
-
-        .btn {
-            width: 100%;
-            padding: 12px;
-            border: none;
-            border-radius: 10px;
-            font-size: 16px;
-            font-weight: 700;
-            cursor: pointer;
-            background: linear-gradient(135deg, #f07a6a 0%, #f4b183 100%);
-            color: #1f1a17;
-            transition: transform 0.2s ease;
-        }
-
-        .btn:hover {
-            transform: translateY(-2px);
-        }
-
-        .link {
-            text-align: center;
-            margin-top: 16px;
-            color: #6a5f57;
-            font-size: 14px;
-        }
-
-        .link a {
-            color: #f07a6a;
-            text-decoration: none;
-            font-weight: 600;
-        }
-    </style>
+    <link rel="stylesheet" href="<?= base_url('css/register-step1.css'); ?>">
 </head>
 <body>
     <div class="card">
@@ -166,15 +48,15 @@
             </div>
 
             <div class="form-group">
-                <label for="genre">Genre</label>
-                <select id="genre" name="genre" required>
+                <label for="genre_id">Genre</label>
+                <select id="genre_id" name="genre_id" required>
                     <option value="">Selectionner</option>
-                    <option value="M" <?= old('genre') === 'M' ? 'selected' : '' ?>>Masculin</option>
-                    <option value="F" <?= old('genre') === 'F' ? 'selected' : '' ?>>Feminin</option>
-                    <option value="Autre" <?= old('genre') === 'Autre' ? 'selected' : '' ?>>Autre</option>
+                    <option value="1" <?= old('genre_id') === '1' ? 'selected' : '' ?>>Masculin</option>
+                    <option value="2" <?= old('genre_id') === '2' ? 'selected' : '' ?>>Feminin</option>
+                    <option value="3" <?= old('genre_id') === '3' ? 'selected' : '' ?>>Autre</option>
                 </select>
-                <?php if (isset($errors['genre'])): ?>
-                    <span class="error-text"><?= $errors['genre']; ?></span>
+                <?php if (isset($errors['genre_id'])): ?>
+                    <span class="error-text"><?= $errors['genre_id']; ?></span>
                 <?php endif; ?>
             </div>
 

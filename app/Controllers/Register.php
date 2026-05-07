@@ -32,7 +32,7 @@ class Register extends BaseController
         $rules = [
             'nom' => 'required|string|min_length[3]|max_length[100]',
             'email' => 'required|valid_email|is_unique[users.email]',
-            'genre' => 'required|in_list[M,F,Autre]',
+            'genre_id' => 'required|is_not_unique[genres.id]',
             'password' => 'required|min_length[6]',
             'password_confirm' => 'required|matches[password]',
         ];
@@ -46,7 +46,7 @@ class Register extends BaseController
         $data = [
             'nom' => $this->request->getPost('nom'),
             'email' => $this->request->getPost('email'),
-            'genre' => $this->request->getPost('genre'),
+            'genre_id' => $this->request->getPost('genre_id'),
             'password' => $this->request->getPost('password'),
         ];
 
