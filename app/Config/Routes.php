@@ -5,4 +5,25 @@ use CodeIgniter\Router\RouteCollection;
 /**
  * @var RouteCollection $routes
  */
-$routes->get('/', 'Home::index');
+
+// Route d'accueil -> inscription (etape 1)
+$routes->get('/', 'Register::index');
+
+// Page d'accueil apres inscription
+$routes->get('/home', 'Home::index');
+
+// ============================================
+// Routes d'INSCRIPTION (2 étapes)
+// ============================================
+$routes->get('/register', 'Register::index');                    // Étape 1 - Formulaire
+$routes->post('/register/store', 'Register::store');            // Étape 1 - Traitement
+$routes->get('/register/step2', 'Register::step2');             // Étape 2 - Formulaire
+$routes->post('/register/step2/store', 'Register::store2');     // Étape 2 - Traitement
+
+// ============================================
+// Routes de LOGIN
+// ============================================
+$routes->get('/login', 'Login::index');
+$routes->post('/login/authenticate', 'Login::authenticate');
+$routes->get('/logout', 'Login::logout');
+
