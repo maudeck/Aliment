@@ -28,4 +28,11 @@ class User extends Model
 
         return false;
     }
+
+    public function getByEmail(string $email): ?array
+    {
+        $user = $this->where('email', $email)->first();
+
+        return $user ?: null;
+    }
 }

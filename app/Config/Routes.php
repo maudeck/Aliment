@@ -23,8 +23,7 @@ $routes->post('/register/step2/store', 'Register::store2');     // Étape 2 - Tr
 // ============================================
 // Routes de LOGIN
 // ============================================
-// À créer ultérieurement
-// $routes->get('/login', 'Login::index');
-// $routes->post('/login/authenticate', 'Login::authenticate');
-// $routes->get('/logout', 'Login::logout');
+$routes->get('/login', 'Login::index');
+$routes->post('/login/authenticate', 'Login::authenticate');
+$routes->get('/logout', 'Login::logout');
 
