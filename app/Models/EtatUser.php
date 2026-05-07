@@ -12,7 +12,7 @@ class EtatUser extends Model
     protected $useAutoIncrement = true;
     protected $returnType = 'array';
 
-    protected $allowedFields = ['user_id', 'taille', 'poids'];
+    protected $allowedFields = ['user_id', 'taille', 'poids', 'objectif'];
 
     protected $useTimestamps = true;
     protected $createdField = 'created_at';

@@ -27,3 +27,6 @@ $routes->get('/login', 'Login::index');
 $routes->post('/login/authenticate', 'Login::authenticate');
 $routes->get('/logout', 'Login::logout');
 
+
+$routes->get('/register/objectif', 'Register::objectif');
+$routes->post('/register/objectif/store', 'Register::storeObjectif');
