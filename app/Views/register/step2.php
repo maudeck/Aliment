@@ -1,15 +1,9 @@
-<?php
-/**
- * Inscription - Etape 2
- */
-?>
-
 <!DOCTYPE html>
 <html lang="fr">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title><?= $title; ?></title>
+    <title>Inscription - Etape 2</title>
     <link rel="stylesheet" href="<?= base_url('css/register-step2.css'); ?>">
 </head>
 <body>
@@ -53,10 +47,10 @@
                 <?php endif; ?>
             </div>
 
-            <div class="imc-box">
+            <!-- <div class="imc-box">
                 <div>IMC estime</div>
                 <div class="imc-value" id="imcValue">--</div>
-            </div>
+            </div> -->
 
             <div class="btn-row">
                 <button type="button" class="btn btn-secondary" onclick="window.history.back();">Retour</button>

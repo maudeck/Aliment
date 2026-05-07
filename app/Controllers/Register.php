@@ -106,6 +106,6 @@ class Register extends BaseController
                 ->with('errors', ['general' => 'Erreur lors de la sauvegarde.']);
         }
 
-        return redirect()->to(base_url('/register'));
+        return redirect()->to(base_url('/home'));
     }
 }

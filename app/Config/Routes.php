@@ -9,6 +9,9 @@ use CodeIgniter\Router\RouteCollection;
 // Route d'accueil -> inscription (etape 1)
 $routes->get('/', 'Register::index');
 
+// Page d'accueil apres inscription
+$routes->get('/home', 'Home::index');
+
 // ============================================
 // Routes d'INSCRIPTION (2 étapes)
 // ============================================
