@@ -6,8 +6,8 @@ use CodeIgniter\Router\RouteCollection;
  * @var RouteCollection $routes
  */
 
-// Route d'accueil
-$routes->get('/', 'Home::index');
+// Route d'accueil -> inscription (etape 1)
+$routes->get('/', 'Register::index');
 
 // ============================================
 // Routes d'INSCRIPTION (2 étapes)

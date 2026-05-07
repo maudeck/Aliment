@@ -57,3 +57,62 @@ in SYSTEMPATH/Database/BaseConnection.php on line 606.
 13 SYSTEMPATH/Boot.php(68): CodeIgniter\Boot::runCodeIgniter()
 14 FCPATH/index.php(59): CodeIgniter\Boot::bootWeb()
 15 SYSTEMPATH/rewrite.php(44): require_once('/home/maude/S4/Systeme d\'information/alimentation/public/index.php')
+ERROR - 2026-05-07 07:40:09 --> Error connecting to the database: mysqli_sql_exception: No such file or directory in /home/maude/S4/Systeme d'information/alimentation/system/Database/MySQLi/Connection.php:201
+Stack trace:
+#0 /home/maude/S4/Systeme d'information/alimentation/system/Database/MySQLi/Connection.php(201): mysqli->real_connect()
+#1 /home/maude/S4/Systeme d'information/alimentation/system/Database/BaseConnection.php(555): CodeIgniter\Database\MySQLi\Connection->connect()
+#2 /home/maude/S4/Systeme d'information/alimentation/system/Database/BaseConnection.php(795): CodeIgniter\Database\BaseConnection->initialize()
+#3 /home/maude/S4/Systeme d'information/alimentation/system/Database/BaseBuilder.php(1649): CodeIgniter\Database\BaseConnection->query()
+#4 /home/maude/S4/Systeme d'information/alimentation/system/Validation/Rules.php(175): CodeIgniter\Database\BaseBuilder->get()
+#5 /home/maude/S4/Systeme d'information/alimentation/system/Validation/StrictRules/Rules.php(187): CodeIgniter\Validation\Rules->is_unique()
+#6 /home/maude/S4/Systeme d'information/alimentation/system/Validation/Validation.php(345): CodeIgniter\Validation\StrictRules\Rules->is_unique()
+#7 /home/maude/S4/Systeme d'information/alimentation/system/Validation/Validation.php(210): CodeIgniter\Validation\Validation->processRules()
+#8 /home/maude/S4/Systeme d'information/alimentation/system/Controller.php(136): CodeIgniter\Validation\Validation->run()
+#9 /home/maude/S4/Systeme d'information/alimentation/app/Controllers/Register.php(40): CodeIgniter\Controller->validate()
+#10 /home/maude/S4/Systeme d'information/alimentation/system/CodeIgniter.php(951): App\Controllers\Register->store()
+#11 /home/maude/S4/Systeme d'information/alimentation/system/CodeIgniter.php(497): CodeIgniter\CodeIgniter->runController()
+#12 /home/maude/S4/Systeme d'information/alimentation/system/CodeIgniter.php(340): CodeIgniter\CodeIgniter->handleRequest()
+#13 /home/maude/S4/Systeme d'information/alimentation/system/Boot.php(417): CodeIgniter\CodeIgniter->run()
+#14 /home/maude/S4/Systeme d'information/alimentation/system/Boot.php(68): CodeIgniter\Boot::runCodeIgniter()
+#15 /home/maude/S4/Systeme d'information/alimentation/public/index.php(59): CodeIgniter\Boot::bootWeb()
+#16 /home/maude/S4/Systeme d'information/alimentation/system/rewrite.php(44): require_once('...')
+#17 {main}
+
+Next CodeIgniter\Database\Exceptions\DatabaseException: No such file or directory in /home/maude/S4/Systeme d'information/alimentation/system/Database/MySQLi/Connection.php:231
+Stack trace:
+#0 /home/maude/S4/Systeme d'information/alimentation/system/Database/BaseConnection.php(555): CodeIgniter\Database\MySQLi\Connection->connect()
+#1 /home/maude/S4/Systeme d'information/alimentation/system/Database/BaseConnection.php(795): CodeIgniter\Database\BaseConnection->initialize()
+#2 /home/maude/S4/Systeme d'information/alimentation/system/Database/BaseBuilder.php(1649): CodeIgniter\Database\BaseConnection->query()
+#3 /home/maude/S4/Systeme d'information/alimentation/system/Validation/Rules.php(175): CodeIgniter\Database\BaseBuilder->get()
+#4 /home/maude/S4/Systeme d'information/alimentation/system/Validation/StrictRules/Rules.php(187): CodeIgniter\Validation\Rules->is_unique()
+#5 /home/maude/S4/Systeme d'information/alimentation/system/Validation/Validation.php(345): CodeIgniter\Validation\StrictRules\Rules->is_unique()
+#6 /home/maude/S4/Systeme d'information/alimentation/system/Validation/Validation.php(210): CodeIgniter\Validation\Validation->processRules()
+#7 /home/maude/S4/Systeme d'information/alimentation/system/Controller.php(136): CodeIgniter\Validation\Validation->run()
+#8 /home/maude/S4/Systeme d'information/alimentation/app/Controllers/Register.php(40): CodeIgniter\Controller->validate()
+#9 /home/maude/S4/Systeme d'information/alimentation/system/CodeIgniter.php(951): App\Controllers\Register->store()
+#10 /home/maude/S4/Systeme d'information/alimentation/system/CodeIgniter.php(497): CodeIgniter\CodeIgniter->runController()
+#11 /home/maude/S4/Systeme d'information/alimentation/system/CodeIgniter.php(340): CodeIgniter\CodeIgniter->handleRequest()
+#12 /home/maude/S4/Systeme d'information/alimentation/system/Boot.php(417): CodeIgniter\CodeIgniter->run()
+#13 /home/maude/S4/Systeme d'information/alimentation/system/Boot.php(68): CodeIgniter\Boot::runCodeIgniter()
+#14 /home/maude/S4/Systeme d'information/alimentation/public/index.php(59): CodeIgniter\Boot::bootWeb()
+#15 /home/maude/S4/Systeme d'information/alimentation/system/rewrite.php(44): require_once('...')
+#16 {main}
+CRITICAL - 2026-05-07 07:40:09 --> CodeIgniter\Database\Exceptions\DatabaseException: Unable to connect to the database.
+Main connection [MySQLi]: No such file or directory
+[Method: POST, Route: register/store]
+in SYSTEMPATH/Database/BaseConnection.php on line 606.
+ 1 SYSTEMPATH/Database/BaseConnection.php(795): CodeIgniter\Database\BaseConnection->initialize()
+ 2 SYSTEMPATH/Database/BaseBuilder.php(1649): CodeIgniter\Database\BaseConnection->query()
+ 3 SYSTEMPATH/Validation/Rules.php(175): CodeIgniter\Database\BaseBuilder->get()
+ 4 SYSTEMPATH/Validation/StrictRules/Rules.php(187): CodeIgniter\Validation\Rules->is_unique()
+ 5 SYSTEMPATH/Validation/Validation.php(345): CodeIgniter\Validation\StrictRules\Rules->is_unique()
+ 6 SYSTEMPATH/Validation/Validation.php(210): CodeIgniter\Validation\Validation->processRules()
+ 7 SYSTEMPATH/Controller.php(136): CodeIgniter\Validation\Validation->run()
+ 8 APPPATH/Controllers/Register.php(40): CodeIgniter\Controller->validate()
+ 9 SYSTEMPATH/CodeIgniter.php(951): App\Controllers\Register->store()
+10 SYSTEMPATH/CodeIgniter.php(497): CodeIgniter\CodeIgniter->runController()
+11 SYSTEMPATH/CodeIgniter.php(340): CodeIgniter\CodeIgniter->handleRequest()
+12 SYSTEMPATH/Boot.php(417): CodeIgniter\CodeIgniter->run()
+13 SYSTEMPATH/Boot.php(68): CodeIgniter\Boot::runCodeIgniter()
+14 FCPATH/index.php(59): CodeIgniter\Boot::bootWeb()
+15 SYSTEMPATH/rewrite.php(44): require_once('/home/maude/S4/Systeme d\'information/alimentation/public/index.php')
