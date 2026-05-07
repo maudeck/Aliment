@@ -59,3 +59,5 @@ CREATE TABLE user_objectifs (
     FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE,
     FOREIGN KEY (objectif_id) REFERENCES objectifs_list(id) ON DELETE RESTRICT
 );
+
+ALTER TABLE etat_user ADD COLUMN objectif VARCHAR(20) NULL;
