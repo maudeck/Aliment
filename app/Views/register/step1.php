@@ -14,6 +14,9 @@
 </head>
 <body>
     <div class="card">
+        <div class="logo-wrap">
+            <img src="<?= base_url('logo/logo_sans_background.png'); ?>" alt="Logo" class="logo">
+        </div>
         <h1>Inscription</h1>
         <p class="step">Etape 1 / 2 - Infos personnelles</p>
 

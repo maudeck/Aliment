@@ -12,11 +12,7 @@
     <div class="layout">
         <aside class="sidebar">
             <div class="brand">
-                <div class="brand-mark">AL</div>
-                <div>
-                    <p class="brand-name">Aliment</p>
-                    <p class="brand-subtitle">Tableau de bord</p>
-                </div>
+                <img src="<?= base_url('logo/logo_sans_background.png'); ?>" alt="Logo" class="brand-logo">
             </div>
 
             <nav class="nav">

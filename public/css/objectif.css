@@ -1,15 +1,12 @@
-@import url('https://fonts.googleapis.com/css2?family=Sora:wght@300;500;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;600;700&display=swap');
 
 :root {
-  --bg-dark: #0f172a;
-  --bg-mid: #152238;
-  --bg-accent: #f2c94c;
-  --card: #101828;
-  --card-border: rgba(242, 201, 76, 0.35);
-  --text-main: #f8fafc;
-  --text-soft: #cbd5f5;
-  --accent: #f2c94c;
-  --accent-2: #f2994a;
+  --cream: #f0ead2;
+  --sage: #dde5b6;
+  --olive: #adc178;
+  --clay: #a98467;
+  --espresso: #6c584c;
+  --card: #ffffff;
 }
 
 * {
@@ -19,9 +16,9 @@
 }
 
 body {
-  font-family: 'Sora', sans-serif;
-  background: radial-gradient(circle at top left, #1f2a44 0%, var(--bg-dark) 45%, #0b1120 100%);
-  color: var(--text-main);
+  font-family: 'Space Grotesk', sans-serif;
+  background: #ffffff;
+  color: var(--espresso);
   min-height: 100vh;
   display: flex;
   justify-content: center;
@@ -29,26 +26,13 @@ body {
   padding: 24px;
 }
 
-body::before {
-  content: '';
-  position: fixed;
-  inset: 0;
-  background:
-    radial-gradient(circle at 20% 20%, rgba(242, 201, 76, 0.22), transparent 45%),
-    radial-gradient(circle at 80% 10%, rgba(242, 153, 74, 0.18), transparent 50%),
-    radial-gradient(circle at 80% 80%, rgba(100, 210, 255, 0.12), transparent 55%);
-  pointer-events: none;
-  z-index: -1;
-}
-
 .container {
   width: min(92vw, 680px);
-  background: linear-gradient(180deg, rgba(16, 24, 40, 0.92) 0%, rgba(10, 16, 32, 0.92) 100%);
+  background: var(--card);
   padding: 36px;
   border-radius: 24px;
-  border: 1px solid rgba(148, 163, 184, 0.2);
-  box-shadow: 0 28px 55px rgba(15, 23, 42, 0.45);
-  backdrop-filter: blur(12px);
+  border: 1px solid rgba(169, 132, 103, 0.2);
+  box-shadow: 0 28px 55px rgba(108, 88, 76, 0.18);
 }
 
 .title {
@@ -62,14 +46,14 @@ body::before {
   text-align: center;
   font-size: 36px;
   font-weight: 700;
-  color: var(--accent);
+  color: var(--olive);
   margin-bottom: 6px;
   letter-spacing: 0.5px;
 }
 
 .description {
   text-align: center;
-  color: var(--text-soft);
+  color: var(--clay);
   margin-bottom: 26px;
   line-height: 1.5;
 }
@@ -82,24 +66,24 @@ form {
 .goal-card {
   display: grid;
   gap: 6px;
-  border: 1px solid rgba(148, 163, 184, 0.25);
+  border: 1px solid rgba(169, 132, 103, 0.25);
   border-radius: 18px;
   padding: 18px 20px;
   cursor: pointer;
-  background: rgba(15, 23, 42, 0.6);
+  background: #fffdf8;
   transition: transform 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease;
 }
 
 .goal-card:hover {
-  border-color: var(--card-border);
+  border-color: rgba(173, 193, 120, 0.6);
   transform: translateY(-2px);
-  box-shadow: 0 16px 30px rgba(15, 23, 42, 0.3);
+  box-shadow: 0 16px 30px rgba(108, 88, 76, 0.18);
 }
 
 .goal-card.active {
-  border-color: var(--accent);
-  box-shadow: 0 18px 35px rgba(242, 201, 76, 0.2);
-  background: linear-gradient(135deg, rgba(242, 201, 76, 0.1), rgba(16, 24, 40, 0.9));
+  border-color: var(--olive);
+  box-shadow: 0 18px 35px rgba(173, 193, 120, 0.25);
+  background: linear-gradient(135deg, rgba(173, 193, 120, 0.18), #fffdf8);
 }
 
 .goal-icon {
@@ -109,11 +93,11 @@ form {
 .goal-title {
   font-size: 18px;
   font-weight: 600;
-  color: var(--text-main);
+  color: var(--espresso);
 }
 
 .goal-text {
-  color: var(--text-soft);
+  color: var(--clay);
   font-size: 14px;
   line-height: 1.4;
 }
@@ -123,8 +107,8 @@ form {
   padding: 14px 16px;
   border: none;
   border-radius: 14px;
-  background: linear-gradient(135deg, var(--accent) 0%, var(--accent-2) 100%);
-  color: #0b1120;
+  background: linear-gradient(135deg, var(--olive) 0%, var(--sage) 100%);
+  color: var(--espresso);
   font-size: 16px;
   font-weight: 700;
   cursor: pointer;
@@ -134,7 +118,7 @@ form {
 
 .btn:hover {
   transform: translateY(-2px);
-  box-shadow: 0 16px 28px rgba(242, 153, 74, 0.3);
+  box-shadow: 0 16px 28px rgba(108, 88, 76, 0.2);
 }
 
 @media (max-width: 640px) {
