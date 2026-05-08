@@ -313,3 +313,240 @@ in SYSTEMPATH/Database/MySQLi/Connection.php on line 300.
 14 FCPATH/index.php(59): CodeIgniter\Boot::bootWeb()
 DEBUG - 2026-05-07 12:49:04 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
 DEBUG - 2026-05-07 12:49:09 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-05-07 12:53:09 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-05-07 12:53:11 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-05-07 12:54:05 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-05-07 12:54:05 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-05-07 12:54:47 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-05-07 12:54:47 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-05-07 12:55:10 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-05-07 13:40:45 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-05-07 13:40:48 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+ERROR - 2026-05-07 13:40:48 --> Duplicate entry '1' for key 'user_id'
+in SYSTEMPATH/Database/MySQLi/Connection.php on line 300.
+ 1 SYSTEMPATH/Database/MySQLi/Connection.php(300): mysqli->query()
+ 2 SYSTEMPATH/Database/BaseConnection.php(910): CodeIgniter\Database\MySQLi\Connection->execute()
+ 3 SYSTEMPATH/Database/BaseConnection.php(827): CodeIgniter\Database\BaseConnection->simpleQuery()
+ 4 SYSTEMPATH/Database/BaseBuilder.php(2345): CodeIgniter\Database\BaseConnection->query()
+ 5 SYSTEMPATH/Model.php(355): CodeIgniter\Database\BaseBuilder->insert()
+ 6 SYSTEMPATH/BaseModel.php(899): CodeIgniter\Model->doInsert()
+ 7 SYSTEMPATH/Model.php(668): CodeIgniter\BaseModel->insert()
+ 8 APPPATH/Controllers/Register.php(103): CodeIgniter\Model->insert()
+ 9 SYSTEMPATH/CodeIgniter.php(951): App\Controllers\Register->store2()
+10 SYSTEMPATH/CodeIgniter.php(497): CodeIgniter\CodeIgniter->runController()
+11 SYSTEMPATH/CodeIgniter.php(340): CodeIgniter\CodeIgniter->handleRequest()
+12 SYSTEMPATH/Boot.php(417): CodeIgniter\CodeIgniter->run()
+13 SYSTEMPATH/Boot.php(68): CodeIgniter\Boot::runCodeIgniter()
+14 FCPATH/index.php(59): CodeIgniter\Boot::bootWeb()
+15 SYSTEMPATH/rewrite.php(44): require_once('/home/giovan/S4/WEB/Aliment/public/index.php')
+CRITICAL - 2026-05-07 13:40:48 --> CodeIgniter\Database\Exceptions\DatabaseException: Duplicate entry '1' for key 'user_id'
+[Method: POST, Route: register/step2/store]
+in SYSTEMPATH/Database/BaseConnection.php on line 865.
+ 1 SYSTEMPATH/Database/BaseBuilder.php(2345): CodeIgniter\Database\BaseConnection->query()
+ 2 SYSTEMPATH/Model.php(355): CodeIgniter\Database\BaseBuilder->insert()
+ 3 SYSTEMPATH/BaseModel.php(899): CodeIgniter\Model->doInsert()
+ 4 SYSTEMPATH/Model.php(668): CodeIgniter\BaseModel->insert()
+ 5 APPPATH/Controllers/Register.php(103): CodeIgniter\Model->insert()
+ 6 SYSTEMPATH/CodeIgniter.php(951): App\Controllers\Register->store2()
+ 7 SYSTEMPATH/CodeIgniter.php(497): CodeIgniter\CodeIgniter->runController()
+ 8 SYSTEMPATH/CodeIgniter.php(340): CodeIgniter\CodeIgniter->handleRequest()
+ 9 SYSTEMPATH/Boot.php(417): CodeIgniter\CodeIgniter->run()
+10 SYSTEMPATH/Boot.php(68): CodeIgniter\Boot::runCodeIgniter()
+11 FCPATH/index.php(59): CodeIgniter\Boot::bootWeb()
+12 SYSTEMPATH/rewrite.php(44): require_once('/home/giovan/S4/WEB/Aliment/public/index.php')
+CRITICAL - 2026-05-07 13:40:48 --> [Caused by] CodeIgniter\Database\Exceptions\DatabaseException: Duplicate entry '1' for key 'user_id'
+in SYSTEMPATH/Database/MySQLi/Connection.php on line 310.
+ 1 SYSTEMPATH/Database/BaseConnection.php(910): CodeIgniter\Database\MySQLi\Connection->execute()
+ 2 SYSTEMPATH/Database/BaseConnection.php(827): CodeIgniter\Database\BaseConnection->simpleQuery()
+ 3 SYSTEMPATH/Database/BaseBuilder.php(2345): CodeIgniter\Database\BaseConnection->query()
+ 4 SYSTEMPATH/Model.php(355): CodeIgniter\Database\BaseBuilder->insert()
+ 5 SYSTEMPATH/BaseModel.php(899): CodeIgniter\Model->doInsert()
+ 6 SYSTEMPATH/Model.php(668): CodeIgniter\BaseModel->insert()
+ 7 APPPATH/Controllers/Register.php(103): CodeIgniter\Model->insert()
+ 8 SYSTEMPATH/CodeIgniter.php(951): App\Controllers\Register->store2()
+ 9 SYSTEMPATH/CodeIgniter.php(497): CodeIgniter\CodeIgniter->runController()
+10 SYSTEMPATH/CodeIgniter.php(340): CodeIgniter\CodeIgniter->handleRequest()
+11 SYSTEMPATH/Boot.php(417): CodeIgniter\CodeIgniter->run()
+12 SYSTEMPATH/Boot.php(68): CodeIgniter\Boot::runCodeIgniter()
+13 FCPATH/index.php(59): CodeIgniter\Boot::bootWeb()
+14 SYSTEMPATH/rewrite.php(44): require_once('/home/giovan/S4/WEB/Aliment/public/index.php')
+CRITICAL - 2026-05-07 13:40:48 --> [Caused by] mysqli_sql_exception: Duplicate entry '1' for key 'user_id'
+in SYSTEMPATH/Database/MySQLi/Connection.php on line 300.
+ 1 SYSTEMPATH/Database/MySQLi/Connection.php(300): mysqli->query()
+ 2 SYSTEMPATH/Database/BaseConnection.php(910): CodeIgniter\Database\MySQLi\Connection->execute()
+ 3 SYSTEMPATH/Database/BaseConnection.php(827): CodeIgniter\Database\BaseConnection->simpleQuery()
+ 4 SYSTEMPATH/Database/BaseBuilder.php(2345): CodeIgniter\Database\BaseConnection->query()
+ 5 SYSTEMPATH/Model.php(355): CodeIgniter\Database\BaseBuilder->insert()
+ 6 SYSTEMPATH/BaseModel.php(899): CodeIgniter\Model->doInsert()
+ 7 SYSTEMPATH/Model.php(668): CodeIgniter\BaseModel->insert()
+ 8 APPPATH/Controllers/Register.php(103): CodeIgniter\Model->insert()
+ 9 SYSTEMPATH/CodeIgniter.php(951): App\Controllers\Register->store2()
+10 SYSTEMPATH/CodeIgniter.php(497): CodeIgniter\CodeIgniter->runController()
+11 SYSTEMPATH/CodeIgniter.php(340): CodeIgniter\CodeIgniter->handleRequest()
+12 SYSTEMPATH/Boot.php(417): CodeIgniter\CodeIgniter->run()
+13 SYSTEMPATH/Boot.php(68): CodeIgniter\Boot::runCodeIgniter()
+14 FCPATH/index.php(59): CodeIgniter\Boot::bootWeb()
+15 SYSTEMPATH/rewrite.php(44): require_once('/home/giovan/S4/WEB/Aliment/public/index.php')
+DEBUG - 2026-05-07 13:40:57 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-05-07 13:41:10 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-05-07 13:47:25 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-05-07 13:49:16 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-05-07 13:49:48 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+ERROR - 2026-05-07 13:49:48 --> Duplicate entry '1' for key 'user_id'
+in SYSTEMPATH/Database/MySQLi/Connection.php on line 300.
+ 1 SYSTEMPATH/Database/MySQLi/Connection.php(300): mysqli->query()
+ 2 SYSTEMPATH/Database/BaseConnection.php(910): CodeIgniter\Database\MySQLi\Connection->execute()
+ 3 SYSTEMPATH/Database/BaseConnection.php(827): CodeIgniter\Database\BaseConnection->simpleQuery()
+ 4 SYSTEMPATH/Database/BaseBuilder.php(2345): CodeIgniter\Database\BaseConnection->query()
+ 5 SYSTEMPATH/Model.php(355): CodeIgniter\Database\BaseBuilder->insert()
+ 6 SYSTEMPATH/BaseModel.php(899): CodeIgniter\Model->doInsert()
+ 7 SYSTEMPATH/Model.php(668): CodeIgniter\BaseModel->insert()
+ 8 APPPATH/Controllers/Register.php(103): CodeIgniter\Model->insert()
+ 9 SYSTEMPATH/CodeIgniter.php(951): App\Controllers\Register->store2()
+10 SYSTEMPATH/CodeIgniter.php(497): CodeIgniter\CodeIgniter->runController()
+11 SYSTEMPATH/CodeIgniter.php(340): CodeIgniter\CodeIgniter->handleRequest()
+12 SYSTEMPATH/Boot.php(417): CodeIgniter\CodeIgniter->run()
+13 SYSTEMPATH/Boot.php(68): CodeIgniter\Boot::runCodeIgniter()
+14 FCPATH/index.php(59): CodeIgniter\Boot::bootWeb()
+15 SYSTEMPATH/rewrite.php(44): require_once('/home/giovan/S4/WEB/Aliment/public/index.php')
+CRITICAL - 2026-05-07 13:49:48 --> CodeIgniter\Database\Exceptions\DatabaseException: Duplicate entry '1' for key 'user_id'
+[Method: POST, Route: register/step2/store]
+in SYSTEMPATH/Database/BaseConnection.php on line 865.
+ 1 SYSTEMPATH/Database/BaseBuilder.php(2345): CodeIgniter\Database\BaseConnection->query()
+ 2 SYSTEMPATH/Model.php(355): CodeIgniter\Database\BaseBuilder->insert()
+ 3 SYSTEMPATH/BaseModel.php(899): CodeIgniter\Model->doInsert()
+ 4 SYSTEMPATH/Model.php(668): CodeIgniter\BaseModel->insert()
+ 5 APPPATH/Controllers/Register.php(103): CodeIgniter\Model->insert()
+ 6 SYSTEMPATH/CodeIgniter.php(951): App\Controllers\Register->store2()
+ 7 SYSTEMPATH/CodeIgniter.php(497): CodeIgniter\CodeIgniter->runController()
+ 8 SYSTEMPATH/CodeIgniter.php(340): CodeIgniter\CodeIgniter->handleRequest()
+ 9 SYSTEMPATH/Boot.php(417): CodeIgniter\CodeIgniter->run()
+10 SYSTEMPATH/Boot.php(68): CodeIgniter\Boot::runCodeIgniter()
+11 FCPATH/index.php(59): CodeIgniter\Boot::bootWeb()
+12 SYSTEMPATH/rewrite.php(44): require_once('/home/giovan/S4/WEB/Aliment/public/index.php')
+CRITICAL - 2026-05-07 13:49:48 --> [Caused by] CodeIgniter\Database\Exceptions\DatabaseException: Duplicate entry '1' for key 'user_id'
+in SYSTEMPATH/Database/MySQLi/Connection.php on line 310.
+ 1 SYSTEMPATH/Database/BaseConnection.php(910): CodeIgniter\Database\MySQLi\Connection->execute()
+ 2 SYSTEMPATH/Database/BaseConnection.php(827): CodeIgniter\Database\BaseConnection->simpleQuery()
+ 3 SYSTEMPATH/Database/BaseBuilder.php(2345): CodeIgniter\Database\BaseConnection->query()
+ 4 SYSTEMPATH/Model.php(355): CodeIgniter\Database\BaseBuilder->insert()
+ 5 SYSTEMPATH/BaseModel.php(899): CodeIgniter\Model->doInsert()
+ 6 SYSTEMPATH/Model.php(668): CodeIgniter\BaseModel->insert()
+ 7 APPPATH/Controllers/Register.php(103): CodeIgniter\Model->insert()
+ 8 SYSTEMPATH/CodeIgniter.php(951): App\Controllers\Register->store2()
+ 9 SYSTEMPATH/CodeIgniter.php(497): CodeIgniter\CodeIgniter->runController()
+10 SYSTEMPATH/CodeIgniter.php(340): CodeIgniter\CodeIgniter->handleRequest()
+11 SYSTEMPATH/Boot.php(417): CodeIgniter\CodeIgniter->run()
+12 SYSTEMPATH/Boot.php(68): CodeIgniter\Boot::runCodeIgniter()
+13 FCPATH/index.php(59): CodeIgniter\Boot::bootWeb()
+14 SYSTEMPATH/rewrite.php(44): require_once('/home/giovan/S4/WEB/Aliment/public/index.php')
+CRITICAL - 2026-05-07 13:49:48 --> [Caused by] mysqli_sql_exception: Duplicate entry '1' for key 'user_id'
+in SYSTEMPATH/Database/MySQLi/Connection.php on line 300.
+ 1 SYSTEMPATH/Database/MySQLi/Connection.php(300): mysqli->query()
+ 2 SYSTEMPATH/Database/BaseConnection.php(910): CodeIgniter\Database\MySQLi\Connection->execute()
+ 3 SYSTEMPATH/Database/BaseConnection.php(827): CodeIgniter\Database\BaseConnection->simpleQuery()
+ 4 SYSTEMPATH/Database/BaseBuilder.php(2345): CodeIgniter\Database\BaseConnection->query()
+ 5 SYSTEMPATH/Model.php(355): CodeIgniter\Database\BaseBuilder->insert()
+ 6 SYSTEMPATH/BaseModel.php(899): CodeIgniter\Model->doInsert()
+ 7 SYSTEMPATH/Model.php(668): CodeIgniter\BaseModel->insert()
+ 8 APPPATH/Controllers/Register.php(103): CodeIgniter\Model->insert()
+ 9 SYSTEMPATH/CodeIgniter.php(951): App\Controllers\Register->store2()
+10 SYSTEMPATH/CodeIgniter.php(497): CodeIgniter\CodeIgniter->runController()
+11 SYSTEMPATH/CodeIgniter.php(340): CodeIgniter\CodeIgniter->handleRequest()
+12 SYSTEMPATH/Boot.php(417): CodeIgniter\CodeIgniter->run()
+13 SYSTEMPATH/Boot.php(68): CodeIgniter\Boot::runCodeIgniter()
+14 FCPATH/index.php(59): CodeIgniter\Boot::bootWeb()
+15 SYSTEMPATH/rewrite.php(44): require_once('/home/giovan/S4/WEB/Aliment/public/index.php')
+DEBUG - 2026-05-07 13:50:26 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-05-07 13:50:32 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-05-07 13:50:48 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-05-07 17:00:45 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-05-07 17:00:49 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+ERROR - 2026-05-07 17:00:54 --> Error connecting to the database: mysqli_sql_exception: Connection refused in /home/giovan/S4/WEB/Aliment/system/Database/MySQLi/Connection.php:201
+Stack trace:
+#0 /home/giovan/S4/WEB/Aliment/system/Database/MySQLi/Connection.php(201): mysqli->real_connect()
+#1 /home/giovan/S4/WEB/Aliment/system/Database/BaseConnection.php(555): CodeIgniter\Database\MySQLi\Connection->connect()
+#2 /home/giovan/S4/WEB/Aliment/system/Database/BaseConnection.php(795): CodeIgniter\Database\BaseConnection->initialize()
+#3 /home/giovan/S4/WEB/Aliment/system/Database/BaseBuilder.php(1649): CodeIgniter\Database\BaseConnection->query()
+#4 /home/giovan/S4/WEB/Aliment/system/Model.php(295): CodeIgniter\Database\BaseBuilder->get()
+#5 /home/giovan/S4/WEB/Aliment/system/BaseModel.php(714): CodeIgniter\Model->doFirst()
+#6 /home/giovan/S4/WEB/Aliment/app/Models/User.php(34): CodeIgniter\BaseModel->first()
+#7 /home/giovan/S4/WEB/Aliment/app/Controllers/Login.php(43): App\Models\User->getByEmail()
+#8 /home/giovan/S4/WEB/Aliment/system/CodeIgniter.php(951): App\Controllers\Login->authenticate()
+#9 /home/giovan/S4/WEB/Aliment/system/CodeIgniter.php(497): CodeIgniter\CodeIgniter->runController()
+#10 /home/giovan/S4/WEB/Aliment/system/CodeIgniter.php(340): CodeIgniter\CodeIgniter->handleRequest()
+#11 /home/giovan/S4/WEB/Aliment/system/Boot.php(417): CodeIgniter\CodeIgniter->run()
+#12 /home/giovan/S4/WEB/Aliment/system/Boot.php(68): CodeIgniter\Boot::runCodeIgniter()
+#13 /home/giovan/S4/WEB/Aliment/public/index.php(59): CodeIgniter\Boot::bootWeb()
+#14 /home/giovan/S4/WEB/Aliment/system/rewrite.php(44): require_once('...')
+#15 {main}
+
+Next CodeIgniter\Database\Exceptions\DatabaseException: Connection refused in /home/giovan/S4/WEB/Aliment/system/Database/MySQLi/Connection.php:231
+Stack trace:
+#0 /home/giovan/S4/WEB/Aliment/system/Database/BaseConnection.php(555): CodeIgniter\Database\MySQLi\Connection->connect()
+#1 /home/giovan/S4/WEB/Aliment/system/Database/BaseConnection.php(795): CodeIgniter\Database\BaseConnection->initialize()
+#2 /home/giovan/S4/WEB/Aliment/system/Database/BaseBuilder.php(1649): CodeIgniter\Database\BaseConnection->query()
+#3 /home/giovan/S4/WEB/Aliment/system/Model.php(295): CodeIgniter\Database\BaseBuilder->get()
+#4 /home/giovan/S4/WEB/Aliment/system/BaseModel.php(714): CodeIgniter\Model->doFirst()
+#5 /home/giovan/S4/WEB/Aliment/app/Models/User.php(34): CodeIgniter\BaseModel->first()
+#6 /home/giovan/S4/WEB/Aliment/app/Controllers/Login.php(43): App\Models\User->getByEmail()
+#7 /home/giovan/S4/WEB/Aliment/system/CodeIgniter.php(951): App\Controllers\Login->authenticate()
+#8 /home/giovan/S4/WEB/Aliment/system/CodeIgniter.php(497): CodeIgniter\CodeIgniter->runController()
+#9 /home/giovan/S4/WEB/Aliment/system/CodeIgniter.php(340): CodeIgniter\CodeIgniter->handleRequest()
+#10 /home/giovan/S4/WEB/Aliment/system/Boot.php(417): CodeIgniter\CodeIgniter->run()
+#11 /home/giovan/S4/WEB/Aliment/system/Boot.php(68): CodeIgniter\Boot::runCodeIgniter()
+#12 /home/giovan/S4/WEB/Aliment/public/index.php(59): CodeIgniter\Boot::bootWeb()
+#13 /home/giovan/S4/WEB/Aliment/system/rewrite.php(44): require_once('...')
+#14 {main}
+CRITICAL - 2026-05-07 17:00:54 --> CodeIgniter\Database\Exceptions\DatabaseException: Unable to connect to the database.
+Main connection [MySQLi]: Connection refused
+[Method: POST, Route: login/authenticate]
+in SYSTEMPATH/Database/BaseConnection.php on line 606.
+ 1 SYSTEMPATH/Database/BaseConnection.php(795): CodeIgniter\Database\BaseConnection->initialize()
+ 2 SYSTEMPATH/Database/BaseBuilder.php(1649): CodeIgniter\Database\BaseConnection->query()
+ 3 SYSTEMPATH/Model.php(295): CodeIgniter\Database\BaseBuilder->get()
+ 4 SYSTEMPATH/BaseModel.php(714): CodeIgniter\Model->doFirst()
+ 5 APPPATH/Models/User.php(34): CodeIgniter\BaseModel->first()
+ 6 APPPATH/Controllers/Login.php(43): App\Models\User->getByEmail()
+ 7 SYSTEMPATH/CodeIgniter.php(951): App\Controllers\Login->authenticate()
+ 8 SYSTEMPATH/CodeIgniter.php(497): CodeIgniter\CodeIgniter->runController()
+ 9 SYSTEMPATH/CodeIgniter.php(340): CodeIgniter\CodeIgniter->handleRequest()
+10 SYSTEMPATH/Boot.php(417): CodeIgniter\CodeIgniter->run()
+11 SYSTEMPATH/Boot.php(68): CodeIgniter\Boot::runCodeIgniter()
+12 FCPATH/index.php(59): CodeIgniter\Boot::bootWeb()
+13 SYSTEMPATH/rewrite.php(44): require_once('/home/giovan/S4/WEB/Aliment/public/index.php')
+DEBUG - 2026-05-07 17:01:32 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-05-07 17:11:09 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-05-07 17:11:10 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-05-07 19:10:36 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-05-07 19:10:37 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-05-07 19:11:05 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-05-07 19:11:05 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-05-07 19:11:18 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-05-07 19:11:18 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-05-07 19:26:24 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-05-07 19:26:30 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-05-07 19:26:30 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-05-07 19:26:35 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-05-07 19:26:37 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-05-07 19:26:37 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-05-07 19:26:45 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-05-07 19:26:45 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-05-07 19:26:50 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-05-07 19:26:50 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-05-07 19:26:55 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-05-07 19:26:55 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-05-07 19:26:57 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-05-07 19:26:58 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-05-07 19:27:02 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-05-07 19:27:12 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-05-07 19:27:12 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-05-07 19:32:55 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-05-07 19:32:59 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-05-07 19:33:11 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-05-07 19:33:11 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-05-07 19:34:34 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-05-07 19:34:34 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-05-07 19:43:29 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-05-07 19:43:33 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-05-07 19:44:19 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.

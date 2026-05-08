@@ -47,10 +47,10 @@
                 <?php endif; ?>
             </div>
 
-            <!-- <div class="imc-box">
+            <div class="imc-box">
                 <div>IMC estime</div>
                 <div class="imc-value" id="imcValue">--</div>
-            </div> -->
+            </div>
 
             <div class="btn-row">
                 <button type="button" class="btn btn-secondary" onclick="window.history.back();">Retour</button>

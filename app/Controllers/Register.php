@@ -106,6 +106,72 @@ class Register extends BaseController
                 ->with('errors', ['general' => 'Erreur lors de la sauvegarde.']);
         }
 
+        $etat = $this->etatUserModel
+            ->where('user_id', session()->get('user_id'))
+            ->first();
+
+            $imc = $etat['imc'];
+
+            if ($imc < 18.5) {
+            $statut = 'Insuffisant';
+            } elseif ($imc < 25) {
+            $statut = 'Normal';
+            } elseif ($imc < 30) {
+            $statut = 'Surpoids';
+            } else {
+            $statut = 'Obesite';
+            }
+
+            session()->set('imc',    $imc);
+            session()->set('statut', $statut);
+
+        return redirect()->to(base_url('/register/objectif'));
+    }
+
+    public function objectif()
+    {
+        if (!session()->has('user_id')) {
+            return redirect()->to(base_url('/register'));
+        }
+
+        $data = [
+            'title'  => 'Votre objectif',
+            'imc'    => session()->get('imc'),
+            'statut' => session()->get('statut'),
+            'errors' => session()->getFlashdata('errors'),
+        ];
+
+        return view('pages/objectif', $data);
+
+
+    }
+
+    public function storeObjectif(): RedirectResponse
+    {
+        if (!session()->has('user_id')) {
+            return redirect()->to(base_url('/register'));
+        }
+
+        $rules = [
+            'objectif' => 'required|in_list[perdre,maintenir,gagner]',
+        ];
+
+        if (!$this->validate($rules)) {
+            return redirect()->back()
+                ->withInput()
+                ->with('errors', $this->validator->getErrors());
+        }
+
+        $data = [
+            'user_id' => session()->get('user_id'),
+            'objectif' => $this->request->getPost('objectif'),
+        ];
+
+        $this->etatUserModel->update(
+            $this->etatUserModel->where('user_id', session()->get('user_id'))->first()['id'],
+            $data
+        );
+
         return redirect()->to(base_url('/home'));
     }
 }
