@@ -1,5 +1,14 @@
 @import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;600;700&display=swap');
 
+:root {
+    --cream: #f0ead2;
+    --sage: #dde5b6;
+    --olive: #adc178;
+    --clay: #a98467;
+    --espresso: #6c584c;
+    --card: #ffffff;
+}
+
 * {
     margin: 0;
     padding: 0;
@@ -8,25 +17,26 @@
 
 body {
     font-family: 'Space Grotesk', sans-serif;
-    background: radial-gradient(circle at top right, #fff1d6, #f9c0a6 40%, #f07a6a 100%);
+    background: #ffffff;
     min-height: 100vh;
     display: flex;
     justify-content: center;
     align-items: center;
-    padding: 20px;
+    padding: 24px;
 }
 
 .card {
-    background: #ffffff;
-    border-radius: 18px;
-    padding: 36px;
+    background: var(--card);
+    border-radius: 20px;
+    padding: 36px 34px 32px;
     max-width: 520px;
     width: 100%;
-    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
+    box-shadow: 0 20px 40px rgba(108, 88, 76, 0.15);
+    border: 1px solid rgba(169, 132, 103, 0.2);
 }
 
 h1 {
-    color: #2d2a26;
+    color: var(--espresso);
     font-size: 28px;
     margin-bottom: 8px;
     text-align: center;
@@ -34,7 +44,7 @@ h1 {
 
 .step {
     text-align: center;
-    color: #7a6f66;
+    color: var(--clay);
     font-size: 14px;
     margin-bottom: 24px;
 }
@@ -46,7 +56,7 @@ h1 {
 label {
     display: block;
     margin-bottom: 6px;
-    color: #3b352f;
+    color: var(--espresso);
     font-weight: 600;
     font-size: 14px;
 }
@@ -54,21 +64,23 @@ label {
 input[type="number"] {
     width: 100%;
     padding: 12px;
-    border: 2px solid #e2d7cf;
+    border: 2px solid rgba(169, 132, 103, 0.25);
     border-radius: 10px;
     font-size: 14px;
     transition: all 0.2s ease;
-    background: #fffdfb;
+    background: #fffdf8;
+    color: var(--espresso);
 }
 
 input[type="number"]:focus {
     outline: none;
-    border-color: #f07a6a;
-    background-color: #fff7f3;
+    border-color: var(--olive);
+    background-color: #ffffff;
+    box-shadow: 0 0 0 3px rgba(173, 193, 120, 0.25);
 }
 
 .unit {
-    color: #6a5f57;
+    color: var(--clay);
     font-weight: 600;
     font-size: 14px;
     margin-left: 6px;
@@ -81,9 +93,9 @@ input[type="number"]:focus {
 }
 
 .alert {
-    background: #ffe8e2;
-    border-left: 4px solid #f07a6a;
-    color: #7d2d24;
+    background: #fff6e8;
+    border-left: 4px solid var(--clay);
+    color: var(--espresso);
     padding: 12px;
     border-radius: 8px;
     margin-bottom: 18px;
@@ -98,8 +110,8 @@ input[type="number"]:focus {
 }
 
 .imc-box {
-    background: #fff3ed;
-    border: 2px dashed #f4b183;
+    background: #f6f2e4;
+    border: 2px dashed rgba(169, 132, 103, 0.45);
     border-radius: 12px;
     padding: 16px;
     text-align: center;
@@ -109,7 +121,7 @@ input[type="number"]:focus {
 .imc-value {
     font-size: 32px;
     font-weight: 700;
-    color: #f07a6a;
+    color: var(--olive);
 }
 
 .btn-row {
@@ -126,19 +138,20 @@ input[type="number"]:focus {
     font-size: 16px;
     font-weight: 700;
     cursor: pointer;
-    transition: transform 0.2s ease;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
 
 .btn-primary {
-    background: linear-gradient(135deg, #f07a6a 0%, #f4b183 100%);
-    color: #1f1a17;
+    background: linear-gradient(135deg, var(--olive) 0%, var(--sage) 100%);
+    color: var(--espresso);
 }
 
 .btn-secondary {
-    background: #f2ebe6;
-    color: #3b352f;
+    background: #f2ebe0;
+    color: var(--espresso);
 }
 
 .btn:hover {
     transform: translateY(-2px);
+    box-shadow: 0 10px 18px rgba(108, 88, 76, 0.18);
 }
