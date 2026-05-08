@@ -4,17 +4,23 @@ namespace App\Controllers;
 
 use App\Models\User;
 use App\Models\EtatUser;
+use App\Models\Objectif;
+use App\Models\UserObjectif;
 use CodeIgniter\HTTP\RedirectResponse;
 
 class Register extends BaseController
 {
     protected $userModel;
     protected $etatUserModel;
+    protected $objectifModel;
+    protected $userObjectifModel;
 
     public function __construct()
     {
         $this->userModel = new User();
         $this->etatUserModel = new EtatUser();
+        $this->objectifModel = new Objectif();
+        $this->userObjectifModel = new UserObjectif();
     }
 
     public function index()
@@ -134,11 +140,14 @@ class Register extends BaseController
             return redirect()->to(base_url('/register'));
         }
 
+        $objectifs = $this->objectifModel->orderBy('id', 'ASC')->findAll();
+
         $data = [
-            'title'  => 'Votre objectif',
-            'imc'    => session()->get('imc'),
-            'statut' => session()->get('statut'),
-            'errors' => session()->getFlashdata('errors'),
+            'title'     => 'Votre objectif',
+            'imc'       => session()->get('imc'),
+            'statut'    => session()->get('statut'),
+            'objectifs' => $objectifs,
+            'errors'    => session()->getFlashdata('errors'),
         ];
 
         return view('pages/objectif', $data);
@@ -153,7 +162,7 @@ class Register extends BaseController
         }
 
         $rules = [
-            'objectif' => 'required|in_list[perdre,maintenir,gagner]',
+            'objectif_id' => 'required|is_not_unique[objectifs.id]',
         ];
 
         if (!$this->validate($rules)) {
@@ -162,15 +171,22 @@ class Register extends BaseController
                 ->with('errors', $this->validator->getErrors());
         }
 
-        $data = [
-            'user_id' => session()->get('user_id'),
-            'objectif' => $this->request->getPost('objectif'),
-        ];
+        $userId = session()->get('user_id');
+        $objectifId = $this->request->getPost('objectif_id');
 
-        $this->etatUserModel->update(
-            $this->etatUserModel->where('user_id', session()->get('user_id'))->first()['id'],
-            $data
-        );
+        $existing = $this->userObjectifModel->where('user_id', $userId)->first();
+
+        if ($existing) {
+            $this->userObjectifModel->update($existing['id'], [
+                'user_id' => $userId,
+                'objectif_id' => $objectifId,
+            ]);
+        } else {
+            $this->userObjectifModel->insert([
+                'user_id' => $userId,
+                'objectif_id' => $objectifId,
+            ]);
+        }
 
         return redirect()->to(base_url('/home'));
     }
