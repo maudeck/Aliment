@@ -65,3 +65,4 @@ in SYSTEMPATH/Database/MySQLi/Connection.php on line 300.
 12 SYSTEMPATH/Boot.php(417): CodeIgniter\CodeIgniter->run()
 13 SYSTEMPATH/Boot.php(68): CodeIgniter\Boot::runCodeIgniter()
 14 FCPATH/index.php(59): CodeIgniter\Boot::bootWeb()
+DEBUG - 2026-05-08 06:54:58 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
