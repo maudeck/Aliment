@@ -4,17 +4,17 @@ namespace App\Models;
 
 use CodeIgniter\Model;
 
-class EtatUser extends Model
+class Objectif extends Model
 {
-    protected $table = 'etat_user';
+    protected $table = 'objectifs';
     protected $primaryKey = 'id';
 
     protected $useAutoIncrement = true;
     protected $returnType = 'array';
 
-    protected $allowedFields = ['user_id', 'taille', 'poids'];
+    protected $allowedFields = ['nom', 'description'];
 
     protected $useTimestamps = true;
     protected $createdField = 'created_at';
-    protected $updatedField = 'updated_at';
+    protected $updatedField = '';
 }

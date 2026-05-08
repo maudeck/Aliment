@@ -13,7 +13,7 @@
         <h1>Bienvenue <?= isset($user['nom']) ? htmlspecialchars($user['nom']) : 'Utilisateur'; ?></h1>
         
         <p class="welcome-message">
-            Votre objectif est de <strong><?= isset($etat['objectif']) ? htmlspecialchars($etat['objectif']) : 'non défini'; ?></strong>
+            Votre objectif est de <strong><?= !empty($objectifNom) ? htmlspecialchars($objectifNom) : 'non défini'; ?></strong>
         </p>
 
         <?php if (isset($user) && isset($etat)): ?>

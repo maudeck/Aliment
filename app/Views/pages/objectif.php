@@ -30,34 +30,19 @@
         <form action="<?= base_url('/register/objectif/store'); ?>" method="POST" id="objectifForm">
             <?= csrf_field(); ?>
 
-            <!-- Perdre -->
-            <div class="goal-card" onclick="selectGoal(this, 'perdre')">
-                <div class="goal-icon">🔥</div>
-                <div class="goal-title">Perdre du poids</div>
-                <div class="goal-text">
-                    Réduire votre masse corporelle et atteindre un poids plus sain.
-                </div>
-            </div>
+            <?php if (!empty($objectifs)): ?>
+                <?php foreach ($objectifs as $objectif): ?>
+                    <div class="goal-card" onclick="selectGoal(this, '<?= $objectif['id']; ?>')">
+                        <div class="goal-icon">🎯</div>
+                        <div class="goal-title"><?= htmlspecialchars($objectif['nom']); ?></div>
+                        <?php if (!empty($objectif['description'])): ?>
+                            <div class="goal-text"><?= htmlspecialchars($objectif['description']); ?></div>
+                        <?php endif; ?>
+                    </div>
+                <?php endforeach; ?>
+            <?php endif; ?>
 
-            <!-- Maintenir -->
-            <div class="goal-card" onclick="selectGoal(this, 'maintenir')">
-                <div class="goal-icon">⚖️</div>
-                <div class="goal-title">Maintenir un IMC idéal</div>
-                <div class="goal-text">
-                    Stabiliser votre poids actuel et garder une bonne santé.
-                </div>
-            </div>
-
-            <!-- Gagner -->
-            <div class="goal-card" onclick="selectGoal(this, 'gagner')">
-                <div class="goal-icon">💪</div>
-                <div class="goal-title">Gagner du poids</div>
-                <div class="goal-text">
-                    Augmenter votre poids ou votre masse musculaire.
-                </div>
-            </div>
-
-            <input type="hidden" name="objectif" id="objectif" value="<?= old('objectif') ?? ''; ?>">
+            <input type="hidden" name="objectif_id" id="objectif_id" value="<?= old('objectif_id') ?? ''; ?>">
             <button type="submit" class="btn">Continuer</button>
         </form>
     </div>
@@ -71,17 +56,18 @@
             });
 
             selectedCard.classList.add('active');
-            document.getElementById('objectif').value = value;
+            document.getElementById('objectif_id').value = value;
         }
 
         // Pour restaurer le statut active apres rechargement
         document.addEventListener('DOMContentLoaded', function() {
-            let activeObjectif = document.getElementById('objectif').value;
+            let activeObjectif = document.getElementById('objectif_id').value;
             if (activeObjectif) {
                 let cards = document.querySelectorAll('.goal-card');
-                let index = ['perdre', 'maintenir', 'gagner'].indexOf(activeObjectif);
-                if (index !== -1 && cards[index]) {
-                    cards[index].classList.add('active');
+                cards.forEach(card => {
+                    if (card.getAttribute('onclick').includes("'" + activeObjectif + "'")) {
+                        card.classList.add('active');
+                    }
                 }
             }
         });
