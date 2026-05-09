@@ -12,7 +12,7 @@ class User extends Model
     protected $useAutoIncrement = true;
     protected $returnType = 'array';
 
-    protected $allowedFields = ['nom', 'email', 'genre_id', 'password'];
+    protected $allowedFields = ['nom', 'email', 'genre_id', 'password', 'is_gold'];
 
     protected $useTimestamps = true;
     protected $createdField = 'created_at';

@@ -6,6 +6,7 @@ use App\Models\User;
 use App\Models\EtatUser;
 use App\Models\Objectif;
 use App\Models\UserObjectif;
+use App\Models\Portefeuille;
 use CodeIgniter\HTTP\RedirectResponse;
 
 class Register extends BaseController
@@ -14,6 +15,7 @@ class Register extends BaseController
     protected $etatUserModel;
     protected $objectifModel;
     protected $userObjectifModel;
+    protected $portefeuilleModel;
 
     public function __construct()
     {
@@ -21,6 +23,7 @@ class Register extends BaseController
         $this->etatUserModel = new EtatUser();
         $this->objectifModel = new Objectif();
         $this->userObjectifModel = new UserObjectif();
+        $this->portefeuilleModel = new Portefeuille();
     }
 
     public function index()
@@ -63,6 +66,11 @@ class Register extends BaseController
                 ->withInput()
                 ->with('errors', ['general' => 'Erreur lors de la creation du compte.']);
         }
+
+        $this->portefeuilleModel->insert([
+            'user_id' => $userId,
+            'solde'   => 0,
+        ]);
 
         session()->set('user_id', $userId);
 

@@ -1,80 +1,249 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Accueil</title>
-    <link rel="stylesheet" href="<?= base_url('css/home.css'); ?>">
-
-        
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Accueil – NutriLife</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="stylesheet" href="<?= base_url('css/home.css'); ?>">
 </head>
+
 <body>
-    <div class="layout">
-        <aside class="sidebar">
-            <div class="brand">
-                <img src="<?= base_url('logo/logo_sans_background.png'); ?>" alt="Logo" class="brand-logo">
-            </div>
 
-            <nav class="nav">
-                <a class="nav-link active" href="<?= base_url('/home'); ?>">Accueil</a>
-                <a class="nav-link" href="<?= base_url('/register/objectif'); ?>">Objectif</a>
-                <a class="nav-link" href="#">Regimes</a>
-                <a class="nav-link" href="#">Activites</a>
-                <a class="nav-link" href="#">portefeuille</a>
-                <a class="nav-link" href="#">abonement</a>
-            </nav>
+  <!-- SIDEBAR -->
+  <div class="sidebar">
+    <div>
+      <div class="brand">
+        <?php if (!empty($logo_path)): ?>
+          <img src="<?= base_url('logo/logo_sans_background.png'); ?>" alt="Logo" class="brand-logo">
+        <?php else: ?>
+          <div class="brand-logo-fallback"></div>
+        <?php endif; ?>
+        <div class="brand-text">
+          <h2>NutriLife</h2>
+          <small>Suivi alimentaire</small>
+        </div>
+      </div>
 
-            <div class="sidebar-footer">
-                <a class="logout" href="<?= base_url('/logout'); ?>">Se deconnecter</a>
-            </div>
-        </aside>
-
-        <main class="content">
-            <header class="page-header">
-                <div>
-                    <p class="eyebrow">Bonjour,</p>
-                    <h1><?= isset($user['nom']) ? htmlspecialchars($user['nom']) : 'Utilisateur'; ?></h1>
-                    <p class="subtitle">Votre plan de suivi alimentaire est pret.</p>
-                </div>
-                <div class="status-pill">
-                    Objectif: <strong><?= !empty($objectifNom) ? htmlspecialchars($objectifNom) : 'non defini'; ?></strong>
-                </div>
-            </header>
-
-            <section class="stats">
-                <div class="stat-card">
-                    <p class="stat-label">Poids actuel</p>
-                    <p class="stat-value">
-                        <?= isset($etat['poids']) ? htmlspecialchars($etat['poids']) : 'N/A'; ?> <span>kg</span>
-                    </p>
-                </div>
-                <div class="stat-card">
-                    <p class="stat-label">Taille</p>
-                    <p class="stat-value">
-                        <?= isset($etat['taille']) ? htmlspecialchars($etat['taille']) : 'N/A'; ?> <span>m</span>
-                    </p>
-                </div>
-                <div class="stat-card">
-                    <p class="stat-label">IMC</p>
-                    <p class="stat-value">
-                        <?= isset($etat['imc']) ? number_format($etat['imc'], 1) : 'N/A'; ?>
-                    </p>
-                </div>
-            </section>
-
-            <section class="grid">
-                <div class="panel">
-                    <h2>Resume du jour</h2>
-                    <p>Suivez vos repas et vos activites pour rester motive. Vos recommandations apparaitront ici.</p>
-                    <button class="primary">Voir mes regimes</button>
-                </div>
-                <div class="panel alt">
-                    <h2>Prochaine etape</h2>
-                    <p>Choisissez une activite adaptee a votre objectif et planifiez votre semaine.</p>
-                    <button class="secondary">Voir les activites</button>
-                </div>
-            </section>
-        </main>
+      <nav class="nav">
+        <a class="nav-link active" href="<?= base_url('/home'); ?>">Accueil</a>
+        <a class="nav-link" href="<?= base_url('/register/objectif'); ?>">Objectifs</a>
+        <a class="nav-link" href="<?= base_url('/regimes'); ?>">Régimes</a>
+        <a class="nav-link" href="<?= base_url('/activites'); ?>">Activités</a>
+        <a class="nav-link" href="<?= base_url('/portefeuille'); ?>">Portefeuille</a>
+        <a class="nav-link" href="<?= base_url('/home#gold-offer'); ?>">Option Gold</a>
+      </nav>
     </div>
+
+    <a class="logout" href="<?= base_url('/logout'); ?>">Se déconnecter</a>
+  </div>
+
+  <!-- MAIN -->
+  <div class="main">
+
+    <!-- HEADER -->
+    <div class="page-header">
+      <div>
+        <p class="eyebrow">Bonjour,</p>
+        <h1><?= isset($user['nom']) ? htmlspecialchars($user['nom']) : 'Utilisateur'; ?></h1>
+        <p class="subtitle">Votre plan de suivi alimentaire est prêt.</p>
+      </div>
+      <div class="status-pill">
+        Objectif : <strong><?= !empty($objectifNom) ? htmlspecialchars($objectifNom) : 'Non défini'; ?></strong>
+      </div>
+    </div>
+
+    <?php if (session()->getFlashdata('succes')): ?>
+      <div class="flash-succes"><?= session()->getFlashdata('succes'); ?></div>
+    <?php endif; ?>
+    <?php if (session()->getFlashdata('erreur')): ?>
+      <div class="flash-erreur"><?= session()->getFlashdata('erreur'); ?></div>
+    <?php endif; ?>
+
+    <!-- STATS -->
+    <div class="stats">
+      <div class="stat-card">
+        <p class="stat-label">Poids actuel</p>
+        <p class="stat-value">
+          <?= isset($etat['poids']) ? htmlspecialchars($etat['poids']) : 'N/A'; ?>
+          <span>kg</span>
+        </p>
+      </div>
+      <div class="stat-card">
+        <p class="stat-label">Taille</p>
+        <p class="stat-value">
+          <?= isset($etat['taille']) ? htmlspecialchars($etat['taille']) : 'N/A'; ?>
+          <span>m</span>
+        </p>
+      </div>
+      <div class="stat-card">
+        <p class="stat-label">IMC</p>
+        <p class="stat-value">
+          <?= isset($etat['imc']) ? number_format($etat['imc'], 1) : 'N/A'; ?>
+        </p>
+      </div>
+    </div>
+
+    <!-- RÉGIME RECOMMANDÉ + GOLD -->
+    <div class="recommendation">
+
+      <div class="regime-box">
+        <h2>Régime recommandé</h2>
+        <p>Basé sur votre IMC et votre objectif.</p>
+
+        <?php if (!empty($regimes)): ?>
+          <?php $r = $regimes[0]; ?>
+          <div class="regime-detail">
+            <h2><?= esc($r['nom']); ?></h2>
+            <p>
+              <?= $r['variation_poids'] > 0 ? '+' : ''; ?><?= esc($r['variation_poids']); ?> kg
+              <?= !empty($r['duree']) ? 'en ' . esc($r['duree']) : ''; ?>
+            </p>
+
+            <div class="nutrition">
+              <div>
+                <p>Viande</p>
+                <h3><?= esc($r['pourcentage_viande']); ?>%</h3>
+              </div>
+              <div>
+                <p>Poisson</p>
+                <h3><?= esc($r['pourcentage_poisson']); ?>%</h3>
+              </div>
+              <div>
+                <p>Volaille</p>
+                <h3><?= esc($r['pourcentage_volaille']); ?>%</h3>
+              </div>
+            </div>
+
+            <?php if (!empty($r['prix'])): ?>
+              <p class="regime-price"><?= number_format($r['prix'], 0, ',', ' '); ?> Ar</p>
+            <?php endif; ?>
+
+            <div class="buttons">
+              <?php if ($r['achete']): ?>
+                <button class="btn-validated" disabled>✓ Achat validé</button>
+              <?php else: ?>
+                <form method="POST" action="<?= base_url('/home/acheter'); ?>">
+                  <?= csrf_field(); ?>
+                  <input type="hidden" name="regime_id" value="<?= $r['id']; ?>">
+                  <input type="hidden" name="duree_id"  value="3">
+                  <button type="submit" class="btn-green">Acheter</button>
+                </form>
+              <?php endif; ?>
+              <a href="<?= base_url('/regimes'); ?>" class="btn-white">Voir régimes</a>
+            </div>
+          </div>
+        <?php else: ?>
+          <p class="empty">Aucun régime disponible pour le moment.</p>
+        <?php endif; ?>
+      </div>
+
+      <!-- GOLD -->
+      <div class="gold" id="gold-offer">
+        <small>Option Gold</small>
+        <h2>−15% sur tous les régimes</h2>
+        <p>Passez à l'offre Gold pour bénéficier de réductions exclusives.</p>
+        <div class="gold-price">
+          <small>Prix</small>
+          <h1>120 000 Ar</h1>
+        </div>
+        <?php if (!empty($isGold)): ?>
+          <button class="btn-validated" disabled>Gold actif</button>
+        <?php else: ?>
+          <form method="POST" action="<?= base_url('/home/gold'); ?>">
+            <?= csrf_field(); ?>
+            <button type="submit">Devenir Gold</button>
+          </form>
+        <?php endif; ?>
+      </div>
+
+    </div>
+
+    <!-- ACTIVITÉS + PORTEFEUILLE -->
+    <div class="bottom">
+
+      <div class="activity">
+        <h2>Activités recommandées</h2>
+        <?php if (!empty($activites)): ?>
+          <?php foreach ($activites as $activite): ?>
+            <div class="activity-item">
+              <strong><?= esc($activite['nom']); ?></strong>
+              <?php if (!empty($activite['description'])): ?>
+                <p class="activity-desc"><?= esc($activite['description']); ?></p>
+              <?php endif; ?>
+              <?php if (!empty($activite['calories_brulees_heure'])): ?>
+                <span class="activity-cal"><?= esc($activite['calories_brulees_heure']); ?> kcal/h</span>
+              <?php endif; ?>
+            </div>
+          <?php endforeach; ?>
+        <?php else: ?>
+          <p class="empty">Aucune activité disponible pour ce régime.</p>
+        <?php endif; ?>
+      </div>
+
+      <!-- PORTEFEUILLE (fonctionnel) -->
+      <div class="wallet">
+        <h2>Portefeuille</h2>
+        <div class="wallet-balance">
+          <small>Solde</small>
+          <h1>
+            <?= !empty($solde) ? number_format($solde, 0, ',', ' ') . ' Ar' : '0 Ar'; ?>
+          </h1>
+        </div>
+
+        <?php if (session()->getFlashdata('wallet_succes')): ?>
+          <div class="flash-succes" style="margin: 8px 0; font-size: 0.85rem;">
+            <?= session()->getFlashdata('wallet_succes'); ?>
+          </div>
+        <?php endif; ?>
+        <?php if (session()->getFlashdata('wallet_erreur')): ?>
+          <div class="flash-erreur" style="margin: 8px 0; font-size: 0.85rem;">
+            <?= session()->getFlashdata('wallet_erreur'); ?>
+          </div>
+        <?php endif; ?>
+
+        <form method="POST" action="<?= base_url('/home/recharger'); ?>">
+          <?= csrf_field(); ?>
+          <input type="text" name="code" placeholder="Entrer un code" autocomplete="off" required>
+          <button type="submit">Ajouter de l'argent</button>
+        </form>
+
+      </div>
+
+    </div>
+
+    <!-- AUTRES RÉGIMES -->
+    <?php if (!empty($regimes) && count($regimes) > 1): ?>
+    <div class="all-regimes">
+      <h2>Autres régimes compatibles</h2>
+      <div class="regime-list">
+        <?php foreach (array_slice($regimes, 1) as $regime): ?>
+          <div class="regime-card">
+            <h3><?= esc($regime['nom']); ?></h3>
+            <p>
+              <?= $regime['variation_poids'] > 0 ? '+' : ''; ?><?= esc($regime['variation_poids']); ?> kg
+              <?= !empty($regime['duree']) ? 'en ' . esc($regime['duree']) : ''; ?>
+            </p>
+            <?php if (!empty($regime['prix'])): ?>
+              <p class="price"><?= number_format($regime['prix'], 0, ',', ' '); ?> Ar</p>
+            <?php endif; ?>
+            <?php if ($regime['achete']): ?>
+              <button class="btn-validated" disabled>✓ Achat validé</button>
+            <?php else: ?>
+              <form method="POST" action="<?= base_url('/home/acheter'); ?>">
+                <?= csrf_field(); ?>
+                <input type="hidden" name="regime_id" value="<?= $regime['id']; ?>">
+                <input type="hidden" name="duree_id"  value="3">
+                <button type="submit" class="btn-green" style="width:100%">Acheter</button>
+              </form>
+            <?php endif; ?>
+          </div>
+        <?php endforeach; ?>
+      </div>
+    </div>
+    <?php endif; ?>
+
+  </div><!-- /main -->
+
 </body>
 </html>
