@@ -292,3 +292,71 @@ CREATE TABLE abonnements_gold (
         REFERENCES users(id)
         ON DELETE CASCADE
 );
+
+
+CREATE TABLE user_regimes (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+
+    user_id INT NOT NULL,
+    regime_id INT NOT NULL,
+    duree_id INT NOT NULL,
+    prix_paye DECIMAL(10,2) NOT NULL,
+
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+
+    FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE,
+    FOREIGN KEY (regime_id) REFERENCES regimes(id) ON DELETE CASCADE,
+    FOREIGN KEY (duree_id) REFERENCES durees(id) ON DELETE CASCADE
+);
+
+
+INSERT INTO regimes (nom, description, variation_poids, pourcentage_viande, pourcentage_poisson, pourcentage_volaille)
+VALUES 
+('Régime Hypercalorique', 'Prise de masse rapide', 4, 40, 30, 30),
+('Régime Protéiné', 'Augmentation musculaire', 6, 50, 20, 30),
+('Régime Équilibré', 'Gain progressif', 2, 35, 35, 30);
+
+
+INSERT INTO regime_objectifs (regime_id, objectif_id)
+VALUES 
+(1, 1),
+(2, 1),
+(3, 1);
+
+INSERT INTO regime_prix (regime_id, duree_id, prix)
+VALUES 
+(1, 3, 50000),
+(2, 3, 80000),
+(3, 3, 35000);
+
+
+-- Activités sportives
+INSERT INTO activites_sportives (nom, description, calories_brulees_heure) VALUES
+('Musculation',     'Exercices de résistance pour développer la masse musculaire', 400),
+('Cardio léger',    'Marche rapide ou vélo à faible intensité',                    250),
+('Course à pied',   'Jogging à allure modérée',                                    500),
+('Natation',        'Nage toutes nages confondues',                                 450),
+('Yoga',            'Étirements et postures pour la souplesse et la récupération',  150),
+('HIIT',            'Entraînement fractionné de haute intensité',                   600),
+('Vélo elliptique', 'Cardio faible impact sur les articulations',                   350),
+('Saut à la corde', 'Exercice cardio intense au poids du corps',                    550);
+
+
+INSERT INTO regime_activites (regime_id, activite_id) VALUES
+(1, 1), (1, 2), (1, 5);
+
+
+INSERT INTO regime_activites (regime_id, activite_id) VALUES
+(2, 1), (2, 6), (2, 3);
+
+
+INSERT INTO regime_activites (regime_id, activite_id) VALUES
+(3, 2), (3, 4), (3, 7);
+
+INSERT INTO portefeuilles (user_id, solde) VALUES (1, 150000);
+
+
+INSERT INTO codes_recharge (code, montant) VALUES
+('NUTRI-2024-AAAA', 50000),
+('NUTRI-2024-BBBB', 100000),
+('NUTRI-2024-CCCC', 150000);
