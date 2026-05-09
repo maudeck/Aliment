@@ -4,6 +4,7 @@ namespace App\Controllers;
 
 use App\Models\UserRegime;
 use App\Models\ActiviteSportive;
+use CodeIgniter\HTTP\RedirectResponse;
 use FPDF;
 
 class Regimes extends BaseController
@@ -17,7 +18,7 @@ class Regimes extends BaseController
         $this->activiteModel   = new ActiviteSportive();
     }
 
-    public function index(): string
+    public function index(): string|RedirectResponse
     {
         $userId = session()->get('user_id');
 
