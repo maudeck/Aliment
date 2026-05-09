@@ -47,6 +47,7 @@ class Home extends BaseController
         }
 
         $user         = $this->userModel->find($userId);
+        $isGold       = !empty($user['is_gold']);
         $etat         = $this->etatUserModel->where('user_id', $userId)->first();
         $userObjectif = $this->userObjectifModel->where('user_id', $userId)->first();
         $objectifNom  = null;
@@ -67,7 +68,7 @@ class Home extends BaseController
                 ->findAll();
 
             foreach ($regimeObjectifs as $ro) {
-                $regime = $this->regimeModel->getAvecPrix($ro['regime_id'], dureeId: 3);
+                $regime = $this->regimeModel->getAvecPrix($ro['regime_id'], dureeId: 3, appliquerRemiseGold: $isGold);
                 if ($regime) {
                     $regime['achete'] = $this->userRegimeModel->aAchete($userId, $regime['id']);
                     $regimes[] = $regime;
@@ -88,6 +89,7 @@ class Home extends BaseController
             'regimes'     => $regimes,
             'activites'   => $activites,
             'solde'       => $solde,
+            'isGold'      => $isGold,
         ];
 
         return view('pages/home', $data);
@@ -109,7 +111,10 @@ class Home extends BaseController
             return redirect()->to(base_url('/home'));
         }
 
-        $regime = $this->regimeModel->getAvecPrix($regimeId, $dureeId);
+        $user = $this->userModel->find($userId);
+        $isGold = !empty($user['is_gold']);
+
+        $regime = $this->regimeModel->getAvecPrix($regimeId, $dureeId, $isGold);
         if (!$regime || empty($regime['prix'])) {
             return redirect()->to(base_url('/home'));
         }
@@ -118,7 +123,7 @@ class Home extends BaseController
         $solde = $this->portefeuilleModel->getSolde($userId);
 
         if ($solde < $prix) {
-            session()->setFlashdata('erreur', 'Solde insuffisant.');
+            session()->setFlashdata('erreur', 'miskine tu est pauvre 😂');
             return redirect()->to(base_url('/home'));
         }
 
@@ -142,7 +147,58 @@ class Home extends BaseController
         return redirect()->to(base_url('/home'));
     }
 
-    // ── Recharge du portefeuille depuis home ──────────────────────
+    // ── Achat de l'option Gold ───────────────────────────────────
+
+    public function devenirGold(): RedirectResponse
+    {
+        $userId = session()->get('user_id');
+
+        if (!$userId) {
+            return redirect()->to(base_url('/register'));
+        }
+
+        $user = $this->userModel->find($userId);
+
+        if (!$user) {
+            return redirect()->to(base_url('/home'));
+        }
+
+        if (!empty($user['is_gold'])) {
+            session()->setFlashdata('succes', "L'option Gold est déjà activée.");
+            return redirect()->to(base_url('/home'));
+        }
+
+        $prixGold = 120000;
+        $solde = $this->portefeuilleModel->getSolde($userId);
+
+        if ($solde < $prixGold) {
+            session()->setFlashdata('wallet_erreur', "tu es trop pauvre pour ahceter ca frero va taffer espece de pd");
+            return redirect()->to(base_url('/home'));
+        }
+
+        $db = \Config\Database::connect();
+        $db->transStart();
+
+        $db->table('portefeuilles')
+           ->where('user_id', $userId)
+           ->set('solde', "solde - {$prixGold}", false)
+           ->update();
+
+        $this->userModel->update($userId, [
+            'is_gold' => true,
+        ]);
+
+        $db->transComplete();
+
+        if (!$db->transStatus()) {
+            session()->setFlashdata('wallet_erreur', "Une erreur est survenue pendant l'activation Gold.");
+            return redirect()->to(base_url('/home'));
+        }
+
+        session()->setFlashdata('succes', 'Option Gold activée. Les régimes affichent maintenant la remise de 15%.');
+        return redirect()->to(base_url('/home'));
+    }
+
 
     public function recharger(): RedirectResponse
     {

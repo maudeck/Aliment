@@ -25,7 +25,7 @@ class Regime extends Model
     protected $createdField  = 'created_at';
     protected $updatedField  = 'updated_at';
 
-    public function getAvecPrix(int $regimeId, int $dureeId = 3): ?array
+    public function getAvecPrix(int $regimeId, int $dureeId = 3, bool $appliquerRemiseGold = false): ?array
     {
         $regime = $this->find($regimeId);
 
@@ -40,7 +40,14 @@ class Regime extends Model
                   ->get()
                   ->getRowArray();
 
-        $regime['prix'] = $row ? (int) $row['prix'] : null;
+        $prix = $row ? (float) $row['prix'] : null;
+
+        if ($prix !== null && $appliquerRemiseGold) {
+            $regime['prix_original'] = $prix;
+            $prix = round($prix * 0.85);
+        }
+
+        $regime['prix'] = $prix !== null ? (int) round($prix) : null;
 
         return $regime;
     }

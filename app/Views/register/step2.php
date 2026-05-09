@@ -8,8 +8,8 @@
 </head>
 <body>
     <div class="card">
-        <h1>Infos sante</h1>
-        <p class="step">Etape 2 / 2 - Taille et poids</p>
+        <h1>Healthy bowl</h1>
+        <p class="step">info sante</p>
 
         <?php if (!empty($errors)): ?>
             <div class="alert">

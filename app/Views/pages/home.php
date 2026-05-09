@@ -31,7 +31,7 @@
         <a class="nav-link" href="<?= base_url('/regimes'); ?>">Régimes</a>
         <a class="nav-link" href="<?= base_url('/activites'); ?>">Activités</a>
         <a class="nav-link" href="<?= base_url('/portefeuille'); ?>">Portefeuille</a>
-        <a class="nav-link" href="#">Option Gold</a>
+        <a class="nav-link" href="<?= base_url('/home#gold-offer'); ?>">Option Gold</a>
       </nav>
     </div>
 
@@ -139,7 +139,7 @@
       </div>
 
       <!-- GOLD -->
-      <div class="gold">
+      <div class="gold" id="gold-offer">
         <small>Option Gold</small>
         <h2>−15% sur tous les régimes</h2>
         <p>Passez à l'offre Gold pour bénéficier de réductions exclusives.</p>
@@ -147,7 +147,14 @@
           <small>Prix</small>
           <h1>120 000 Ar</h1>
         </div>
-        <button>Devenir Gold</button>
+        <?php if (!empty($isGold)): ?>
+          <button class="btn-validated" disabled>Gold actif</button>
+        <?php else: ?>
+          <form method="POST" action="<?= base_url('/home/gold'); ?>">
+            <?= csrf_field(); ?>
+            <button type="submit">Devenir Gold</button>
+          </form>
+        <?php endif; ?>
       </div>
 
     </div>

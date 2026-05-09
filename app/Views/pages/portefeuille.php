@@ -27,7 +27,7 @@
         <a class="nav-link" href="<?= base_url('/regimes'); ?>">Régimes</a>
         <a class="nav-link" href="<?= base_url('/activites'); ?>">Activités</a>
         <a class="nav-link active" href="<?= base_url('/portefeuille'); ?>">Portefeuille</a>
-        <a class="nav-link" href="#">Option Gold</a>
+        <a class="nav-link" href="<?= base_url('/home#gold-offer'); ?>">Option Gold</a>
       </nav>
     </div>
 

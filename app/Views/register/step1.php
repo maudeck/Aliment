@@ -18,7 +18,7 @@
             <img src="<?= base_url('logo/logo_sans_background.png'); ?>" alt="Logo" class="logo">
         </div>
         <h1>Inscription</h1>
-        <p class="step">Etape 1 / 2 - Infos personnelles</p>
+        <p class="step">Healthy bowl</p>
 
         <?php if (!empty($errors)): ?>
             <div class="alert">
