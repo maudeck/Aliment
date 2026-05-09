@@ -38,7 +38,7 @@ class Home extends BaseController
         $this->userRegimeModel     = new UserRegime();
     }
 
-    public function index(): string
+    public function index(): string|RedirectResponse
     {
         $userId = session()->get('user_id');
 
@@ -69,7 +69,6 @@ class Home extends BaseController
             foreach ($regimeObjectifs as $ro) {
                 $regime = $this->regimeModel->getAvecPrix($ro['regime_id'], dureeId: 3);
                 if ($regime) {
-                    // Vérifie si déjà acheté
                     $regime['achete'] = $this->userRegimeModel->aAchete($userId, $regime['id']);
                     $regimes[] = $regime;
                 }
@@ -94,9 +93,8 @@ class Home extends BaseController
         return view('pages/home', $data);
     }
 
-    /**
-     * Achat d'un régime via POST.
-     */
+    // ── Achat d'un régime ─────────────────────────────────────────
+
     public function acheter(): RedirectResponse
     {
         $userId   = session()->get('user_id');
@@ -107,12 +105,10 @@ class Home extends BaseController
             return redirect()->to(base_url('/home'));
         }
 
-        // Déjà acheté ?
         if ($this->userRegimeModel->aAchete($userId, $regimeId)) {
             return redirect()->to(base_url('/home'));
         }
 
-        // Récupère le prix
         $regime = $this->regimeModel->getAvecPrix($regimeId, $dureeId);
         if (!$regime || empty($regime['prix'])) {
             return redirect()->to(base_url('/home'));
@@ -121,7 +117,6 @@ class Home extends BaseController
         $prix  = $regime['prix'];
         $solde = $this->portefeuilleModel->getSolde($userId);
 
-        // Solde insuffisant
         if ($solde < $prix) {
             session()->setFlashdata('erreur', 'Solde insuffisant.');
             return redirect()->to(base_url('/home'));
@@ -130,12 +125,10 @@ class Home extends BaseController
         $db = \Config\Database::connect();
         $db->transStart();
 
-        // Débite le portefeuille
         $db->table('portefeuilles')
            ->where('user_id', $userId)
            ->update(['solde' => $solde - $prix]);
 
-        // Enregistre l'achat
         $this->userRegimeModel->insert([
             'user_id'   => $userId,
             'regime_id' => $regimeId,
@@ -146,6 +139,35 @@ class Home extends BaseController
         $db->transComplete();
 
         session()->setFlashdata('succes', 'Achat validé !');
+        return redirect()->to(base_url('/home'));
+    }
+
+    // ── Recharge du portefeuille depuis home ──────────────────────
+
+    public function recharger(): RedirectResponse
+    {
+        $userId = session()->get('user_id');
+
+        if (!$userId) {
+            return redirect()->to(base_url('/register'));
+        }
+
+        $code = $this->request->getPost('code');
+
+        if (empty($code)) {
+            session()->setFlashdata('wallet_erreur', 'Veuillez entrer un code.');
+            return redirect()->to(base_url('/home'));
+        }
+
+        $resultat = $this->portefeuilleModel->utiliserCode($code, $userId);
+
+        if ($resultat['success']) {
+            $montantFormate = number_format($resultat['montant'], 0, ',', ' ');
+            session()->setFlashdata('wallet_succes', "✓ {$resultat['message']} +{$montantFormate} Ar ajoutés.");
+        } else {
+            session()->setFlashdata('wallet_erreur', $resultat['message']);
+        }
+
         return redirect()->to(base_url('/home'));
     }
 }

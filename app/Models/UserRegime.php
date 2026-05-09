@@ -19,10 +19,14 @@ class UserRegime extends Model
         'prix_paye',
     ];
 
-    protected $useTimestamps = false;
+    // La table a created_at mais pas updated_at
+    protected $useTimestamps   = true;
+    protected $createdField    = 'created_at';
+    protected $updatedField    = '';   // pas de updated_at dans la table
 
-    // Vérifie si un utilisateur a déjà acheté un régime.
-    
+    /**
+     * Vérifie si un utilisateur a déjà acheté un régime.
+     */
     public function aAchete(int $userId, int $regimeId): bool
     {
         return $this->where('user_id', $userId)
@@ -30,30 +34,33 @@ class UserRegime extends Model
                     ->first() !== null;
     }
 
-    
+    /**
+     * Retourne tous les régimes achetés par un utilisateur,
+     * avec le nom du régime, la durée et la date d'achat.
+     */
     public function getRegimesAchetes(int $userId): array
     {
         $db = \Config\Database::connect();
 
-        return $db->table('user_regimes')
+        return $db->table('user_regimes ur')
                   ->select('
-                      user_regimes.id AS achat_id,
-                      user_regimes.prix_paye,
-                      user_regimes.created_at AS date_achat,
-                      regimes.id AS regime_id,
-                      regimes.nom AS regime_nom,
-                      regimes.description AS regime_description,
-                      regimes.variation_poids,
-                      regimes.pourcentage_viande,
-                      regimes.pourcentage_poisson,
-                      regimes.pourcentage_volaille,
-                      durees.nom AS duree_nom,
-                      durees.nombre_jours
+                      ur.id           AS achat_id,
+                      ur.prix_paye,
+                      ur.created_at   AS date_achat,
+                      r.id            AS regime_id,
+                      r.nom           AS regime_nom,
+                      r.description   AS regime_description,
+                      r.variation_poids,
+                      r.pourcentage_viande,
+                      r.pourcentage_poisson,
+                      r.pourcentage_volaille,
+                      d.nom           AS duree_nom,
+                      d.nombre_jours
                   ')
-                  ->join('regimes', 'regimes.id = user_regimes.regime_id')
-                  ->join('durees',  'durees.id  = user_regimes.duree_id')
-                  ->where('user_regimes.user_id', $userId)
-                  ->orderBy('user_regimes.created_at', 'DESC')
+                  ->join('regimes r', 'r.id = ur.regime_id')
+                  ->join('durees d',  'd.id = ur.duree_id')
+                  ->where('ur.user_id', $userId)
+                  ->orderBy('ur.created_at', 'DESC')
                   ->get()
                   ->getResultArray();
     }

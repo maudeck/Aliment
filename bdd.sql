@@ -360,3 +360,15 @@ INSERT INTO codes_recharge (code, montant) VALUES
 ('NUTRI-2024-AAAA', 50000),
 ('NUTRI-2024-BBBB', 100000),
 ('NUTRI-2024-CCCC', 150000);
+
+
+
+
+INSERT INTO `codes_recharge` (`code`, `montant`, `est_utilise`) VALUES
+('NUTRI-2024-AAAA', 50000,  0),
+('NUTRI-2024-BBBB', 100000, 0),
+('NUTRI-2024-CCCC', 150000, 0),
+('NUTRI-2024-DDDD', 20000,  0),
+('NUTRI-2024-EEEE', 75000,  0);
+
+

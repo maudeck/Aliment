@@ -6,16 +6,11 @@
   <title>Accueil – NutriLife</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="stylesheet" href="<?= base_url('css/home.css'); ?>">
- 
-
-  <style>
-   
-  </style>
 </head>
 
 <body>
 
-   <!-- SIDEBAR -->
+  <!-- SIDEBAR -->
   <div class="sidebar">
     <div>
       <div class="brand">
@@ -29,23 +24,23 @@
           <small>Suivi alimentaire</small>
         </div>
       </div>
- 
+
       <nav class="nav">
         <a class="nav-link active" href="<?= base_url('/home'); ?>">Accueil</a>
         <a class="nav-link" href="<?= base_url('/register/objectif'); ?>">Objectifs</a>
         <a class="nav-link" href="<?= base_url('/regimes'); ?>">Régimes</a>
-        <a class="nav-link" href="#">Activités</a>
-        <a class="nav-link" href="#">Portefeuille</a>
+        <a class="nav-link" href="<?= base_url('/activites'); ?>">Activités</a>
+        <a class="nav-link" href="<?= base_url('/portefeuille'); ?>">Portefeuille</a>
         <a class="nav-link" href="#">Option Gold</a>
       </nav>
     </div>
- 
+
     <a class="logout" href="<?= base_url('/logout'); ?>">Se déconnecter</a>
   </div>
- 
+
   <!-- MAIN -->
   <div class="main">
- 
+
     <!-- HEADER -->
     <div class="page-header">
       <div>
@@ -57,14 +52,14 @@
         Objectif : <strong><?= !empty($objectifNom) ? htmlspecialchars($objectifNom) : 'Non défini'; ?></strong>
       </div>
     </div>
- 
+
     <?php if (session()->getFlashdata('succes')): ?>
       <div class="flash-succes"><?= session()->getFlashdata('succes'); ?></div>
     <?php endif; ?>
     <?php if (session()->getFlashdata('erreur')): ?>
       <div class="flash-erreur"><?= session()->getFlashdata('erreur'); ?></div>
     <?php endif; ?>
- 
+
     <!-- STATS -->
     <div class="stats">
       <div class="stat-card">
@@ -88,14 +83,14 @@
         </p>
       </div>
     </div>
- 
+
     <!-- RÉGIME RECOMMANDÉ + GOLD -->
     <div class="recommendation">
- 
+
       <div class="regime-box">
         <h2>Régime recommandé</h2>
         <p>Basé sur votre IMC et votre objectif.</p>
- 
+
         <?php if (!empty($regimes)): ?>
           <?php $r = $regimes[0]; ?>
           <div class="regime-detail">
@@ -104,7 +99,7 @@
               <?= $r['variation_poids'] > 0 ? '+' : ''; ?><?= esc($r['variation_poids']); ?> kg
               <?= !empty($r['duree']) ? 'en ' . esc($r['duree']) : ''; ?>
             </p>
- 
+
             <div class="nutrition">
               <div>
                 <p>Viande</p>
@@ -119,11 +114,11 @@
                 <h3><?= esc($r['pourcentage_volaille']); ?>%</h3>
               </div>
             </div>
- 
+
             <?php if (!empty($r['prix'])): ?>
               <p class="regime-price"><?= number_format($r['prix'], 0, ',', ' '); ?> Ar</p>
             <?php endif; ?>
- 
+
             <div class="buttons">
               <?php if ($r['achete']): ?>
                 <button class="btn-validated" disabled>✓ Achat validé</button>
@@ -142,7 +137,7 @@
           <p class="empty">Aucun régime disponible pour le moment.</p>
         <?php endif; ?>
       </div>
- 
+
       <!-- GOLD -->
       <div class="gold">
         <small>Option Gold</small>
@@ -154,12 +149,12 @@
         </div>
         <button>Devenir Gold</button>
       </div>
- 
+
     </div>
- 
+
     <!-- ACTIVITÉS + PORTEFEUILLE -->
     <div class="bottom">
- 
+
       <div class="activity">
         <h2>Activités recommandées</h2>
         <?php if (!empty($activites)): ?>
@@ -178,7 +173,8 @@
           <p class="empty">Aucune activité disponible pour ce régime.</p>
         <?php endif; ?>
       </div>
- 
+
+      <!-- PORTEFEUILLE (fonctionnel) -->
       <div class="wallet">
         <h2>Portefeuille</h2>
         <div class="wallet-balance">
@@ -187,12 +183,28 @@
             <?= !empty($solde) ? number_format($solde, 0, ',', ' ') . ' Ar' : '0 Ar'; ?>
           </h1>
         </div>
-        <input type="text" placeholder="Entrer un code">
-        <button>Ajouter de l'argent</button>
+
+        <?php if (session()->getFlashdata('wallet_succes')): ?>
+          <div class="flash-succes" style="margin: 8px 0; font-size: 0.85rem;">
+            <?= session()->getFlashdata('wallet_succes'); ?>
+          </div>
+        <?php endif; ?>
+        <?php if (session()->getFlashdata('wallet_erreur')): ?>
+          <div class="flash-erreur" style="margin: 8px 0; font-size: 0.85rem;">
+            <?= session()->getFlashdata('wallet_erreur'); ?>
+          </div>
+        <?php endif; ?>
+
+        <form method="POST" action="<?= base_url('/home/recharger'); ?>">
+          <?= csrf_field(); ?>
+          <input type="text" name="code" placeholder="Entrer un code" autocomplete="off" required>
+          <button type="submit">Ajouter de l'argent</button>
+        </form>
+
       </div>
- 
+
     </div>
- 
+
     <!-- AUTRES RÉGIMES -->
     <?php if (!empty($regimes) && count($regimes) > 1): ?>
     <div class="all-regimes">
@@ -223,7 +235,7 @@
       </div>
     </div>
     <?php endif; ?>
- 
+
   </div><!-- /main -->
 
 </body>
