@@ -34,6 +34,7 @@ $routes->get('/home',          'Home::index');
 $routes->post('/home/acheter', 'Home::acheter');
 $routes->post('/home/gold',    'Home::devenirGold');
 $routes->get('/regimes',       'Regimes::index');
+$routes->get('/regimes/export/(:num)', 'Regimes::exportPdf/$1');
 
 // ============================================
 // Routes PORTEFEUILLE

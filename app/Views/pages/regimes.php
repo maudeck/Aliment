@@ -134,9 +134,9 @@
             <span class="date-achat">
               Acheté le <?= date('d/m/Y à H:i', strtotime($regime['date_achat'])); ?>
             </span>
-            <button class="btn-export" disabled title="Disponible prochainement">
+            <a href="<?= base_url('/regimes/export/' . $regime['achat_id']); ?>" class="btn-export" title="Exporter en PDF">
               ↓ Exporter en PDF
-            </button>
+            </a>
           </div>
 
         </div>
