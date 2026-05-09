@@ -44,4 +44,11 @@ $routes->post('/portefeuille/recharger', 'PortefeuilleController::recharger');
 
 $routes->post('home/recharger', 'Home::recharger');
 
+// ============================================
+// Routes ADMIN
+// ============================================
 $routes->get('/admin', 'Admin::index');
+$routes->get('/admin/regimes', 'AdminRegimes::index');
+$routes->get('/admin/activites', 'AdminActivites::index');
+$routes->get('/admin/codes', 'AdminCodes::index');
+$routes->get('/admin/settings', 'AdminSettings::index');
