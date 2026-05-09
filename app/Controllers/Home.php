@@ -12,6 +12,7 @@ use App\Models\ActiviteSportive;
 use App\Models\Portefeuille;
 use App\Models\UserRegime;
 use CodeIgniter\HTTP\RedirectResponse;
+use CodeIgniter\HTTP\ResponseInterface;
 
 class Home extends BaseController
 {
@@ -97,17 +98,31 @@ class Home extends BaseController
 
     // ── Achat d'un régime ─────────────────────────────────────────
 
-    public function acheter(): RedirectResponse
+    public function acheter(): RedirectResponse|ResponseInterface
     {
         $userId   = session()->get('user_id');
         $regimeId = (int) $this->request->getPost('regime_id');
         $dureeId  = (int) $this->request->getPost('duree_id') ?: 3;
 
         if (!$userId || !$regimeId) {
+            if ($this->request->isAJAX()) {
+                return $this->response->setJSON([
+                    'success' => false,
+                    'message' => 'Session ou régime invalide.'
+                ]);
+            }
+
             return redirect()->to(base_url('/home'));
         }
 
         if ($this->userRegimeModel->aAchete($userId, $regimeId)) {
+            if ($this->request->isAJAX()) {
+                return $this->response->setJSON([
+                    'success' => false,
+                    'message' => 'Ce régime est déjà acheté.'
+                ]);
+            }
+
             return redirect()->to(base_url('/home'));
         }
 
@@ -116,6 +131,13 @@ class Home extends BaseController
 
         $regime = $this->regimeModel->getAvecPrix($regimeId, $dureeId, $isGold);
         if (!$regime || empty($regime['prix'])) {
+            if ($this->request->isAJAX()) {
+                return $this->response->setJSON([
+                    'success' => false,
+                    'message' => 'Régime introuvable ou sans prix.'
+                ]);
+            }
+
             return redirect()->to(base_url('/home'));
         }
 
@@ -123,6 +145,13 @@ class Home extends BaseController
         $solde = $this->portefeuilleModel->getSolde($userId);
 
         if ($solde < $prix) {
+            if ($this->request->isAJAX()) {
+                return $this->response->setJSON([
+                    'success' => false,
+                    'message' => 'Solde insuffisant.'
+                ]);
+            }
+
             session()->setFlashdata('erreur', 'miskine tu est pauvre 😂');
             return redirect()->to(base_url('/home'));
         }
@@ -143,27 +172,60 @@ class Home extends BaseController
 
         $db->transComplete();
 
+        if ($this->request->isAJAX()) {
+            return $this->response->setJSON([
+                'success' => true,
+                'message' => 'Achat validé !',
+                'data' => [
+                    'regime_id' => $regimeId,
+                    'prix' => $prix,
+                    'solde' => $this->portefeuilleModel->getSolde($userId),
+                ],
+            ]);
+        }
+
         session()->setFlashdata('succes', 'Achat validé !');
         return redirect()->to(base_url('/home'));
     }
 
     // ── Achat de l'option Gold ───────────────────────────────────
 
-    public function devenirGold(): RedirectResponse
+    public function devenirGold(): RedirectResponse|ResponseInterface
     {
         $userId = session()->get('user_id');
 
         if (!$userId) {
+            if ($this->request->isAJAX()) {
+                return $this->response->setJSON([
+                    'success' => false,
+                    'message' => 'Session expirée.'
+                ]);
+            }
+
             return redirect()->to(base_url('/register'));
         }
 
         $user = $this->userModel->find($userId);
 
         if (!$user) {
+            if ($this->request->isAJAX()) {
+                return $this->response->setJSON([
+                    'success' => false,
+                    'message' => 'Utilisateur introuvable.'
+                ]);
+            }
+
             return redirect()->to(base_url('/home'));
         }
 
         if (!empty($user['is_gold'])) {
+            if ($this->request->isAJAX()) {
+                return $this->response->setJSON([
+                    'success' => false,
+                    'message' => 'L\'option Gold est déjà activée.'
+                ]);
+            }
+
             session()->setFlashdata('succes', "L'option Gold est déjà activée.");
             return redirect()->to(base_url('/home'));
         }
@@ -172,6 +234,13 @@ class Home extends BaseController
         $solde = $this->portefeuilleModel->getSolde($userId);
 
         if ($solde < $prixGold) {
+            if ($this->request->isAJAX()) {
+                return $this->response->setJSON([
+                    'success' => false,
+                    'message' => 'Solde insuffisant pour activer Gold.'
+                ]);
+            }
+
             session()->setFlashdata('wallet_erreur', "tu es trop pauvre pour ahceter ca frero va taffer espece de pd");
             return redirect()->to(base_url('/home'));
         }
@@ -191,8 +260,25 @@ class Home extends BaseController
         $db->transComplete();
 
         if (!$db->transStatus()) {
+            if ($this->request->isAJAX()) {
+                return $this->response->setJSON([
+                    'success' => false,
+                    'message' => "Une erreur est survenue pendant l'activation Gold."
+                ]);
+            }
+
             session()->setFlashdata('wallet_erreur', "Une erreur est survenue pendant l'activation Gold.");
             return redirect()->to(base_url('/home'));
+        }
+
+        if ($this->request->isAJAX()) {
+            return $this->response->setJSON([
+                'success' => true,
+                'message' => 'Option Gold activée.',
+                'data' => [
+                    'solde' => $this->portefeuilleModel->getSolde($userId),
+                ],
+            ]);
         }
 
         session()->setFlashdata('succes', 'Option Gold activée. Les régimes affichent maintenant la remise de 15%.');
@@ -200,17 +286,31 @@ class Home extends BaseController
     }
 
 
-    public function recharger(): RedirectResponse
+    public function recharger(): RedirectResponse|ResponseInterface
     {
         $userId = session()->get('user_id');
 
         if (!$userId) {
+            if ($this->request->isAJAX()) {
+                return $this->response->setJSON([
+                    'success' => false,
+                    'message' => 'Session expirée.'
+                ]);
+            }
+
             return redirect()->to(base_url('/register'));
         }
 
         $code = $this->request->getPost('code');
 
         if (empty($code)) {
+            if ($this->request->isAJAX()) {
+                return $this->response->setJSON([
+                    'success' => false,
+                    'message' => 'Veuillez entrer un code.'
+                ]);
+            }
+
             session()->setFlashdata('wallet_erreur', 'Veuillez entrer un code.');
             return redirect()->to(base_url('/home'));
         }
@@ -219,8 +319,27 @@ class Home extends BaseController
 
         if ($resultat['success']) {
             $montantFormate = number_format($resultat['montant'], 0, ',', ' ');
+
+            if ($this->request->isAJAX()) {
+                return $this->response->setJSON([
+                    'success' => true,
+                    'message' => $resultat['message'],
+                    'data' => [
+                        'montant' => $resultat['montant'],
+                        'solde' => $this->portefeuilleModel->getSolde($userId),
+                    ],
+                ]);
+            }
+
             session()->setFlashdata('wallet_succes', "✓ {$resultat['message']} +{$montantFormate} Ar ajoutés.");
         } else {
+            if ($this->request->isAJAX()) {
+                return $this->response->setJSON([
+                    'success' => false,
+                    'message' => $resultat['message'],
+                ]);
+            }
+
             session()->setFlashdata('wallet_erreur', $resultat['message']);
         }
 

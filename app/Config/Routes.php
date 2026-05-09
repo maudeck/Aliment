@@ -49,6 +49,10 @@ $routes->post('home/recharger', 'Home::recharger');
 // ============================================
 $routes->get('/admin', 'Admin::index');
 $routes->get('/admin/regimes', 'AdminRegimes::index');
+$routes->post('/admin/regimes/store', 'AdminRegimes::store');
 $routes->get('/admin/activites', 'AdminActivites::index');
+$routes->post('/admin/activites/store', 'AdminActivites::store');
 $routes->get('/admin/codes', 'AdminCodes::index');
+$routes->post('/admin/codes/validate', 'AdminCodes::validateCode');
 $routes->get('/admin/settings', 'AdminSettings::index');
+$routes->post('/admin/settings/store', 'AdminSettings::store');
