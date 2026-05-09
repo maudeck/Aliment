@@ -30,3 +30,8 @@ $routes->get('/logout', 'Login::logout');
 
 $routes->get('/register/objectif', 'Register::objectif');
 $routes->post('/register/objectif/store', 'Register::storeObjectif');
+
+$routes->get('/home',          'Home::index');
+$routes->post('/home/acheter', 'Home::acheter');
+$routes->get('/regimes',       'Regimes::index');
+ 
