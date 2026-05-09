@@ -57,6 +57,17 @@ class Portefeuille extends Model
 
         // 2. Transaction : marquer le code utilisé + créditer + historique
         $db->transStart();
+        $portefeuille = $db->table('portefeuilles')
+                          ->where('user_id', $userId)
+                          ->get()
+                          ->getRowArray();
+
+        if (!$portefeuille) {
+            $db->table('portefeuilles')->insert([
+                'user_id' => $userId,
+                'solde'   => 0,
+            ]);
+        }
 
         // Marquer le code comme utilisé
         $db->table('codes_recharge')
