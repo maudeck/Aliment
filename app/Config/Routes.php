@@ -43,3 +43,5 @@ $routes->get('/portefeuille',            'PortefeuilleController::index');
 $routes->post('/portefeuille/recharger', 'PortefeuilleController::recharger');
 
 $routes->post('home/recharger', 'Home::recharger');
+
+$routes->get('/admin', 'Admin::index');
