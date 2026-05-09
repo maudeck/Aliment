@@ -27,7 +27,7 @@
         <a class="nav-link" href="<?= base_url('/register/objectif'); ?>">Objectifs</a>
         <a class="nav-link active" href="<?= base_url('/regimes'); ?>">Régimes</a>
         <a class="nav-link" href="#">Activités</a>
-        <a class="nav-link" href="#">Portefeuille</a>
+        <a class="nav-link" href="<?= base_url('/portefeuille'); ?>">Portefeuille</a>
         <a class="nav-link" href="#">Option Gold</a>
       </nav>
     </div>
