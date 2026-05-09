@@ -33,7 +33,13 @@ $routes->post('/register/objectif/store', 'Register::storeObjectif');
 $routes->get('/home',          'Home::index');
 $routes->post('/home/acheter', 'Home::acheter');
 $routes->post('/home/gold',    'Home::devenirGold');
-$routes->get('/regimes',       'Regimes::index');
+
+$routes->get('/regimes', 'RegimeCrud::index');
+$routes->get('/regimes/create', 'RegimeCrud::create');
+$routes->post('/regimes/store', 'RegimeCrud::store');
+$routes->get('/regimes/edit/(:num)', 'RegimeCrud::edit/$1');
+$routes->post('/regimes/update/(:num)', 'RegimeCrud::update/$1');
+$routes->get('/regimes/delete/(:num)', 'RegimeCrud::delete/$1');
 
 // ============================================
 // Routes PORTEFEUILLE
