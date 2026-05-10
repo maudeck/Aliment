@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title><?= esc($title); ?></title>
+    <title><?= esc((string) ($title ?? 'Codes de recharge')); ?></title>
     <link rel="stylesheet" href="<?= base_url('css/admin.css'); ?>">
     <link rel="stylesheet" href="<?= base_url('css/admin-codes.css'); ?>">
     <style>
@@ -61,9 +61,9 @@
                 <?php else: ?>
                     <?php foreach ($codes as $c): ?>
                     <tr data-status="<?= $c['est_utilise'] ? 'use' : 'dispo' ?>">
-                        <td><?= $c['id'] ?></td>
-                        <td><span class="code-mono"><?= esc($c['code']) ?></span></td>
-                        <td><strong><?= number_format($c['montant'], 0, ',', ' ') ?> Ar</strong></td>
+                        <td><?= esc((string) ($c['id'] ?? '')) ?></td>
+                        <td><span class="code-mono"><?= esc((string) ($c['code'] ?? '')) ?></span></td>
+                        <td><strong><?= number_format((float) ($c['montant'] ?? 0), 0, ',', ' ') ?> Ar</strong></td>
                         <td>
                             <?php if ($c['est_utilise']): ?>
                                 <span class="badge-use">✗ Utilisé</span>
@@ -73,8 +73,8 @@
                         </td>
                         <td>
                             <?php if ($c['utilisateur_nom']): ?>
-                                <div style="font-weight:600"><?= esc($c['utilisateur_nom']) ?></div>
-                                <div style="font-size:0.75rem;color:var(--muted)"><?= esc($c['utilisateur_email']) ?></div>
+                                <div style="font-weight:600"><?= esc((string) ($c['utilisateur_nom'] ?? '')) ?></div>
+                                <div style="font-size:0.75rem;color:var(--muted)"><?= esc((string) ($c['utilisateur_email'] ?? '')) ?></div>
                             <?php else: ?>
                                 <span style="color:var(--muted)">—</span>
                             <?php endif; ?>
@@ -100,7 +100,6 @@
                 <?php endif; ?>
                 </tbody>
             </table>
-        </div>
         </div>
 
         <!-- Tab : Créer un code -->
