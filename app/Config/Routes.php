@@ -56,3 +56,10 @@ $routes->get('/admin/codes', 'AdminCodes::index');
 $routes->post('/admin/codes/validate', 'AdminCodes::validateCode');
 $routes->get('/admin/settings', 'AdminSettings::index');
 $routes->post('/admin/settings/store', 'AdminSettings::store');
+
+
+$routes->get('/regimes', 'RegimeCrud::index');
+$routes->post('/regimes/store', 'RegimeCrud::store');
+$routes->get('/regimes/edit/(:num)', 'RegimeCrud::edit/$1');
+$routes->post('/regimes/update/(:num)', 'RegimeCrud::update/$1');
+$routes->get('/regimes/delete/(:num)', 'RegimeCrud::delete/$1');$routes->get('/regimes/api', 'RegimeCrud::api');

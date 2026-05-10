@@ -1,0 +1,243 @@
+DEBUG - 2026-05-10 12:35:35 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-05-10 12:35:35 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-05-10 12:35:38 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-05-10 12:35:48 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-05-10 14:11:45 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+CRITICAL - 2026-05-10 14:11:45 --> ErrorException: Undefined variable $regimes
+[Method: GET, Route: admin/regimes]
+in APPPATH/Views/admin/regimes.php on line 475.
+ 1 APPPATH/Views/admin/regimes.php(475): CodeIgniter\Debug\Exceptions->errorHandler()
+ 2 SYSTEMPATH/View/View.php(240): include('/home/zax/s4/Mr Rojo/Alimentation/app/Views/admin/regimes.php')
+ 3 SYSTEMPATH/View/View.php(243): CodeIgniter\View\View->CodeIgniter\View\{closure}()
+ 4 SYSTEMPATH/Common.php(1250): CodeIgniter\View\View->render()
+ 5 APPPATH/Controllers/AdminRegimes.php(12): view()
+ 6 SYSTEMPATH/CodeIgniter.php(951): App\Controllers\AdminRegimes->index()
+ 7 SYSTEMPATH/CodeIgniter.php(497): CodeIgniter\CodeIgniter->runController()
+ 8 SYSTEMPATH/CodeIgniter.php(340): CodeIgniter\CodeIgniter->handleRequest()
+ 9 SYSTEMPATH/Boot.php(417): CodeIgniter\CodeIgniter->run()
+10 SYSTEMPATH/Boot.php(68): CodeIgniter\Boot::runCodeIgniter()
+11 FCPATH/index.php(59): CodeIgniter\Boot::bootWeb()
+DEBUG - 2026-05-10 15:09:01 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-05-10 15:09:05 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-05-10 15:09:08 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+ERROR - 2026-05-10 15:09:17 --> Error connecting to the database: mysqli_sql_exception: Connection refused in /home/zax/s4/Mr Rojo/Alimentation/system/Database/MySQLi/Connection.php:201
+Stack trace:
+#0 /home/zax/s4/Mr Rojo/Alimentation/system/Database/MySQLi/Connection.php(201): mysqli->real_connect()
+#1 /home/zax/s4/Mr Rojo/Alimentation/system/Database/BaseConnection.php(555): CodeIgniter\Database\MySQLi\Connection->connect()
+#2 /home/zax/s4/Mr Rojo/Alimentation/system/Database/BaseConnection.php(795): CodeIgniter\Database\BaseConnection->initialize()
+#3 /home/zax/s4/Mr Rojo/Alimentation/system/Database/BaseBuilder.php(1649): CodeIgniter\Database\BaseConnection->query()
+#4 /home/zax/s4/Mr Rojo/Alimentation/system/Model.php(295): CodeIgniter\Database\BaseBuilder->get()
+#5 /home/zax/s4/Mr Rojo/Alimentation/system/BaseModel.php(714): CodeIgniter\Model->doFirst()
+#6 /home/zax/s4/Mr Rojo/Alimentation/app/Models/Admin.php(28): CodeIgniter\BaseModel->first()
+#7 /home/zax/s4/Mr Rojo/Alimentation/app/Controllers/Register.php(57): App\Models\Admin->verifyPassword()
+#8 /home/zax/s4/Mr Rojo/Alimentation/system/CodeIgniter.php(951): App\Controllers\Register->store()
+#9 /home/zax/s4/Mr Rojo/Alimentation/system/CodeIgniter.php(497): CodeIgniter\CodeIgniter->runController()
+#10 /home/zax/s4/Mr Rojo/Alimentation/system/CodeIgniter.php(340): CodeIgniter\CodeIgniter->handleRequest()
+#11 /home/zax/s4/Mr Rojo/Alimentation/system/Boot.php(417): CodeIgniter\CodeIgniter->run()
+#12 /home/zax/s4/Mr Rojo/Alimentation/system/Boot.php(68): CodeIgniter\Boot::runCodeIgniter()
+#13 /home/zax/s4/Mr Rojo/Alimentation/public/index.php(59): CodeIgniter\Boot::bootWeb()
+#14 {main}
+
+Next CodeIgniter\Database\Exceptions\DatabaseException: Connection refused in /home/zax/s4/Mr Rojo/Alimentation/system/Database/MySQLi/Connection.php:231
+Stack trace:
+#0 /home/zax/s4/Mr Rojo/Alimentation/system/Database/BaseConnection.php(555): CodeIgniter\Database\MySQLi\Connection->connect()
+#1 /home/zax/s4/Mr Rojo/Alimentation/system/Database/BaseConnection.php(795): CodeIgniter\Database\BaseConnection->initialize()
+#2 /home/zax/s4/Mr Rojo/Alimentation/system/Database/BaseBuilder.php(1649): CodeIgniter\Database\BaseConnection->query()
+#3 /home/zax/s4/Mr Rojo/Alimentation/system/Model.php(295): CodeIgniter\Database\BaseBuilder->get()
+#4 /home/zax/s4/Mr Rojo/Alimentation/system/BaseModel.php(714): CodeIgniter\Model->doFirst()
+#5 /home/zax/s4/Mr Rojo/Alimentation/app/Models/Admin.php(28): CodeIgniter\BaseModel->first()
+#6 /home/zax/s4/Mr Rojo/Alimentation/app/Controllers/Register.php(57): App\Models\Admin->verifyPassword()
+#7 /home/zax/s4/Mr Rojo/Alimentation/system/CodeIgniter.php(951): App\Controllers\Register->store()
+#8 /home/zax/s4/Mr Rojo/Alimentation/system/CodeIgniter.php(497): CodeIgniter\CodeIgniter->runController()
+#9 /home/zax/s4/Mr Rojo/Alimentation/system/CodeIgniter.php(340): CodeIgniter\CodeIgniter->handleRequest()
+#10 /home/zax/s4/Mr Rojo/Alimentation/system/Boot.php(417): CodeIgniter\CodeIgniter->run()
+#11 /home/zax/s4/Mr Rojo/Alimentation/system/Boot.php(68): CodeIgniter\Boot::runCodeIgniter()
+#12 /home/zax/s4/Mr Rojo/Alimentation/public/index.php(59): CodeIgniter\Boot::bootWeb()
+#13 {main}
+CRITICAL - 2026-05-10 15:09:17 --> CodeIgniter\Database\Exceptions\DatabaseException: Unable to connect to the database.
+Main connection [MySQLi]: Connection refused
+[Method: POST, Route: register/store]
+in SYSTEMPATH/Database/BaseConnection.php on line 606.
+ 1 SYSTEMPATH/Database/BaseConnection.php(795): CodeIgniter\Database\BaseConnection->initialize()
+ 2 SYSTEMPATH/Database/BaseBuilder.php(1649): CodeIgniter\Database\BaseConnection->query()
+ 3 SYSTEMPATH/Model.php(295): CodeIgniter\Database\BaseBuilder->get()
+ 4 SYSTEMPATH/BaseModel.php(714): CodeIgniter\Model->doFirst()
+ 5 APPPATH/Models/Admin.php(28): CodeIgniter\BaseModel->first()
+ 6 APPPATH/Controllers/Register.php(57): App\Models\Admin->verifyPassword()
+ 7 SYSTEMPATH/CodeIgniter.php(951): App\Controllers\Register->store()
+ 8 SYSTEMPATH/CodeIgniter.php(497): CodeIgniter\CodeIgniter->runController()
+ 9 SYSTEMPATH/CodeIgniter.php(340): CodeIgniter\CodeIgniter->handleRequest()
+10 SYSTEMPATH/Boot.php(417): CodeIgniter\CodeIgniter->run()
+11 SYSTEMPATH/Boot.php(68): CodeIgniter\Boot::runCodeIgniter()
+12 FCPATH/index.php(59): CodeIgniter\Boot::bootWeb()
+ERROR - 2026-05-10 15:17:38 --> Error connecting to the database: mysqli_sql_exception: Connection refused in /home/zax/s4/Mr Rojo/Alimentation/system/Database/MySQLi/Connection.php:201
+Stack trace:
+#0 /home/zax/s4/Mr Rojo/Alimentation/system/Database/MySQLi/Connection.php(201): mysqli->real_connect()
+#1 /home/zax/s4/Mr Rojo/Alimentation/system/Database/BaseConnection.php(555): CodeIgniter\Database\MySQLi\Connection->connect()
+#2 /home/zax/s4/Mr Rojo/Alimentation/system/Database/BaseConnection.php(795): CodeIgniter\Database\BaseConnection->initialize()
+#3 /home/zax/s4/Mr Rojo/Alimentation/system/Database/BaseBuilder.php(1649): CodeIgniter\Database\BaseConnection->query()
+#4 /home/zax/s4/Mr Rojo/Alimentation/system/Model.php(295): CodeIgniter\Database\BaseBuilder->get()
+#5 /home/zax/s4/Mr Rojo/Alimentation/system/BaseModel.php(714): CodeIgniter\Model->doFirst()
+#6 /home/zax/s4/Mr Rojo/Alimentation/app/Models/Admin.php(28): CodeIgniter\BaseModel->first()
+#7 /home/zax/s4/Mr Rojo/Alimentation/app/Controllers/Register.php(57): App\Models\Admin->verifyPassword()
+#8 /home/zax/s4/Mr Rojo/Alimentation/system/CodeIgniter.php(951): App\Controllers\Register->store()
+#9 /home/zax/s4/Mr Rojo/Alimentation/system/CodeIgniter.php(497): CodeIgniter\CodeIgniter->runController()
+#10 /home/zax/s4/Mr Rojo/Alimentation/system/CodeIgniter.php(340): CodeIgniter\CodeIgniter->handleRequest()
+#11 /home/zax/s4/Mr Rojo/Alimentation/system/Boot.php(417): CodeIgniter\CodeIgniter->run()
+#12 /home/zax/s4/Mr Rojo/Alimentation/system/Boot.php(68): CodeIgniter\Boot::runCodeIgniter()
+#13 /home/zax/s4/Mr Rojo/Alimentation/public/index.php(59): CodeIgniter\Boot::bootWeb()
+#14 {main}
+
+Next CodeIgniter\Database\Exceptions\DatabaseException: Connection refused in /home/zax/s4/Mr Rojo/Alimentation/system/Database/MySQLi/Connection.php:231
+Stack trace:
+#0 /home/zax/s4/Mr Rojo/Alimentation/system/Database/BaseConnection.php(555): CodeIgniter\Database\MySQLi\Connection->connect()
+#1 /home/zax/s4/Mr Rojo/Alimentation/system/Database/BaseConnection.php(795): CodeIgniter\Database\BaseConnection->initialize()
+#2 /home/zax/s4/Mr Rojo/Alimentation/system/Database/BaseBuilder.php(1649): CodeIgniter\Database\BaseConnection->query()
+#3 /home/zax/s4/Mr Rojo/Alimentation/system/Model.php(295): CodeIgniter\Database\BaseBuilder->get()
+#4 /home/zax/s4/Mr Rojo/Alimentation/system/BaseModel.php(714): CodeIgniter\Model->doFirst()
+#5 /home/zax/s4/Mr Rojo/Alimentation/app/Models/Admin.php(28): CodeIgniter\BaseModel->first()
+#6 /home/zax/s4/Mr Rojo/Alimentation/app/Controllers/Register.php(57): App\Models\Admin->verifyPassword()
+#7 /home/zax/s4/Mr Rojo/Alimentation/system/CodeIgniter.php(951): App\Controllers\Register->store()
+#8 /home/zax/s4/Mr Rojo/Alimentation/system/CodeIgniter.php(497): CodeIgniter\CodeIgniter->runController()
+#9 /home/zax/s4/Mr Rojo/Alimentation/system/CodeIgniter.php(340): CodeIgniter\CodeIgniter->handleRequest()
+#10 /home/zax/s4/Mr Rojo/Alimentation/system/Boot.php(417): CodeIgniter\CodeIgniter->run()
+#11 /home/zax/s4/Mr Rojo/Alimentation/system/Boot.php(68): CodeIgniter\Boot::runCodeIgniter()
+#12 /home/zax/s4/Mr Rojo/Alimentation/public/index.php(59): CodeIgniter\Boot::bootWeb()
+#13 {main}
+CRITICAL - 2026-05-10 15:17:38 --> CodeIgniter\Database\Exceptions\DatabaseException: Unable to connect to the database.
+Main connection [MySQLi]: Connection refused
+[Method: POST, Route: register/store]
+in SYSTEMPATH/Database/BaseConnection.php on line 606.
+ 1 SYSTEMPATH/Database/BaseConnection.php(795): CodeIgniter\Database\BaseConnection->initialize()
+ 2 SYSTEMPATH/Database/BaseBuilder.php(1649): CodeIgniter\Database\BaseConnection->query()
+ 3 SYSTEMPATH/Model.php(295): CodeIgniter\Database\BaseBuilder->get()
+ 4 SYSTEMPATH/BaseModel.php(714): CodeIgniter\Model->doFirst()
+ 5 APPPATH/Models/Admin.php(28): CodeIgniter\BaseModel->first()
+ 6 APPPATH/Controllers/Register.php(57): App\Models\Admin->verifyPassword()
+ 7 SYSTEMPATH/CodeIgniter.php(951): App\Controllers\Register->store()
+ 8 SYSTEMPATH/CodeIgniter.php(497): CodeIgniter\CodeIgniter->runController()
+ 9 SYSTEMPATH/CodeIgniter.php(340): CodeIgniter\CodeIgniter->handleRequest()
+10 SYSTEMPATH/Boot.php(417): CodeIgniter\CodeIgniter->run()
+11 SYSTEMPATH/Boot.php(68): CodeIgniter\Boot::runCodeIgniter()
+12 FCPATH/index.php(59): CodeIgniter\Boot::bootWeb()
+DEBUG - 2026-05-10 15:17:47 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-05-10 15:19:27 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-05-10 15:19:27 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-05-10 15:19:36 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-05-10 15:21:40 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-05-10 15:21:40 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-05-10 15:21:45 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-05-10 15:21:45 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+CRITICAL - 2026-05-10 15:43:42 --> TypeError: App\Controllers\RegimeCrud::delete(): Return value must be of type CodeIgniter\HTTP\RedirectResponse|string, CodeIgniter\HTTP\Response returned
+[Method: GET, Route: regimes/delete/5]
+in APPPATH/Controllers/RegimeCrud.php on line 142.
+ 1 SYSTEMPATH/CodeIgniter.php(951): App\Controllers\RegimeCrud->delete()
+ 2 SYSTEMPATH/CodeIgniter.php(497): CodeIgniter\CodeIgniter->runController()
+ 3 SYSTEMPATH/CodeIgniter.php(340): CodeIgniter\CodeIgniter->handleRequest()
+ 4 SYSTEMPATH/Boot.php(417): CodeIgniter\CodeIgniter->run()
+ 5 SYSTEMPATH/Boot.php(68): CodeIgniter\Boot::runCodeIgniter()
+ 6 FCPATH/index.php(59): CodeIgniter\Boot::bootWeb()
+CRITICAL - 2026-05-10 15:43:57 --> TypeError: App\Controllers\RegimeCrud::store(): Return value must be of type CodeIgniter\HTTP\RedirectResponse|string, CodeIgniter\HTTP\Response returned
+[Method: POST, Route: regimes/store]
+in APPPATH/Controllers/RegimeCrud.php on line 66.
+ 1 SYSTEMPATH/CodeIgniter.php(951): App\Controllers\RegimeCrud->store()
+ 2 SYSTEMPATH/CodeIgniter.php(497): CodeIgniter\CodeIgniter->runController()
+ 3 SYSTEMPATH/CodeIgniter.php(340): CodeIgniter\CodeIgniter->handleRequest()
+ 4 SYSTEMPATH/Boot.php(417): CodeIgniter\CodeIgniter->run()
+ 5 SYSTEMPATH/Boot.php(68): CodeIgniter\Boot::runCodeIgniter()
+ 6 FCPATH/index.php(59): CodeIgniter\Boot::bootWeb()
+CRITICAL - 2026-05-10 15:44:07 --> TypeError: App\Controllers\RegimeCrud::store(): Return value must be of type CodeIgniter\HTTP\RedirectResponse|string, CodeIgniter\HTTP\Response returned
+[Method: POST, Route: regimes/store]
+in APPPATH/Controllers/RegimeCrud.php on line 66.
+ 1 SYSTEMPATH/CodeIgniter.php(951): App\Controllers\RegimeCrud->store()
+ 2 SYSTEMPATH/CodeIgniter.php(497): CodeIgniter\CodeIgniter->runController()
+ 3 SYSTEMPATH/CodeIgniter.php(340): CodeIgniter\CodeIgniter->handleRequest()
+ 4 SYSTEMPATH/Boot.php(417): CodeIgniter\CodeIgniter->run()
+ 5 SYSTEMPATH/Boot.php(68): CodeIgniter\Boot::runCodeIgniter()
+ 6 FCPATH/index.php(59): CodeIgniter\Boot::bootWeb()
+DEBUG - 2026-05-10 15:44:34 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-05-10 15:44:34 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-05-10 15:44:45 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-05-10 15:44:45 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-05-10 15:44:55 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+CRITICAL - 2026-05-10 15:45:02 --> TypeError: App\Controllers\RegimeCrud::delete(): Return value must be of type CodeIgniter\HTTP\RedirectResponse|string, CodeIgniter\HTTP\Response returned
+[Method: GET, Route: regimes/delete/7]
+in APPPATH/Controllers/RegimeCrud.php on line 142.
+ 1 SYSTEMPATH/CodeIgniter.php(951): App\Controllers\RegimeCrud->delete()
+ 2 SYSTEMPATH/CodeIgniter.php(497): CodeIgniter\CodeIgniter->runController()
+ 3 SYSTEMPATH/CodeIgniter.php(340): CodeIgniter\CodeIgniter->handleRequest()
+ 4 SYSTEMPATH/Boot.php(417): CodeIgniter\CodeIgniter->run()
+ 5 SYSTEMPATH/Boot.php(68): CodeIgniter\Boot::runCodeIgniter()
+ 6 FCPATH/index.php(59): CodeIgniter\Boot::bootWeb()
+CRITICAL - 2026-05-10 15:45:06 --> TypeError: App\Controllers\RegimeCrud::delete(): Return value must be of type CodeIgniter\HTTP\RedirectResponse|string, CodeIgniter\HTTP\Response returned
+[Method: GET, Route: regimes/delete/7]
+in APPPATH/Controllers/RegimeCrud.php on line 142.
+ 1 SYSTEMPATH/CodeIgniter.php(951): App\Controllers\RegimeCrud->delete()
+ 2 SYSTEMPATH/CodeIgniter.php(497): CodeIgniter\CodeIgniter->runController()
+ 3 SYSTEMPATH/CodeIgniter.php(340): CodeIgniter\CodeIgniter->handleRequest()
+ 4 SYSTEMPATH/Boot.php(417): CodeIgniter\CodeIgniter->run()
+ 5 SYSTEMPATH/Boot.php(68): CodeIgniter\Boot::runCodeIgniter()
+ 6 FCPATH/index.php(59): CodeIgniter\Boot::bootWeb()
+CRITICAL - 2026-05-10 15:48:30 --> TypeError: App\Controllers\RegimeCrud::store(): Return value must be of type CodeIgniter\HTTP\RedirectResponse|string, CodeIgniter\HTTP\Response returned
+[Method: POST, Route: regimes/store]
+in APPPATH/Controllers/RegimeCrud.php on line 66.
+ 1 SYSTEMPATH/CodeIgniter.php(951): App\Controllers\RegimeCrud->store()
+ 2 SYSTEMPATH/CodeIgniter.php(497): CodeIgniter\CodeIgniter->runController()
+ 3 SYSTEMPATH/CodeIgniter.php(340): CodeIgniter\CodeIgniter->handleRequest()
+ 4 SYSTEMPATH/Boot.php(417): CodeIgniter\CodeIgniter->run()
+ 5 SYSTEMPATH/Boot.php(68): CodeIgniter\Boot::runCodeIgniter()
+ 6 FCPATH/index.php(59): CodeIgniter\Boot::bootWeb()
+CRITICAL - 2026-05-10 15:48:35 --> TypeError: App\Controllers\RegimeCrud::store(): Return value must be of type CodeIgniter\HTTP\RedirectResponse|string, CodeIgniter\HTTP\Response returned
+[Method: POST, Route: regimes/store]
+in APPPATH/Controllers/RegimeCrud.php on line 66.
+ 1 SYSTEMPATH/CodeIgniter.php(951): App\Controllers\RegimeCrud->store()
+ 2 SYSTEMPATH/CodeIgniter.php(497): CodeIgniter\CodeIgniter->runController()
+ 3 SYSTEMPATH/CodeIgniter.php(340): CodeIgniter\CodeIgniter->handleRequest()
+ 4 SYSTEMPATH/Boot.php(417): CodeIgniter\CodeIgniter->run()
+ 5 SYSTEMPATH/Boot.php(68): CodeIgniter\Boot::runCodeIgniter()
+ 6 FCPATH/index.php(59): CodeIgniter\Boot::bootWeb()
+CRITICAL - 2026-05-10 15:48:43 --> TypeError: App\Controllers\RegimeCrud::store(): Return value must be of type CodeIgniter\HTTP\RedirectResponse|string, CodeIgniter\HTTP\Response returned
+[Method: POST, Route: regimes/store]
+in APPPATH/Controllers/RegimeCrud.php on line 66.
+ 1 SYSTEMPATH/CodeIgniter.php(951): App\Controllers\RegimeCrud->store()
+ 2 SYSTEMPATH/CodeIgniter.php(497): CodeIgniter\CodeIgniter->runController()
+ 3 SYSTEMPATH/CodeIgniter.php(340): CodeIgniter\CodeIgniter->handleRequest()
+ 4 SYSTEMPATH/Boot.php(417): CodeIgniter\CodeIgniter->run()
+ 5 SYSTEMPATH/Boot.php(68): CodeIgniter\Boot::runCodeIgniter()
+ 6 FCPATH/index.php(59): CodeIgniter\Boot::bootWeb()
+CRITICAL - 2026-05-10 15:49:48 --> TypeError: App\Controllers\RegimeCrud::delete(): Return value must be of type CodeIgniter\HTTP\RedirectResponse|string, CodeIgniter\HTTP\Response returned
+[Method: GET, Route: regimes/delete/10]
+in APPPATH/Controllers/RegimeCrud.php on line 142.
+ 1 SYSTEMPATH/CodeIgniter.php(951): App\Controllers\RegimeCrud->delete()
+ 2 SYSTEMPATH/CodeIgniter.php(497): CodeIgniter\CodeIgniter->runController()
+ 3 SYSTEMPATH/CodeIgniter.php(340): CodeIgniter\CodeIgniter->handleRequest()
+ 4 SYSTEMPATH/Boot.php(417): CodeIgniter\CodeIgniter->run()
+ 5 SYSTEMPATH/Boot.php(68): CodeIgniter\Boot::runCodeIgniter()
+ 6 FCPATH/index.php(59): CodeIgniter\Boot::bootWeb()
+CRITICAL - 2026-05-10 15:49:51 --> TypeError: App\Controllers\RegimeCrud::delete(): Return value must be of type CodeIgniter\HTTP\RedirectResponse|string, CodeIgniter\HTTP\Response returned
+[Method: GET, Route: regimes/delete/9]
+in APPPATH/Controllers/RegimeCrud.php on line 142.
+ 1 SYSTEMPATH/CodeIgniter.php(951): App\Controllers\RegimeCrud->delete()
+ 2 SYSTEMPATH/CodeIgniter.php(497): CodeIgniter\CodeIgniter->runController()
+ 3 SYSTEMPATH/CodeIgniter.php(340): CodeIgniter\CodeIgniter->handleRequest()
+ 4 SYSTEMPATH/Boot.php(417): CodeIgniter\CodeIgniter->run()
+ 5 SYSTEMPATH/Boot.php(68): CodeIgniter\Boot::runCodeIgniter()
+ 6 FCPATH/index.php(59): CodeIgniter\Boot::bootWeb()
+CRITICAL - 2026-05-10 15:52:18 --> TypeError: App\Controllers\RegimeCrud::delete(): Return value must be of type CodeIgniter\HTTP\RedirectResponse|string, CodeIgniter\HTTP\Response returned
+[Method: GET, Route: regimes/delete/8]
+in APPPATH/Controllers/RegimeCrud.php on line 142.
+ 1 SYSTEMPATH/CodeIgniter.php(951): App\Controllers\RegimeCrud->delete()
+ 2 SYSTEMPATH/CodeIgniter.php(497): CodeIgniter\CodeIgniter->runController()
+ 3 SYSTEMPATH/CodeIgniter.php(340): CodeIgniter\CodeIgniter->handleRequest()
+ 4 SYSTEMPATH/Boot.php(417): CodeIgniter\CodeIgniter->run()
+ 5 SYSTEMPATH/Boot.php(68): CodeIgniter\Boot::runCodeIgniter()
+ 6 FCPATH/index.php(59): CodeIgniter\Boot::bootWeb()
+CRITICAL - 2026-05-10 15:52:29 --> TypeError: App\Controllers\RegimeCrud::store(): Return value must be of type CodeIgniter\HTTP\RedirectResponse|string, CodeIgniter\HTTP\Response returned
+[Method: POST, Route: regimes/store]
+in APPPATH/Controllers/RegimeCrud.php on line 66.
+ 1 SYSTEMPATH/CodeIgniter.php(951): App\Controllers\RegimeCrud->store()
+ 2 SYSTEMPATH/CodeIgniter.php(497): CodeIgniter\CodeIgniter->runController()
+ 3 SYSTEMPATH/CodeIgniter.php(340): CodeIgniter\CodeIgniter->handleRequest()
+ 4 SYSTEMPATH/Boot.php(417): CodeIgniter\CodeIgniter->run()
+ 5 SYSTEMPATH/Boot.php(68): CodeIgniter\Boot::runCodeIgniter()
+ 6 FCPATH/index.php(59): CodeIgniter\Boot::bootWeb()

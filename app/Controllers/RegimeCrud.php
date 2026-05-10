@@ -21,7 +21,23 @@ class RegimeCrud extends Controller
         return view('regimes/ajouter');
     }
 
-    public function store(): RedirectResponse
+    public function api()
+    {
+        $model = new Regime();
+        $search = $this->request->getGet('search');
+        
+        if ($search) {
+            $regimes = $model->like('nom', $search)
+                ->orLike('description', $search)
+                ->findAll();
+        } else {
+            $regimes = $model->findAll();
+        }
+        
+        return $this->response->setJSON($regimes);
+    }
+
+    public function store(): RedirectResponse|string
     {
         helper(['form']);
         $model = new Regime();
@@ -42,8 +58,24 @@ class RegimeCrud extends Controller
                 'pourcentage_poisson' => $this->request->getPost('pourcentage_poisson'),
                 'pourcentage_volaille' => $this->request->getPost('pourcentage_volaille'),
             ]);
+            // Check if AJAX request
+            if ($this->request->getHeaderLine('X-Requested-With') === 'XMLHttpRequest') {
+                return $this->response->setJSON([
+                    'success' => true,
+                    'message' => 'Régime enregistré avec succès.',
+                    'data' => $model->find($model->getInsertID())
+                ]);
+            }
             return redirect()->to('/regimes');
         } else {
+            if ($this->request->getHeaderLine('X-Requested-With') === 'XMLHttpRequest') {
+                $errors = $this->validator->getErrors();
+                return $this->response->setStatusCode(422)->setJSON([
+                    'success' => false,
+                    'message' => 'Erreur de validation.',
+                    'errors' => $errors
+                ]);
+            }
             session()->setFlashdata('validation', $this->validator);
             return redirect()->to('/regimes')->withInput();
         }
@@ -77,18 +109,41 @@ class RegimeCrud extends Controller
                 'pourcentage_poisson' => $this->request->getPost('pourcentage_poisson'),
                 'pourcentage_volaille' => $this->request->getPost('pourcentage_volaille'),
             ]);
+            // Check if AJAX request
+            if ($this->request->getHeaderLine('X-Requested-With') === 'XMLHttpRequest') {
+                return $this->response->setJSON([
+                    'success' => true,
+                    'message' => 'Régime mis à jour avec succès.',
+                    'data' => $model->find($id)
+                ]);
+            }
             return redirect()->to('/regimes');
         } else {
+            if ($this->request->getHeaderLine('X-Requested-With') === 'XMLHttpRequest') {
+                $errors = $this->validator->getErrors();
+                return $this->response->setStatusCode(422)->setJSON([
+                    'success' => false,
+                    'message' => 'Erreur de validation.',
+                    'errors' => $errors
+                ]);
+            }
             $data['regime'] = $model->find($id);
             $data['validation'] = $this->validator;
             return view('regimes/ajouter', $data);
         }
     }
 
-    public function delete($id)
+    public function delete($id): RedirectResponse|string
     {
         $model = new Regime();
         $model->delete($id);
+        if ($this->request->getHeaderLine('X-Requested-With') === 'XMLHttpRequest') {
+            return $this->response->setJSON([
+                'success' => true,
+                'message' => 'Régime supprimé avec succès.'
+            ]);
+        }
         return redirect()->to('/regimes');
     }
+
 }
