@@ -3,19 +3,16 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Mes Régimes – NutriLife</title>
+  <title>Régimes – NutriLife</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
-   <link rel="stylesheet" href="<?= base_url('css/regimes.css'); ?>">
-
+  <link rel="stylesheet" href="<?= base_url('css/regimes-page.css'); ?>">
 </head>
-
 <body>
 
-  <!-- SIDEBAR -->
   <div class="sidebar">
     <div>
       <div class="brand">
-        <div class="brand-logo-fallback"></div>
+        <img src="<?= base_url('logo/logo_sans_background.png'); ?>" alt="Logo" class="brand-logo">
         <div class="brand-text">
           <h2>NutriLife</h2>
           <small>Suivi alimentaire</small>
@@ -26,7 +23,6 @@
         <a class="nav-link" href="<?= base_url('/home'); ?>">Accueil</a>
         <a class="nav-link" href="<?= base_url('/register/objectif'); ?>">Objectifs</a>
         <a class="nav-link active" href="<?= base_url('/regimes'); ?>">Régimes</a>
-        <a class="nav-link" href="#">Activités</a>
         <a class="nav-link" href="<?= base_url('/portefeuille'); ?>">Portefeuille</a>
         <a class="nav-link" href="<?= base_url('/home#gold-offer'); ?>">Option Gold</a>
       </nav>
@@ -35,98 +31,48 @@
     <a class="logout" href="<?= base_url('/logout'); ?>">Se déconnecter</a>
   </div>
 
-  <!-- MAIN -->
   <div class="main">
-
     <div class="page-header">
       <div>
         <p class="eyebrow">Mon espace</p>
-        <h1>Mes Régimes</h1>
-        <p>Tous vos régimes achetés avec leurs informations complètes.</p>
+        <h1>Régimes</h1>
+        <p class="subtitle">Choisissez une action, puis affichez la liste des régimes si nécessaire.</p>
       </div>
     </div>
 
-    <?php if (empty($regimes)): ?>
+    <div class="hero-card">
+      <div class="action-grid">
+        <button type="button" class="action-card" id="toggleAddBtn">
+          <div class="action-icon">➕</div>
+          <div class="action-title">Ajouter un régime</div>
+          <div class="action-text">Créer un nouveau régime avec sa description, sa variation de poids et sa composition.</div>
+        </button>
 
-      <div class="empty-state">
-        <h2>Aucun régime acheté</h2>
-        <p>Vous n'avez pas encore acheté de régime. Retournez à l'accueil pour en choisir un.</p>
-        <a href="<?= base_url('/home'); ?>" class="btn-primary">Voir les régimes recommandés</a>
+        <button type="button" class="action-card" id="toggleListBtn">
+          <div class="action-icon">📋</div>
+          <div class="action-title">Afficher la liste regime</div>
+          <div class="action-text">La liste des régimes reste cachée jusqu’à votre clic.</div>
+        </button>
       </div>
 
-    <?php else: ?>
-
-      <?php foreach ($regimes as $regime): ?>
-        <div class="regime-card">
-
-          <!-- HEADER -->
-          <div class="regime-card-header">
-            <div>
-              <h2><?= esc($regime['regime_nom']); ?></h2>
-              <?php if (!empty($regime['regime_description'])): ?>
-                <p style="color:var(--text-muted); font-size:14px; margin-top:4px;">
-                  <?= esc($regime['regime_description']); ?>
-                </p>
-              <?php endif; ?>
-              <div class="regime-meta">
-                <span class="badge badge-green">
-                  <?= $regime['variation_poids'] > 0 ? '+' : ''; ?><?= esc($regime['variation_poids']); ?> kg
-                </span>
-                <span class="badge badge-cream">
-                  <?= esc($regime['duree_nom']); ?> (<?= esc($regime['nombre_jours']); ?> jours)
-                </span>
-              </div>
-            </div>
-            <div class="regime-price-paid">
-              <small>Prix payé</small>
-              <strong><?= number_format($regime['prix_paye'], 0, ',', ' '); ?> Ar</strong>
-            </div>
+      <!-- Formulaire d'ajout -->
+      <div class="list-panel" id="regimeAddPanel" style="display:none;">
+        <div class="list-panel-header">
+          <div>
+            <h2>Ajouter un régime</h2>
+            <p>Remplissez le formulaire pour ajouter un nouveau régime.</p>
           </div>
-
-          <!-- INFO GRID -->
-          <div class="info-grid">
-
-            <!-- NUTRITION -->
-            <div class="info-block">
-              <h3>Répartition nutritionnelle</h3>
-              <div class="nutrition-row">
-                <div class="nutrition-item">
-                  <p>Viande</p>
-                  <h4><?= esc($regime['pourcentage_viande']); ?>%</h4>
-                </div>
-                <div class="nutrition-item">
-                  <p>Poisson</p>
-                  <h4><?= esc($regime['pourcentage_poisson']); ?>%</h4>
-                </div>
-                <div class="nutrition-item">
-                  <p>Volaille</p>
-                  <h4><?= esc($regime['pourcentage_volaille']); ?>%</h4>
-                </div>
-              </div>
+        </div>
+        <form method="post" action="<?= base_url('regimes/store') ?>">
+          <?= csrf_field() ?>
+          <?php if(isset($validation)): ?>
+            <div class="flash-erreur" style="margin-bottom:16px;">
+              <?= $validation->listErrors() ?>
             </div>
-
-            <!-- ACTIVITES -->
-            <div class="info-block">
-              <h3>Activités recommandées</h3>
-              <?php if (!empty($regime['activites'])): ?>
-                <?php foreach ($regime['activites'] as $act): ?>
-                  <div class="activite-item">
-                    <div>
-                      <p class="activite-nom"><?= esc($act['nom']); ?></p>
-                      <?php if (!empty($act['description'])): ?>
-                        <p class="activite-desc"><?= esc($act['description']); ?></p>
-                      <?php endif; ?>
-                    </div>
-                    <?php if (!empty($act['calories_brulees_heure'])): ?>
-                      <span class="cal-badge"><?= esc($act['calories_brulees_heure']); ?> kcal/h</span>
-                    <?php endif; ?>
-                  </div>
-                <?php endforeach; ?>
-              <?php else: ?>
-                <p style="color:var(--text-muted); font-size:14px;">Aucune activité liée.</p>
-              <?php endif; ?>
-            </div>
-
+          <?php endif; ?>
+          <div class="form-group">
+            <label for="nom">Nom du régime</label>
+            <input type="text" class="form-control" name="nom" id="nom" value="<?= old('nom') ?>" required>
           </div>
 
           <!-- FOOTER -->
@@ -138,13 +84,77 @@
               ↓ Exporter en PDF
             </a>
           </div>
+          <div class="form-group">
+            <label for="pourcentage_viande">% Viande</label>
+            <input type="number" step="0.01" class="form-control" name="pourcentage_viande" id="pourcentage_viande" value="<?= old('pourcentage_viande') ?>">
+          </div>
+          <div class="form-group">
+            <label for="pourcentage_poisson">% Poisson</label>
+            <input type="number" step="0.01" class="form-control" name="pourcentage_poisson" id="pourcentage_poisson" value="<?= old('pourcentage_poisson') ?>">
+          </div>
+          <div class="form-group">
+            <label for="pourcentage_volaille">% Volaille</label>
+            <input type="number" step="0.01" class="form-control" name="pourcentage_volaille" id="pourcentage_volaille" value="<?= old('pourcentage_volaille') ?>">
+          </div>
+          <button type="submit" class="btn btn-primary">Enregistrer</button>
+        </form>
+      </div>
 
+      <div class="list-panel" id="regimeListPanel">
+        <div class="list-panel-header">
+          <div>
+            <h2>Liste des régimes</h2>
+            <p>Chaque régime est affiché avec les actions modifier et supprimer.</p>
+          </div>
         </div>
-      <?php endforeach; ?>
 
-    <?php endif; ?>
+        <?php if (empty($regimes)): ?>
+          <div class="empty-state">Aucun régime enregistré pour le moment.</div>
+        <?php else: ?>
+          <div class="regime-list">
+            <?php foreach ($regimes as $regime): ?>
+              <div class="regime-item">
+                <div class="regime-item-top">
+                  <div>
+                    <h3><?= esc($regime['nom']); ?></h3>
+                    <?php if (!empty($regime['description'])): ?>
+                      <p class="regime-desc"><?= esc($regime['description']); ?></p>
+                    <?php endif; ?>
+                    <div class="regime-meta">
+                      <span class="badge badge-green"><?= esc($regime['variation_poids']); ?> kg</span>
+                      <span class="badge badge-cream"><?= esc($regime['pourcentage_viande']); ?>% viande</span>
+                      <span class="badge badge-cream"><?= esc($regime['pourcentage_poisson']); ?>% poisson</span>
+                      <span class="badge badge-cream"><?= esc($regime['pourcentage_volaille']); ?>% volaille</span>
+                    </div>
+                  </div>
+                </div>
 
+                <div class="regime-actions">
+                  <a href="<?= base_url('regimes/edit/' . $regime['id']); ?>" class="btn-secondary">Modifier</a>
+                  <a href="<?= base_url('regimes/delete/' . $regime['id']); ?>" class="btn-danger" onclick="return confirm('Supprimer ce régime ?');">Supprimer</a>
+                </div>
+              </div>
+            <?php endforeach; ?>
+          </div>
+        <?php endif; ?>
+      </div>
+    </div>
   </div>
 
+  <script>
+    const toggleListBtn = document.getElementById('toggleListBtn');
+    const regimeListPanel = document.getElementById('regimeListPanel');
+    const toggleAddBtn = document.getElementById('toggleAddBtn');
+    const regimeAddPanel = document.getElementById('regimeAddPanel');
+
+    toggleListBtn.addEventListener('click', () => {
+      regimeListPanel.style.display = regimeListPanel.style.display === 'block' ? 'none' : 'block';
+      toggleListBtn.classList.toggle('active');
+    });
+    toggleAddBtn.addEventListener('click', () => {
+      regimeAddPanel.style.display = regimeAddPanel.style.display === 'block' ? 'none' : 'block';
+      toggleAddBtn.classList.toggle('active');
+    });
+  </script>
 </body>
 </html>
