@@ -7,13 +7,18 @@
     <link rel="stylesheet" href="<?= base_url('css/admin.css'); ?>">
     <link rel="stylesheet" href="<?= base_url('css/admin-regimes.css'); ?>">
     <style>
-        .modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); z-index: 1000; align-items: center; justify-content: center; }
-        .modal.active { display: flex; }
-        .modal-content { background: white; padding: 30px; border-radius: 8px; max-width: 600px; width: 90%; max-height: 80vh; overflow-y: auto; }
-        .modal-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; border-bottom: 1px solid #ddd; padding-bottom: 15px; }
-        .modal-header h2 { margin: 0; }
-        .modal-close { background: none; border: none; font-size: 24px; cursor: pointer; color: #666; }
-        .modal-close:hover { color: #000; }
+        .alert { padding: 12px 15px; border-radius: 4px; margin-bottom: 15px; font-weight: 500; }
+        .alert.success { background: #d4edda; color: #155724; border: 1px solid #c3e6cb; }
+        .alert.error { background: #f8d7da; color: #721c24; border: 1px solid #f5c6cb; }
+        .activity-row { display: grid; grid-template-columns: 1fr auto auto; gap: 8px; align-items: center; margin-bottom: 8px; }
+        .activity-row select { padding: 8px; border: 1px solid #ddd; border-radius: 4px; }
+        .btn-small { padding: 6px 12px; font-size: 0.875rem; border: none; border-radius: 4px; cursor: pointer; }
+        .btn-small.primary { background: #007bff; color: white; }
+        .btn-small.secondary { background: #6c757d; color: white; }
+        .btn-small.danger { background: #dc3545; color: white; }
+        .admin-button { padding: 10px 15px; border: none; border-radius: 4px; cursor: pointer; font-weight: 500; }
+        .admin-button.primary { background: #007bff; color: white; }
+        .admin-button.secondary { background: #6c757d; color: white; }
     </style>
 </head>
 <body>
@@ -34,7 +39,7 @@
                 </a>
                 <a href="<?= base_url('/admin/regimes'); ?>" class="active">
                     <strong>CRUD Régimes</strong>
-                    <span>Gestion de vos régimes</span>
+                    <span>Gérer les régimes de la plateforme</span>
                 </a>
                 <a href="<?= base_url('/admin/activites'); ?>">
                     <strong>CRUD Activités sportives</strong>
@@ -59,57 +64,73 @@
             <section class="admin-hero">
                 <div>
                     <h2>Gestion des Régimes</h2>
-                    <p>Pilotez les programmes nutritionnels de la plateforme NutriLife.</p>
+                    <p>Créez, modifiez et supprimez les régimes nutritionnels de NutriLife.</p>
                 </div>
             </section>
 
             <div class="admin-grid">
                 <article class="admin-card full">
-                    <h3>Ajouter un nouveau régime</h3>
-                    <form id="regimeForm" class="admin-form" method="post" action="<?= base_url('regimes/store'); ?>">
+                    <h3>Ajouter / Modifier un régime</h3>
+                    <div id="notifications"></div>
+                    <form id="regimeForm" class="admin-form" method="post" action="<?= base_url('/admin/regimes/store'); ?>">
+                        <input type="hidden" id="regimeId" name="regime_id">
+                        
                         <div class="form-row">
                             <div class="form-group">
-                                <label for="regimeName">Nom du régime</label>
-                                <input id="regimeName" name="nom" type="text" placeholder="ex: Keto Premium" required>
+                                <label for="name">Nom du régime *</label>
+                                <input id="name" name="name" type="text" placeholder="ex: Keto Premium" required>
                             </div>
                             <div class="form-group">
-                                <label for="regimePrice">Variation de poids</label>
-                                <input id="regimePrice" name="variation_poids" type="number" step="0.01" placeholder="0.00" required>
+                                <label for="objectif">Objectif *</label>
+                                <select id="objectif" name="objectif" required>
+                                    <option value="">-- Sélectionner un objectif --</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="price">Variation de poids (kg) *</label>
+                                <input id="price" name="price" type="number" step="0.01" placeholder="ex: 2.5" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="proteines">Viande (%)</label>
+                                <input id="proteines" name="proteines" type="number" value="30" step="0.01">
+                            </div>
+                            <div class="form-group">
+                                <label for="glucides">Poisson (%)</label>
+                                <input id="glucides" name="glucides" type="number" value="40" step="0.01">
+                            </div>
+                            <div class="form-group">
+                                <label for="lipides">Volaille (%)</label>
+                                <input id="lipides" name="lipides" type="number" value="30" step="0.01">
                             </div>
                         </div>
 
                         <div class="form-group">
-                            <label for="regimeDesc">Description détaillée</label>
-                            <textarea id="regimeDesc" name="description" rows="3" required></textarea>
+                            <label for="description">Description détaillée *</label>
+                            <textarea id="description" name="description" rows="3" placeholder="Décrivez le régime en détail..." required></textarea>
                         </div>
 
-                        <div class="form-row">
-                            <div class="form-group">
-                                <label for="regimeProt">Viande (%)</label>
-                                <input id="regimeProt" name="pourcentage_viande" type="number" value="30" step="0.01">
-                            </div>
-                            <div class="form-group">
-                                <label for="regimeGlucides">Poisson (%)</label>
-                                <input id="regimeGlucides" name="pourcentage_poisson" type="number" value="40" step="0.01">
-                            </div>
-                            <div class="form-group">
-                                <label for="regimeLipides">Volaille (%)</label>
-                                <input id="regimeLipides" name="pourcentage_volaille" type="number" value="30" step="0.01">
-                            </div>
+                        <div class="form-group">
+                            <label for="activityId">Activité sportive *</label>
+                            <select id="activityId" name="activity_id" required>
+                                <option value="">-- Sélectionner une activité --</option>
+                            </select>
                         </div>
 
                         <div class="form-actions">
-                            <button type="submit" class="admin-button primary">Enregistrer le programme</button>
-                            <button type="reset" class="admin-button secondary">Annuler</button>
+                            <button type="submit" class="admin-button primary">Enregistrer</button>
+                            <button type="reset" class="admin-button secondary">Réinitialiser</button>
                         </div>
                     </form>
                 </article>
 
                 <article class="admin-card full">
-                    <h3>Programmes actifs</h3>
+                    <h3>Régimes existants</h3>
                     <div class="search-toolbar">
                         <div class="search-command">
-                            <input id="regimeSearch" class="search-input" type="search" placeholder="Recherche par nom, description...">
+                            <input id="regimeSearch" class="search-input" type="search" placeholder="Rechercher par nom, description...">
                         </div>
                         <div>
                             <small class="text-muted">Filtre instantané</small>
@@ -120,13 +141,14 @@
                             <thead>
                                 <tr>
                                     <th>Nom & Description</th>
-                                    <th>Variation de poids</th>
+                                    <th>Objectif</th>
+                                    <th>Variation poids</th>
                                     <th>Macros</th>
                                     <th>Actions</th>
                                 </tr>
                             </thead>
                             <tbody id="regimesTableBody">
-                                <!-- Les régimes seront chargés ici -->
+                                <tr><td colspan="5" style="text-align:center; padding: 20px;">Chargement...</td></tr>
                             </tbody>
                         </table>
                     </div>
@@ -135,252 +157,240 @@
         </main>
     </div>
 
-
-    <!-- Champ caché pour savoir si on édite -->
-    <input type="hidden" id="editRegimeId" name="edit_id" form="regimeForm">
-
     <script>
-    (function(){
+    (function() {
         const form = document.getElementById('regimeForm');
         const tbody = document.getElementById('regimesTableBody');
         const searchInput = document.getElementById('regimeSearch');
-        const editIdInput = document.getElementById('editRegimeId');
-        const submitButton = form ? form.querySelector('button[type="submit"]') : null;
-        const resetButton = form ? form.querySelector('button[type="reset"]') : null;
-        const createLabel = 'Enregistrer le programme';
-        const updateLabel = 'Enregistrer les modifications';
+        const objectifSelect = document.getElementById('objectif');
+        const activitySelect = document.getElementById('activityId');
+        const regimeIdInput = document.getElementById('regimeId');
+        const notificationsDiv = document.getElementById('notifications');
 
+        let allObjectifs = [];
+        let allActivities = [];
+
+        // Charger les données initiales
+        loadObjectifs();
+        loadActivities();
         loadRegimes();
 
-        if (searchInput) {
-            searchInput.addEventListener('input', function() {
-                const query = this.value.trim();
-                loadRegimes(query);
-            });
-        }
+        // Événement formulaire
+        form.addEventListener('submit', async function(e) {
+            e.preventDefault();
+            const isEdit = regimeIdInput.value !== '';
+            await submitForm(isEdit ? 'update' : 'add');
+        });
 
-        if (form) {
-            form.addEventListener('submit', async function(e) {
-                e.preventDefault();
-                if (editIdInput.value) {
-                    await updateRegime(editIdInput.value);
-                } else {
-                    await addRegime();
-                }
-            });
-        }
-
-        if (resetButton) {
-            resetButton.addEventListener('click', function() {
-                setCreateMode();
-            });
-        }
-
-        async function loadRegimes(search = '') {
-            try {
-                let url = '<?= base_url('regimes/filter'); ?>';
-                if (search) {
-                    url += '?q=' + encodeURIComponent(search);
-                }
+        // Filtre recherche
+        searchInput.addEventListener('input', async function() {
+            const query = this.value.trim();
+            if (query) {
+                const url = `<?= base_url('/admin/regimes/api'); ?>?search=${encodeURIComponent(query)}`;
                 const response = await fetch(url);
-                const payload = await response.json();
-                const regimes = payload && Array.isArray(payload.data) ? payload.data : [];
+                const regimes = await response.json();
                 renderRegimes(regimes);
-            } catch (error) {
-                tbody.innerHTML = '<tr><td colspan="4" style="text-align: center; padding: 20px; color: red;">Erreur lors du chargement.</td></tr>';
+            } else {
+                await loadRegimes();
             }
+        });
+
+        // Réinitialiser
+        form.querySelector('button[type="reset"]').addEventListener('click', function() {
+            regimeIdInput.value = '';
+            if (activitySelect) activitySelect.value = '';
+            form.querySelector('button[type="submit"]').textContent = 'Enregistrer';
+        });
+
+        async function loadObjectifs() {
+            try {
+                const response = await fetch('<?= base_url('/admin/regimes/api'); ?>?type=objectifs');
+                allObjectifs = await response.json();
+                populateObjectifs();
+            } catch (e) {
+                console.error('Erreur chargement objectifs:', e);
+                allObjectifs = [
+                    { id: 1, nom: 'Augmenter son poids' },
+                    { id: 2, nom: 'Réduire son poids' },
+                    { id: 3, nom: 'Atteindre son IMC idéal' }
+                ];
+                populateObjectifs();
+            }
+        }
+
+        async function loadActivities() {
+            try {
+                const response = await fetch('<?= base_url('/admin/regimes/api'); ?>?type=activities');
+                allActivities = await response.json();
+            } catch (e) {
+                console.error('Erreur chargement activités:', e);
+                allActivities = [
+                    { id: 1, nom: 'Musculation' },
+                    { id: 2, nom: 'Cardio léger' },
+                    { id: 3, nom: 'Course à pied' },
+                    { id: 4, nom: 'Natation' },
+                    { id: 5, nom: 'Yoga' },
+                    { id: 6, nom: 'HIIT' }
+                ];
+            }
+            populateActivities();
+        }
+
+        async function loadRegimes() {
+            try {
+                const response = await fetch('<?= base_url('/admin/regimes/api'); ?>');
+                const regimes = await response.json();
+                renderRegimes(regimes);
+            } catch (e) {
+                tbody.innerHTML = '<tr><td colspan="5" style="text-align:center; color:red;">Erreur chargement régimes</td></tr>';
+            }
+        }
+
+        function populateObjectifs() {
+            objectifSelect.innerHTML = '<option value="">-- Sélectionner un objectif --</option>';
+            allObjectifs.forEach(obj => {
+                const opt = document.createElement('option');
+                opt.value = obj.id;
+                opt.textContent = obj.nom;
+                objectifSelect.appendChild(opt);
+            });
+        }
+
+        function populateActivities() {
+            activitySelect.innerHTML = '<option value="">-- Sélectionner une activité --</option>';
+            allActivities.forEach(act => {
+                const opt = document.createElement('option');
+                opt.value = act.id;
+                opt.textContent = act.nom;
+                activitySelect.appendChild(opt);
+            });
         }
 
         function renderRegimes(regimes) {
             if (!Array.isArray(regimes) || regimes.length === 0) {
-                tbody.innerHTML = '<tr><td colspan="4" style="text-align: center; padding: 20px;">Aucun régime trouvé.</td></tr>';
+                tbody.innerHTML = '<tr><td colspan="5" style="text-align:center; padding: 20px;">Aucun régime trouvé.</td></tr>';
                 return;
             }
-            tbody.innerHTML = '';
-            regimes.forEach(regime => {
-                tbody.appendChild(createRegimeRow(regime));
-            });
-        }
 
-        function createRegimeRow(regime) {
-            const tr = document.createElement('tr');
-            tr.dataset.regimeId = regime.id || '';
-            tr.dataset.search = ((regime.nom || '') + ' ' + (regime.description || '')).toLowerCase();
-            tr.innerHTML = `
-                <td>
-                    <strong>${escapeHtml(regime.nom || '')}</strong><br>
-                    <small class="text-muted">${escapeHtml(regime.description || 'Sans description')}</small>
-                </td>
-                <td><strong>${escapeHtml(regime.variation_poids || '0')} kg</strong></td>
-                <td><small>V:${escapeHtml(regime.pourcentage_viande || '0')}% P:${escapeHtml(regime.pourcentage_poisson || '0')}% Vol:${escapeHtml(regime.pourcentage_volaille || '0')}%</small></td>
-                <td class="action-buttons">
-                    <button type="button" class="btn-small primary edit-regime" data-id="${regime.id}">Modifier</button>
-                    <button type="button" class="btn-small danger delete-regime" data-id="${regime.id}">Supprimer</button>
-                </td>
-            `;
-            tr.querySelector('.edit-regime').addEventListener('click', function() {
-                fillFormForEditFromRow(tr);
-            });
-            tr.querySelector('.delete-regime').addEventListener('click', async function() {
-                const id = this.dataset.id;
-                if (confirm('Êtes-vous sûr de vouloir supprimer ce régime ?')) {
-                    await deleteRegime(id, tr);
-                }
-            });
-            return tr;
-        }
+            tbody.innerHTML = regimes.map(regime => `
+                <tr data-regime-id="${regime.id}" data-search="${((regime.nom || '') + ' ' + (regime.description || '') + ' ' + (regime.objectif_nom || '') + ' ' + (regime.activity_nom || '')).toLowerCase()}">
+                    <td>
+                        <strong>${escapeHtml(regime.nom || '')}</strong><br>
+                        <small class="text-muted">${escapeHtml(regime.description || 'Sans description')}</small>
+                    </td>
+                    <td><small>Objectif: ${escapeHtml(regime.objectif_nom || '—')}<br>Activité: ${escapeHtml(regime.activity_nom || '—')}</small></td>
+                    <td><strong>${escapeHtml(regime.variation_poids || '0')} kg</strong></td>
+                    <td><small>V:${escapeHtml(regime.pourcentage_viande || '0')}% P:${escapeHtml(regime.pourcentage_poisson || '0')}% Vol:${escapeHtml(regime.pourcentage_volaille || '0')}%</small></td>
+                    <td class="action-buttons">
+                        <button type="button" class="btn-small primary edit-regime" data-id="${regime.id}">Modifier</button>
+                        <button type="button" class="btn-small danger delete-regime" data-id="${regime.id}">Supprimer</button>
+                    </td>
+                </tr>
+            `).join('');
 
-        function fillFormForEditFromRow(tr) {
-            editIdInput.value = tr.dataset.regimeId;
-            const tds = tr.querySelectorAll('td');
-            document.getElementById('regimeName').value = tds[0].querySelector('strong').textContent.trim();
-            document.getElementById('regimeDesc').value = tds[0].querySelector('small').textContent.trim();
-            document.getElementById('regimePrice').value = tds[1].textContent.replace('kg','').trim();
-            const prot = tds[2].textContent.match(/V:([\d.]+)/);
-            const pois = tds[2].textContent.match(/P:([\d.]+)/);
-            const vola = tds[2].textContent.match(/Vol:([\d.]+)/);
-            document.getElementById('regimeProt').value = prot ? prot[1] : '';
-            document.getElementById('regimeGlucides').value = pois ? pois[1] : '';
-            document.getElementById('regimeLipides').value = vola ? vola[1] : '';
-            if (submitButton) {
-                submitButton.textContent = updateLabel;
-            }
-        }
-
-        // plus besoin de fillFormForEdit, remplacé par fillFormForEditFromRow
-
-        async function addRegime() {
-            if (submitButton) {
-                submitButton.disabled = true;
-                submitButton.textContent = 'Enregistrement...';
-            }
-            try {
-                const formData = new FormData(form);
-                const response = await fetch(form.action, {
-                    method: 'POST',
-                    headers: { 'X-Requested-With': 'XMLHttpRequest' },
-                    body: formData
-                });
-                const payload = await response.json();
-                if (!payload.success) throw new Error(payload.message || 'Erreur inconnue');
-                form.reset();
-                setCreateMode();
-                // Ajout instantané dans le DOM
-                if (payload.data) {
-                    removeEmptyStateRow();
-                    tbody.prepend(createRegimeRow(payload.data));
-                } else {
-                    await loadRegimes();
-                }
-                showNotice(payload.message || 'Régime ajouté avec succès.', 'success');
-            } catch (error) {
-                showNotice(error.message || 'Erreur lors de l\'enregistrement.', 'error');
-            } finally {
-                if (submitButton) {
-                    submitButton.disabled = false;
-                }
-            }
-        }
-
-        async function updateRegime(id) {
-            if (submitButton) {
-                submitButton.disabled = true;
-                submitButton.textContent = 'Enregistrement...';
-            }
-            try {
-                const formData = new FormData(form);
-                const response = await fetch(`<?= base_url('regimes/update/'); ?>${id}`, {
-                    method: 'POST',
-                    headers: { 'X-Requested-With': 'XMLHttpRequest' },
-                    body: formData
-                });
-                const payload = await response.json();
-                if (!payload.success) throw new Error(payload.message || 'Erreur inconnue');
-                form.reset();
-                setCreateMode();
-                // Mise à jour instantanée dans le DOM
-                if (payload.data) {
-                    const row = tbody.querySelector(`tr[data-regime-id="${id}"]`);
-                    if (row) {
-                        const newRow = createRegimeRow(payload.data);
-                        tbody.replaceChild(newRow, row);
-                    } else {
-                        await loadRegimes();
+            // Événements
+            document.querySelectorAll('.edit-regime').forEach(btn => {
+                btn.addEventListener('click', async function() {
+                    const id = this.dataset.id;
+                    const regime = regimes.find(r => r.id == id);
+                    if (regime) {
+                        fillFormFromRegime(regime);
                     }
-                } else {
-                    await loadRegimes();
+                });
+            });
+
+            document.querySelectorAll('.delete-regime').forEach(btn => {
+                btn.addEventListener('click', async function() {
+                    const id = this.dataset.id;
+                    if (confirm('Êtes-vous sûr de vouloir supprimer ce régime ?')) {
+                        await deleteRegime(id);
+                    }
+                });
+            });
+        }
+
+        function fillFormFromRegime(regime) {
+            regimeIdInput.value = regime.id;
+            document.getElementById('name').value = regime.nom || '';
+            document.getElementById('description').value = regime.description || '';
+            document.getElementById('price').value = regime.variation_poids || '';
+            document.getElementById('proteines').value = regime.pourcentage_viande || '30';
+            document.getElementById('glucides').value = regime.pourcentage_poisson || '40';
+            document.getElementById('lipides').value = regime.pourcentage_volaille || '30';
+            document.getElementById('objectif').value = regime.objectif_id || '';
+            if (activitySelect) {
+                activitySelect.value = regime.activity_id || '';
+            }
+
+            form.querySelector('button[type="submit"]').textContent = 'Modifier le régime';
+            form.scrollIntoView({ behavior: 'smooth' });
+        }
+
+        async function submitForm(action) {
+            const submitBtn = form.querySelector('button[type="submit"]');
+            const originalText = submitBtn.textContent;
+            submitBtn.disabled = true;
+            submitBtn.textContent = 'Enregistrement...';
+
+            try {
+                const url = action === 'update' 
+                    ? `<?= base_url('/admin/regimes/update'); ?>/${regimeIdInput.value}`
+                    : '<?= base_url('/admin/regimes/store'); ?>';
+
+                const response = await fetch(url, {
+                    method: 'POST',
+                    headers: { 'X-Requested-With': 'XMLHttpRequest' },
+                    body: new FormData(form)
+                });
+
+                const payload = await response.json();
+
+                if (!payload.success) {
+                    throw new Error(payload.message || 'Erreur inconnue');
                 }
-                showNotice(payload.message || 'Régime modifié avec succès.', 'success');
+
+                showNotification(payload.message || 'Opération réussie.', 'success');
+                form.reset();
+                regimeIdInput.value = '';
+                if (activitySelect) activitySelect.value = '';
+                submitBtn.textContent = 'Enregistrer';
+
+                await loadRegimes();
             } catch (error) {
-                showNotice(error.message || 'Erreur lors de la modification.', 'error');
+                showNotification(error.message || 'Erreur lors de l\'opération.', 'error');
             } finally {
-                if (submitButton) {
-                    submitButton.disabled = false;
-                }
+                submitBtn.disabled = false;
+                submitBtn.textContent = originalText;
             }
         }
 
-        async function deleteRegime(id, row) {
+        async function deleteRegime(id) {
             try {
-                const response = await fetch(`<?= base_url('regimes/delete/'); ?>${id}`, {
+                const response = await fetch(`<?= base_url('/admin/regimes/delete'); ?>/${id}`, {
                     method: 'GET',
                     headers: { 'X-Requested-With': 'XMLHttpRequest' }
                 });
+
                 const payload = await response.json();
-                if (payload.success) {
-                    if (row && row.parentNode) row.parentNode.removeChild(row);
-                    ensureEmptyStateRow();
-                    showNotice('Régime supprimé avec succès.', 'success');
-                } else {
+
+                if (!payload.success) {
                     throw new Error(payload.message || 'Erreur lors de la suppression');
                 }
+
+                showNotification('Régime supprimé avec succès.', 'success');
+                await loadRegimes();
             } catch (error) {
-                showNotice(error.message || 'Erreur lors de la suppression.', 'error');
+                showNotification(error.message || 'Erreur lors de la suppression.', 'error');
             }
         }
 
-        // plus besoin de filterRegimes, le filtre se fait côté serveur
-
-        function setCreateMode() {
-            editIdInput.value = '';
-            if (submitButton) {
-                submitButton.textContent = createLabel;
-            }
-        }
-
-        function removeEmptyStateRow() {
-            const onlyRow = tbody.querySelector('tr');
-            if (!onlyRow) {
-                return;
-            }
-            const hasId = onlyRow.getAttribute('data-regime-id');
-            if (!hasId && onlyRow.textContent.includes('Aucun régime trouvé')) {
-                tbody.innerHTML = '';
-            }
-        }
-
-        function ensureEmptyStateRow() {
-            if (tbody.querySelectorAll('tr').length === 0) {
-                tbody.innerHTML = '<tr><td colspan="4" style="text-align: center; padding: 20px;">Aucun régime trouvé.</td></tr>';
-            }
-        }
-
-        function showNotice(message, type) {
-            const notice = document.createElement('div');
-            notice.className = 'alert';
-            notice.style.marginBottom = '20px';
-            notice.style.padding = '10px 15px';
-            notice.style.borderRadius = '4px';
-            if (type === 'success') {
-                notice.style.backgroundColor = '#d4edda';
-                notice.style.color = '#155724';
-            } else {
-                notice.style.backgroundColor = '#f8d7da';
-                notice.style.color = '#721c24';
-            }
-            notice.textContent = message;
-            form.parentNode.insertBefore(notice, form);
-            setTimeout(() => notice.remove(), 3000);
+        function showNotification(message, type) {
+            const alert = document.createElement('div');
+            alert.className = `alert ${type}`;
+            alert.textContent = message;
+            notificationsDiv.innerHTML = '';
+            notificationsDiv.appendChild(alert);
+            setTimeout(() => alert.remove(), 4000);
         }
 
         function escapeHtml(s) {

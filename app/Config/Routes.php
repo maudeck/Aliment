@@ -49,18 +49,14 @@ $routes->post('home/recharger', 'Home::recharger');
 // ============================================
 $routes->get('/admin', 'Admin::index');
 $routes->get('/admin/regimes', 'AdminRegimes::index');
-$routes->post('/admin/regimes/store', 'AdminRegimes::store');
 $routes->get('/admin/activites', 'AdminActivites::index');
 $routes->post('/admin/activites/store', 'AdminActivites::store');
 $routes->get('/admin/codes', 'AdminCodes::index');
 $routes->post('/admin/codes/validate', 'AdminCodes::validateCode');
 $routes->get('/admin/settings', 'AdminSettings::index');
 $routes->post('/admin/settings/store', 'AdminSettings::store');
-
-// Regime CRUD (AJAX endpoints)
-$routes->post('/regimes/store', 'RegimeCrud::store');
-$routes->get('/regimes/edit/(:num)', 'RegimeCrud::edit/$1');
-$routes->post('/regimes/update/(:num)', 'RegimeCrud::update/$1');
-$routes->get('/regimes/delete/(:num)', 'RegimeCrud::delete/$1');
-$routes->get('/regimes/api', 'RegimeCrud::api');
-$routes->get('/regimes/filter', 'RegimeCrud::filter');
+// Régimes CRUD (AJAX endpoints)
+$routes->post('/admin/regimes/store', 'RegimeCrud::store');
+$routes->post('/admin/regimes/update/(:num)', 'RegimeCrud::update/$1');
+$routes->get('/admin/regimes/delete/(:num)', 'RegimeCrud::delete/$1');
+$routes->get('/admin/regimes/api', 'RegimeCrud::api');
