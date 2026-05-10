@@ -78,9 +78,8 @@
           <!-- FOOTER -->
           <div class="regime-card-footer">
             <span class="date-achat">
-              Acheté le <?= date('d/m/Y à H:i', strtotime($regime['date_achat'])); ?>
             </span>
-            <a href="<?= base_url('/regimes/export/' . $regime['achat_id']); ?>" class="btn-export" title="Exporter en PDF">
+            <a href="base_url('/regimes/export/' class="btn-export" title="Exporter en PDF">
               ↓ Exporter en PDF
             </a>
           </div>
