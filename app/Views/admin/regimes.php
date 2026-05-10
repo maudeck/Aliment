@@ -367,7 +367,7 @@
         async function deleteRegime(id) {
             try {
                 const response = await fetch(`<?= base_url('/admin/regimes/delete'); ?>/${id}`, {
-                    method: 'GET',
+                    method: 'POST',
                     headers: { 'X-Requested-With': 'XMLHttpRequest' }
                 });
 
