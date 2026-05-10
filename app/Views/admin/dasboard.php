@@ -88,41 +88,11 @@
         }
         .imc-stat {
             flex: 1;
-            background: var(--bg);
-            border-radius: 10px;
-            padding: 12px 14px;
-            text-align: center;
-        }
-        .imc-stat .val {
-            font-size: 1.4rem;
-            font-weight: 700;
-            color: var(--primary);
-        }
-        .imc-stat .lbl {
-            font-size: 0.72rem;
-            color: var(--muted);
-            margin-top: 2px;
-        }
-
-        /* Recent users table */
-        .dash-table {
-            width: 100%;
-            border-collapse: collapse;
-            font-size: 0.85rem;
-        }
-        .dash-table th {
-            text-align: left;
-            padding: 8px 12px;
-            font-size: 0.72rem;
-            font-weight: 600;
-            text-transform: uppercase;
-            letter-spacing: 0.06em;
-            color: var(--muted);
-            border-bottom: 1.5px solid var(--line);
-        }
-        .dash-table td {
             padding: 10px 12px;
-            border-bottom: 1px solid var(--line);
+            border: 1px solid var(--line);
+            border-radius: 12px;
+            background: var(--panel);
+            text-align: center;
             color: var(--text);
         }
         .dash-table tr:last-child td { border-bottom: none; }
@@ -161,42 +131,7 @@
 </head>
 <body>
 <div class="admin-shell">
-
-    <!-- Sidebar -->
-    <aside class="admin-sidebar">
-        <div class="admin-brand">
-            <div class="admin-brand-mark"></div>
-            <div>
-                <h1>NutriLife Admin</h1>
-                <small>Gestion du système</small>
-            </div>
-        </div>
-        <nav class="admin-nav">
-            <a href="<?= base_url('/admin'); ?>" class="active">
-                <strong>Tableau de bord</strong>
-                <span>Statistiques & graphes</span>
-            </a>
-            <a href="<?= base_url('/admin/regimes'); ?>">
-                <strong>CRUD Régimes</strong>
-                <span>Créer, lire, modifier, supprimer les régimes</span>
-            </a>
-            <a href="<?= base_url('/admin/activites'); ?>">
-                <strong>CRUD Activités sportives</strong>
-                <span>Gérer les activités liées aux régimes</span>
-            </a>
-            <a href="<?= base_url('/admin/codes'); ?>">
-                <strong>Validation des codes</strong>
-                <span>Contrôler les recharges du portefeuille</span>
-            </a>
-            <a href="<?= base_url('/admin/settings'); ?>">
-                <strong>CRUD Paramètres</strong>
-                <span>Gérer les données de référence et réglages</span>
-            </a>
-        </nav>
-        <div class="admin-footer">
-            <a class="admin-logout" href="<?= base_url('/logout'); ?>">Se déconnecter</a>
-        </div>
-    </aside>
+    <?= view('partials/admin_sidebar'); ?>
 
     <!-- Main content -->
     <main class="admin-content">

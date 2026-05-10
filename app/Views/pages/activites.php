@@ -11,29 +11,7 @@
 </head>
 
 <body>
-
-  <!-- SIDEBAR -->
-  <div class="sidebar">
-    <div>
-      <div class="brand">
-        <img src="<?= base_url('logo/logo_sans_background.png'); ?>" alt="Logo" class="brand-logo">
-        <div class="brand-text">
-          <h2>NutriLife</h2>
-          <small>Suivi alimentaire</small>
-        </div>
-      </div>
-
-      <nav class="nav">
-        <a class="nav-link" href="<?= base_url('/home'); ?>">Accueil</a>
-        <a class="nav-link" href="<?= base_url('/register/objectif'); ?>">Objectifs</a>
-        <a class="nav-link" href="<?= base_url('/regimes'); ?>">Régimes</a>
-        <a class="nav-link active" href="<?= base_url('/activites'); ?>">Activités</a>
-        <a class="nav-link" href="<?= base_url('/portefeuille'); ?>">Portefeuille</a>
-        <a class="nav-link" href="<?= base_url('/home#gold-offer'); ?>">Option Gold</a>
-      </nav>
-    </div>
-    <a class="logout" href="<?= base_url('/logout'); ?>">Se déconnecter</a>
-  </div>
+  <?= view('partials/sidebar_front', ['active' => 'activites', 'logo_path' => $logo_path ?? null]); ?>
 
   <!-- MAIN -->
   <div class="main">
@@ -55,9 +33,9 @@
           <div class="regime-group">
             <div class="regime-header">
               <span class="regime-badge">Régime</span>
-              <span class="regime-name"><?= esc($group['regime']['nom']) ?></span>
+              <span class="regime-name"><?= esc((string) ($group['regime']['nom'] ?? '')) ?></span>
               <?php if ($group['regime']['achete']): ?>
-                <span style="margin-left:auto;background:#e8f5e9;color:#2e7d32;border-radius:20px;padding:3px 10px;font-size:0.72rem;font-weight:700;">✓ Acheté</span>
+                <span class="regime-status">✓ Acheté</span>
               <?php endif; ?>
             </div>
 
@@ -65,16 +43,13 @@
               <?php foreach ($group['activites'] as $act): ?>
                 <?php
                   $cal = (int) $act['calories_brulees_heure'];
-                  $icons = ['🏋️','🏃','🚴','🏊','🧘','⚡','🚵','🤸'];
-                  $icon = $icons[$act['id'] % count($icons)];
                   $intensity = $cal < 300 ? 'low' : ($cal < 500 ? 'mid' : 'high');
                 ?>
                 <div class="act-card">
-                  <div class="act-icon"><?= $icon ?></div>
-                  <div class="act-name"><?= esc($act['nom']) ?></div>
-                  <div class="act-desc"><?= esc($act['description'] ?? '') ?></div>
+                  <div class="act-name"><?= esc((string) ($act['nom'] ?? '')) ?></div>
+                  <div class="act-desc"><?= esc((string) ($act['description'] ?? '')) ?></div>
                   <?php if ($cal): ?>
-                    <span class="act-cal">🔥 <?= $cal ?> kcal/h</span>
+                    <span class="act-cal"><?= $cal ?> kcal/h</span>
                   <?php endif; ?>
                 </div>
               <?php endforeach; ?>
@@ -84,7 +59,6 @@
 
       <?php else: ?>
         <div class="empty-state">
-          <div class="emoji">🎯</div>
           <p>Aucune activité liée à vos régimes pour le moment.</p>
           <p style="margin-top:8px"><a href="<?= base_url('/register/objectif') ?>">Choisissez un objectif</a> pour voir les activités recommandées.</p>
         </div>
@@ -112,8 +86,8 @@
               $intensityIcon = $cal < 300 ? '🟢' : ($cal < 500 ? '🟡' : '🔴');
             ?>
             <tr>
-              <td><strong><?= esc($act['nom']) ?></strong></td>
-              <td style="color:var(--text-muted);font-size:0.82rem"><?= esc($act['description'] ?? '—') ?></td>
+              <td><strong><?= esc((string) ($act['nom'] ?? '')) ?></strong></td>
+              <td style="color:var(--text-muted);font-size:0.82rem"><?= esc((string) ($act['description'] ?? '—')) ?></td>
               <td>
                 <?php if ($cal): ?>
                   <span class="cal-pill">🔥 <?= $cal ?> kcal/h</span>
@@ -130,7 +104,6 @@
         </table>
       <?php else: ?>
         <div class="empty-state">
-          <div class="emoji">🏃</div>
           <p>Aucune activité dans le catalogue.</p>
         </div>
       <?php endif; ?>

@@ -1,6 +1,6 @@
 <aside class="admin-sidebar">
     <div class="admin-brand">
-        <div class="admin-brand-mark"></div>
+        <img src="<?= base_url('logo/logo_sans_background.png'); ?>" alt="Logo" class="admin-brand-logo">
         <div>
             <h1>NutriLife Admin</h1>
             <small>Gestion du système</small>

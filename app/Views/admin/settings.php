@@ -16,42 +16,7 @@
         $goldSubscriptions = $goldSubscriptions ?? 0;
     ?>
     <div class="admin-shell">
-        <aside class="admin-sidebar">
-            <div class="admin-brand">
-                <div class="admin-brand-mark"></div>
-                <div>
-                    <h1>NutriLife Admin</h1>
-                    <small>Gestion du système</small>
-                </div>
-            </div>
-
-            <nav class="admin-nav">
-                <a href="<?= base_url('/admin'); ?>">
-                    <strong>Tableau de bord</strong>
-                    <span>Aperçu général des modules admin</span>
-                </a>
-                <a href="<?= base_url('/admin/regimes'); ?>">
-                    <strong>CRUD Régimes</strong>
-                    <span>Créer, lire, modifier, supprimer les régimes</span>
-                </a>
-                <a href="<?= base_url('/admin/activites'); ?>">
-                    <strong>CRUD Activités sportives</strong>
-                    <span>Gérer les activités liées aux régimes</span>
-                </a>
-                <a href="<?= base_url('/admin/codes'); ?>">
-                    <strong>Validation des codes</strong>
-                    <span>Contrôler les recharges du portefeuille</span>
-                </a>
-                <a href="<?= base_url('/admin/settings'); ?>" class="active">
-                    <strong>CRUD Paramètres</strong>
-                    <span>Gérer les données de référence et réglages</span>
-                </a>
-            </nav>
-
-            <div class="admin-footer">
-                <a class="admin-logout" href="<?= base_url('/logout'); ?>">Se déconnecter</a>
-            </div>
-        </aside>
+        <?= view('partials/admin_sidebar'); ?>
 
         <main class="admin-content">
             <section class="admin-hero">
@@ -196,15 +161,6 @@
                             </div>
                         <?php endforeach; ?>
                     </div>
-                </article>
-
-                <article class="admin-card">
-                    <h3>Abonnement Gold</h3>
-                    <div class="param-info">
-                        <p><strong>Membres Gold :</strong> <?= esc((string) $goldMembers); ?></p>
-                        <p><strong>Abonnements actifs :</strong> <?= esc((string) $goldSubscriptions); ?></p>
-                    </div>
-                    <p class="not-saved"><em>Ces informations proviennent de la base de données et ne sont pas simulées.</em></p>
                 </article>
 
                 <article class="admin-card full">

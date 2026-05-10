@@ -1,6 +1,6 @@
 <?php
 $active = $active ?? 'home';
-$logoPath = $logo_path ?? null;
+$logoPath = $logo_path ?? 'logo/logo_sans_background.png';
 
 $links = [
     'home' => ['/home', 'Accueil'],
@@ -14,11 +14,7 @@ $links = [
 <div class="sidebar">
   <div>
     <div class="brand">
-      <?php if (!empty($logoPath)): ?>
-        <img src="<?= base_url('logo/logo_sans_background.png'); ?>" alt="Logo" class="brand-logo">
-      <?php else: ?>
-        <div class="brand-logo-fallback"></div>
-      <?php endif; ?>
+      <img src="<?= base_url($logoPath); ?>" alt="Logo" class="brand-logo">
       <div class="brand-text">
         <h2>NutriLife</h2>
         <small>Suivi alimentaire</small>

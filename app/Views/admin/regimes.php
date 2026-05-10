@@ -23,73 +23,9 @@
 </head>
 <body>
     <div class="admin-shell">
-        <aside class="admin-sidebar">
-            <div class="admin-brand">
-                <div class="admin-brand-mark"></div>
-                <div>
-                    <h1>NutriLife Admin</h1>
-                    <small>Gestion du système</small>
-                </div>
-            </div>
-
-            <nav class="admin-nav">
-                <a href="<?= base_url('/admin'); ?>">
-                    <strong>Tableau de bord</strong>
-                    <span>Aperçu général des modules admin</span>
-                </a>
-                <a href="<?= base_url('/admin/regimes'); ?>" class="active">
-                    <strong>CRUD Régimes</strong>
-                    <span>Gérer les régimes de la plateforme</span>
-                </a>
-                <a href="<?= base_url('/admin/activites'); ?>">
-                    <strong>CRUD Activités sportives</strong>
-                    <span>Gérer les activités liées aux régimes</span>
-                </a>
-                <a href="<?= base_url('/admin/codes'); ?>">
-                    <strong>Validation des codes</strong>
-                    <span>Contrôler les recharges du portefeuille</span>
-                </a>
-                <a href="<?= base_url('/admin/settings'); ?>">
-                    <strong>CRUD Paramètres</strong>
-                    <span>Gérer les données de référence et réglages</span>
-                </a>
-            </nav>
-
-            <div class="admin-footer">
-                <a class="admin-logout" href="<?= base_url('/logout'); ?>">Se déconnecter</a>
-            </div>
-        </aside>
+        <?= view('partials/admin_sidebar'); ?>
 
         <main class="admin-content">
-            <section class="admin-hero">
-                <div>
-                    <h2>Gestion des Régimes</h2>
-                    <p>Créez, modifiez et supprimez les régimes nutritionnels de NutriLife.</p>
-                </div>
-            </section>
-
-            <div class="admin-grid">
-                <article class="admin-card full">
-                    <h3>Ajouter / Modifier un régime</h3>
-                    <div id="notifications"></div>
-                    <form id="regimeForm" class="admin-form" method="post" action="<?= base_url('/admin/regimes/store'); ?>">
-                        <input type="hidden" id="regimeId" name="regime_id">
-                        
-                        <div class="form-row">
-                            <div class="form-group">
-                                <label for="name">Nom du régime *</label>
-                                <input id="name" name="name" type="text" placeholder="ex: Keto Premium" required>
-                            </div>
-                            <div class="form-group">
-                                <label for="objectif">Objectif *</label>
-                                <select id="objectif" name="objectif" required>
-                                    <option value="">-- Sélectionner un objectif --</option>
-                                </select>
-                            </div>
-                        </div>
-
-                        <div class="form-row">
-                            <div class="form-group">
                                 <label for="price">Variation de poids (kg) *</label>
                                 <input id="price" name="price" type="number" step="0.01" placeholder="ex: 2.5" required>
                             </div>

@@ -8,29 +8,7 @@
   <link rel="stylesheet" href="<?= base_url('css/regimes-page.css'); ?>">
 </head>
 <body>
-
-  <div class="sidebar">
-    <div>
-      <div class="brand">
-        <img src="<?= base_url('logo/logo_sans_background.png'); ?>" alt="Logo" class="brand-logo">
-        <div class="brand-text">
-          <h2>NutriLife</h2>
-          <small>Suivi alimentaire</small>
-        </div>
-      </div>
-
-      <nav class="nav">
-        <a class="nav-link" href="<?= base_url('/home'); ?>">Accueil</a>
-        <a class="nav-link" href="<?= base_url('/register/objectif'); ?>">Objectifs</a>
-        <a class="nav-link active" href="<?= base_url('/regimes'); ?>">Regimes</a>
-            <a class="nav-link" href="<?= base_url('/activites'); ?>">Activités</a>
-        <a class="nav-link" href="<?= base_url('/portefeuille'); ?>">Portefeuille</a>
-        <a class="nav-link" href="<?= base_url('/home#gold-offer'); ?>">Option Gold</a>
-      </nav>
-    </div>
-
-    <a class="logout" href="<?= base_url('/logout'); ?>">Se deconnecter</a>
-  </div>
+  <?= view('partials/sidebar_front', ['active' => 'regimes', 'logo_path' => $logo_path ?? null]); ?>
 
   <div class="main">
     <div class="page-header">

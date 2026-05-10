@@ -10,74 +10,9 @@
 <body>
     <?php $activites = $activites ?? []; ?>
     <div class="admin-shell">
-        <aside class="admin-sidebar">
-            <div class="admin-brand">
-                <div class="admin-brand-mark"></div>
-                <div>
-                    <h1>NutriLife Admin</h1>
-                    <small>Gestion du système</small>
-                </div>
-            </div>
-
-            <nav class="admin-nav">
-                <a href="<?= base_url('/admin'); ?>">
-                    <strong>Tableau de bord</strong>
-                    <span>Aperçu général des modules admin</span>
-                </a>
-                <a href="<?= base_url('/admin/regimes'); ?>">
-                    <strong>CRUD Régimes</strong>
-                    <span>Créer, lire, modifier, supprimer les régimes</span>
-                </a>
-                <a href="<?= base_url('/admin/activites'); ?>" class="active">
-                    <strong>CRUD Activités sportives</strong>
-                    <span>Gérer les activités liées aux régimes</span>
-                </a>
-                <a href="<?= base_url('/admin/codes'); ?>">
-                    <strong>Validation des codes</strong>
-                    <span>Contrôler les recharges du portefeuille</span>
-                </a>
-                <a href="<?= base_url('/admin/settings'); ?>">
-                    <strong>CRUD Paramètres</strong>
-                    <span>Gérer les données de référence et réglages</span>
-                </a>
-            </nav>
-
-            <div class="admin-footer">
-                <a class="admin-logout" href="<?= base_url('/logout'); ?>">Se déconnecter</a>
-            </div>
-        </aside>
+        <?= view('partials/admin_sidebar'); ?>
 
         <main class="admin-content">
-            <section class="admin-hero">
-                <div>
-                    <h2>Gestion des Activités Sportives</h2>
-                    <p>Créer, modifier et supprimer les activités sportives associées aux régimes.</p>
-                </div>
-            </section>
-
-            <section class="admin-grid">
-                <article class="admin-card full">
-                    <h3>Ajouter / Modifier une activité</h3>
-
-                    <?php if (!empty($flash_success)): ?>
-                        <div class="flash-ok"><?= esc($flash_success); ?></div>
-                    <?php endif; ?>
-                    <?php if (!empty($flash_error)): ?>
-                        <div class="flash-err"><?= esc($flash_error); ?></div>
-                    <?php endif; ?>
-
-                    <form id="activityForm" class="admin-form" method="post" action="<?= base_url('/admin/activites/store'); ?>">
-                        <?= csrf_field() ?>
-                        <input type="hidden" id="activityId" name="activity_id">
-                        <div class="form-group">
-                            <label for="nom">Nom de l'activité *</label>
-                            <input type="text" id="nom" name="nom" required placeholder="Ex: Course à pied">
-                        </div>
-
-                        <div class="form-group">
-                            <label for="description">Description *</label>
-                            <textarea id="description" name="description" rows="4" required placeholder="Décrivez l'activité..."></textarea>
-                        </div>
 
                         <div class="form-group">
                             <label for="calories_brulees_heure">Calories brûlées / heure *</label>

@@ -12,41 +12,7 @@
 </head>
 <body>
 <div class="admin-shell">
-
-    <aside class="admin-sidebar">
-        <div class="admin-brand">
-            <div class="admin-brand-mark"></div>
-            <div>
-                <h1>NutriLife Admin</h1>
-                <small>Gestion du système</small>
-            </div>
-        </div>
-        <nav class="admin-nav">
-            <a href="<?= base_url('/admin'); ?>">
-                <strong>Tableau de bord</strong>
-                <span>Statistiques & graphes</span>
-            </a>
-            <a href="<?= base_url('/admin/regimes'); ?>">
-                <strong>CRUD Régimes</strong>
-                <span>Créer, lire, modifier, supprimer les régimes</span>
-            </a>
-            <a href="<?= base_url('/admin/activites'); ?>">
-                <strong>CRUD Activités sportives</strong>
-                <span>Gérer les activités liées aux régimes</span>
-            </a>
-            <a href="<?= base_url('/admin/codes'); ?>" class="active">
-                <strong>Validation des codes</strong>
-                <span>Contrôler les recharges du portefeuille</span>
-            </a>
-            <a href="<?= base_url('/admin/settings'); ?>">
-                <strong>CRUD Paramètres</strong>
-                <span>Gérer les données de référence et réglages</span>
-            </a>
-        </nav>
-        <div class="admin-footer">
-            <a class="admin-logout" href="<?= base_url('/logout'); ?>">Se déconnecter</a>
-        </div>
-    </aside>
+    <?= view('partials/admin_sidebar'); ?>
 
     <main class="admin-content">
 
@@ -66,103 +32,75 @@
             <div class="flash-err">✗ <?= esc($flash_erreur) ?></div>
         <?php endif; ?>
 
-        <!-- KPI -->
-        <div class="codes-kpi">
-            <div class="kpi-mini">
-                <div class="val"><?= $total ?></div>
-                <div class="lbl">Total codes</div>
-            </div>
-            <div class="kpi-mini green">
-                <div class="val"><?= $disponibles ?></div>
-                <div class="lbl">Disponibles</div>
-            </div>
-            <div class="kpi-mini orange">
-                <div class="val"><?= $utilises ?></div>
-                <div class="lbl">Utilisés</div>
-            </div>
-            <div class="kpi-mini">
-                <div class="val"><?= number_format($totalMontant, 0, ',', ' ') ?></div>
-                <div class="lbl">Ar total émis</div>
-            </div>
-        </div>
-
-        <!-- Tabs -->
-        <div class="tabs">
-            <button class="tab-btn active" onclick="switchTab('list', this)">📋 Liste des codes</button>
-            <button class="tab-btn" onclick="switchTab('create', this)">➕ Créer un code</button>
-            <button class="tab-btn" onclick="switchTab('batch', this)">⚡ Génération en lot</button>
-        </div>
-
-        <!-- Tab : Liste -->
-        <div id="tab-list" class="tab-panel active">
-            <div class="filter-bar">
-                <input type="text" id="searchCode" placeholder="🔍 Rechercher un code..." oninput="filterTable()">
-                <select id="filterStatus" onchange="filterTable()">
+        <div class="filter-bar">
+            <input id="searchCode" type="text" placeholder="Rechercher un code">
+            <select id="filterStatus" onchange="filterTable()">
                     <option value="">Tous les statuts</option>
                     <option value="dispo">Disponibles</option>
                     <option value="use">Utilisés</option>
                 </select>
-            </div>
-            <div class="table-wrapper">
-                <table class="codes-table" id="codesTable">
-                    <thead>
-                        <tr>
-                            <th>#</th>
-                            <th>Code</th>
-                            <th>Montant</th>
-                            <th>Statut</th>
-                            <th>Utilisé par</th>
-                            <th>Utilisé le</th>
-                            <th>Créé le</th>
-                            <th>Action</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                    <?php if (empty($codes)): ?>
-                        <tr class="empty-row"><td colspan="8">Aucun code pour le moment.</td></tr>
-                    <?php else: ?>
-                        <?php foreach ($codes as $c): ?>
-                        <tr data-status="<?= $c['est_utilise'] ? 'use' : 'dispo' ?>">
-                            <td><?= $c['id'] ?></td>
-                            <td><span class="code-mono"><?= esc($c['code']) ?></span></td>
-                            <td><strong><?= number_format($c['montant'], 0, ',', ' ') ?> Ar</strong></td>
-                            <td>
-                                <?php if ($c['est_utilise']): ?>
-                                    <span class="badge-use">✗ Utilisé</span>
-                                <?php else: ?>
-                                    <span class="badge-dispo">✓ Disponible</span>
-                                <?php endif; ?>
-                            </td>
-                            <td>
-                                <?php if ($c['utilisateur_nom']): ?>
-                                    <div style="font-weight:600"><?= esc($c['utilisateur_nom']) ?></div>
-                                    <div style="font-size:0.75rem;color:var(--muted)"><?= esc($c['utilisateur_email']) ?></div>
-                                <?php else: ?>
-                                    <span style="color:var(--muted)">—</span>
-                                <?php endif; ?>
-                            </td>
-                            <td style="font-size:0.8rem;color:var(--muted)">
-                                <?= $c['utilise_le'] ? date('d/m/Y H:i', strtotime($c['utilise_le'])) : '—' ?>
-                            </td>
-                            <td style="font-size:0.8rem;color:var(--muted)">
-                                <?= date('d/m/Y', strtotime($c['created_at'])) ?>
-                            </td>
-                            <td>
-                                <?php if (!$c['est_utilise']): ?>
-                                <form method="POST" action="<?= base_url('/admin/codes/delete/' . $c['id']) ?>" onsubmit="return confirm('Supprimer ce code ?')">
-                                    <?= csrf_field() ?>
-                                    <button type="submit" class="btn-danger">Supprimer</button>
-                                </form>
-                                <?php else: ?>
-                                    <span style="color:var(--muted);font-size:0.78rem">—</span>
-                                <?php endif; ?>
-                            </td>
-                        </tr>
-                        <?php endforeach; ?>
-                    <?php endif; ?>
-                    </tbody>
-                </table>
-            </div>
+        </div>
+
+        <div class="table-wrapper">
+            <table class="codes-table" id="codesTable">
+                <thead>
+                    <tr>
+                        <th>#</th>
+                        <th>Code</th>
+                        <th>Montant</th>
+                        <th>Statut</th>
+                        <th>Utilisé par</th>
+                        <th>Utilisé le</th>
+                        <th>Créé le</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                <?php if (empty($codes)): ?>
+                    <tr class="empty-row"><td colspan="8">Aucun code pour le moment.</td></tr>
+                <?php else: ?>
+                    <?php foreach ($codes as $c): ?>
+                    <tr data-status="<?= $c['est_utilise'] ? 'use' : 'dispo' ?>">
+                        <td><?= $c['id'] ?></td>
+                        <td><span class="code-mono"><?= esc($c['code']) ?></span></td>
+                        <td><strong><?= number_format($c['montant'], 0, ',', ' ') ?> Ar</strong></td>
+                        <td>
+                            <?php if ($c['est_utilise']): ?>
+                                <span class="badge-use">✗ Utilisé</span>
+                            <?php else: ?>
+                                <span class="badge-dispo">✓ Disponible</span>
+                            <?php endif; ?>
+                        </td>
+                        <td>
+                            <?php if ($c['utilisateur_nom']): ?>
+                                <div style="font-weight:600"><?= esc($c['utilisateur_nom']) ?></div>
+                                <div style="font-size:0.75rem;color:var(--muted)"><?= esc($c['utilisateur_email']) ?></div>
+                            <?php else: ?>
+                                <span style="color:var(--muted)">—</span>
+                            <?php endif; ?>
+                        </td>
+                        <td style="font-size:0.8rem;color:var(--muted)">
+                            <?= $c['utilise_le'] ? date('d/m/Y H:i', strtotime($c['utilise_le'])) : '—' ?>
+                        </td>
+                        <td style="font-size:0.8rem;color:var(--muted)">
+                            <?= date('d/m/Y', strtotime($c['created_at'])) ?>
+                        </td>
+                        <td>
+                            <?php if (!$c['est_utilise']): ?>
+                            <form method="POST" action="<?= base_url('/admin/codes/delete/' . $c['id']) ?>" onsubmit="return confirm('Supprimer ce code ?')">
+                                <?= csrf_field() ?>
+                                <button type="submit" class="btn-danger">Supprimer</button>
+                            </form>
+                            <?php else: ?>
+                                <span style="color:var(--muted);font-size:0.78rem">—</span>
+                            <?php endif; ?>
+                        </td>
+                    </tr>
+                    <?php endforeach; ?>
+                <?php endif; ?>
+                </tbody>
+            </table>
+        </div>
         </div>
 
         <!-- Tab : Créer un code -->
