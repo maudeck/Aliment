@@ -1,3 +1,6 @@
 writable/debugbar/*
 writable/logs/*
 writable/session/*
+writable/logs/
+writable/session/
+writable/debugbar/
