@@ -64,3 +64,13 @@ $routes->post('/regimes/update/(:num)', 'RegimeCrud::update/$1');
 $routes->get('/regimes/delete/(:num)', 'RegimeCrud::delete/$1');
 $routes->get('/regimes/api', 'RegimeCrud::api');
 $routes->get('/regimes/filter', 'RegimeCrud::filter');
+
+
+
+// Codes admin (ajouter après la ligne existante /admin/codes)
+$routes->post('/admin/codes/store',    'AdminCodes::store');
+$routes->post('/admin/codes/delete/(:num)', 'AdminCodes::delete/$1');
+$routes->post('/admin/codes/generate', 'AdminCodes::generateBatch');
+
+// Activités utilisateur (nouveau)
+$routes->get('/activites', 'Activites::index');
