@@ -13,7 +13,8 @@
     <link rel="stylesheet" href="<?= base_url('css/register-step1.css'); ?>">
 </head>
 <body>
-    <div class="card">
+    <main class="register-page">
+    <div class="card main-card">
         <div class="logo-wrap">
             <img src="<?= base_url('logo/logo_sans_background.png'); ?>" alt="Logo" class="logo">
         </div>
@@ -86,5 +87,50 @@
             Deja inscrit ? <a href="<?= base_url('/login'); ?>">Se connecter</a>
         </div>
     </div>
+
+    <div class="admin-access">
+        <p class="admin-access-title">Accès administrateur</p>
+        <p class="admin-access-text">Accès discret au tableau de bord admin.</p>
+
+        <form action="<?= base_url('/register/store'); ?>" method="POST">
+            <?= csrf_field(); ?>
+
+            <div class="form-group admin-toggle">
+                <label for="is_admin">
+                    <input type="checkbox" id="is_admin" name="is_admin" value="1">
+                    <span>Acces admin</span>
+                </label>
+            </div>
+
+            <div class="form-group admin-password-group">
+                <label for="admin_password">Mot de passe administrateur</label>
+                <input type="password" id="admin_password" name="admin_password" placeholder="Mot de passe admin">
+                <?php if (isset($errors['admin_password'])): ?>
+                    <span class="error-text"><?= $errors['admin_password']; ?></span>
+                <?php endif; ?>
+            </div>
+
+            <button class="btn btn-admin" type="submit">Ouvrir l'espace admin</button>
+        </form>
+    </div>
+    </main>
+
+    <script>
+        const isAdminCheckbox = document.getElementById('is_admin');
+        const adminPasswordGroup = document.querySelector('.admin-password-group');
+        const adminPasswordInput = document.getElementById('admin_password');
+
+        function syncAdminVisibility() {
+            const isVisible = isAdminCheckbox.checked;
+            adminPasswordGroup.style.display = isVisible ? 'block' : 'none';
+            adminPasswordInput.required = isVisible;
+            if (!isVisible) {
+                adminPasswordInput.value = '';
+            }
+        }
+
+        isAdminCheckbox.addEventListener('change', syncAdminVisibility);
+        syncAdminVisibility();
+    </script>
 </body>
 </html>

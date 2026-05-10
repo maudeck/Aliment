@@ -74,13 +74,15 @@
             <label for="nom">Nom du régime</label>
             <input type="text" class="form-control" name="nom" id="nom" value="<?= old('nom') ?>" required>
           </div>
-          <div class="form-group">
-            <label for="description">Description</label>
-            <textarea class="form-control" name="description" id="description" required><?= old('description') ?></textarea>
-          </div>
-          <div class="form-group">
-            <label for="variation_poids">Variation de poids (kg)</label>
-            <input type="number" step="0.01" class="form-control" name="variation_poids" id="variation_poids" value="<?= old('variation_poids') ?>" required>
+
+          <!-- FOOTER -->
+          <div class="regime-card-footer">
+            <span class="date-achat">
+              Acheté le <?= date('d/m/Y à H:i', strtotime($regime['date_achat'])); ?>
+            </span>
+            <a href="<?= base_url('/regimes/export/' . $regime['achat_id']); ?>" class="btn-export" title="Exporter en PDF">
+              ↓ Exporter en PDF
+            </a>
           </div>
           <div class="form-group">
             <label for="pourcentage_viande">% Viande</label>

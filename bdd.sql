@@ -361,14 +361,14 @@ INSERT INTO codes_recharge (code, montant) VALUES
 ('NUTRI-2024-BBBB', 100000),
 ('NUTRI-2024-CCCC', 150000);
 
+create table if not exists admins (
+    id int auto_increment primary key,
+    username varchar(50) not null unique,
+    password varchar(255) not null,
+    created_at timestamp default current_timestamp
+);
 
-
-
-INSERT INTO `codes_recharge` (`code`, `montant`, `est_utilise`) VALUES
-('NUTRI-2024-AAAA', 50000,  0),
-('NUTRI-2024-BBBB', 100000, 0),
-('NUTRI-2024-CCCC', 150000, 0),
-('NUTRI-2024-DDDD', 20000,  0),
-('NUTRI-2024-EEEE', 75000,  0);
-
+-- username = 'admin', password = 'admin123'
+INSERT INTO admins (username, password) VALUES
+('admin', '$2y$10$rgl1TggXU5MXbZ0NsX2cYuZRl2sdarYRPbyYeU.MtEsWigbXGtGGO');
 

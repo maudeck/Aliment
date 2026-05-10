@@ -7,6 +7,7 @@ use App\Models\EtatUser;
 use App\Models\Objectif;
 use App\Models\UserObjectif;
 use App\Models\Portefeuille;
+use App\Models\Admin;
 use CodeIgniter\HTTP\RedirectResponse;
 
 class Register extends BaseController
@@ -16,6 +17,7 @@ class Register extends BaseController
     protected $objectifModel;
     protected $userObjectifModel;
     protected $portefeuilleModel;
+    protected $adminModel;
 
     public function __construct()
     {
@@ -24,6 +26,7 @@ class Register extends BaseController
         $this->objectifModel = new Objectif();
         $this->userObjectifModel = new UserObjectif();
         $this->portefeuilleModel = new Portefeuille();
+        $this->adminModel = new Admin();
     }
 
     public function index()
@@ -38,6 +41,29 @@ class Register extends BaseController
 
     public function store(): RedirectResponse
     {
+   
+        $isAdmin = $this->request->getPost('is_admin') === '1';
+        $adminPassword = $this->request->getPost('admin_password');
+
+        if ($isAdmin) {
+            if (empty($adminPassword)) {
+                return redirect()->back()
+                    ->withInput()
+                    ->with('errors', ['admin_password' => 'Le mot de passe administrateur est requis.']);
+            }
+
+       
+            if (!$this->adminModel->verifyPassword($adminPassword)) {
+                return redirect()->back()
+                    ->withInput()
+                    ->with('errors', ['admin_password' => 'Mot de passe administrateur incorrect.']);
+            }
+
+    
+            session()->set('is_admin', true);
+            return redirect()->to(base_url('/admin'));
+        }
+
         $rules = [
             'nom' => 'required|string|min_length[3]|max_length[100]',
             'email' => 'required|valid_email|is_unique[users.email]',

@@ -25,14 +25,83 @@ body {
     padding: 24px;
 }
 
+.register-page {
+    width: 100%;
+    max-width: 520px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 12px;
+}
+
 .card {
     background: var(--card);
     border-radius: 20px;
     padding: 36px 34px 32px;
-    max-width: 520px;
     width: 100%;
     box-shadow: 0 20px 40px rgba(108, 88, 76, 0.15);
     border: 1px solid rgba(169, 132, 103, 0.2);
+}
+
+.main-card {
+    margin-bottom: 4px;
+}
+
+.admin-access {
+    width: 100%;
+    padding: 16px 18px;
+    border-radius: 16px;
+    border: 1px dashed rgba(169, 132, 103, 0.35);
+    background: rgba(240, 234, 210, 0.45);
+    box-shadow: 0 8px 24px rgba(108, 88, 76, 0.08);
+    opacity: 0.88;
+}
+
+.admin-access-title {
+    font-size: 14px;
+    font-weight: 700;
+    color: var(--espresso);
+    text-align: center;
+    margin-bottom: 4px;
+}
+
+.admin-access-text {
+    font-size: 12px;
+    color: var(--clay);
+    text-align: center;
+    margin-bottom: 12px;
+}
+
+.admin-toggle label {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    cursor: pointer;
+    font-size: 13px;
+    color: var(--espresso);
+}
+
+.admin-toggle input[type="checkbox"] {
+    width: 16px;
+    height: 16px;
+    accent-color: var(--clay);
+}
+
+.admin-password-group {
+    display: none;
+}
+
+.btn-admin {
+    background: linear-gradient(135deg, #d7b89b 0%, #c89f7c 100%);
+    color: #fff;
+    font-size: 14px;
+    padding: 11px 12px;
+    box-shadow: none;
+}
+
+.btn-admin:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 8px 16px rgba(108, 88, 76, 0.12);
 }
 
 .logo-wrap {
@@ -73,7 +142,8 @@ label {
 }
 
 input,
-select {
+select,
+textarea {
     width: 100%;
     padding: 12px;
     border: 2px solid rgba(169, 132, 103, 0.25);
@@ -84,8 +154,11 @@ select {
     color: var(--espresso);
 }
 
+textarea { min-height: 110px; padding-top: 10px; padding-bottom: 10px; }
+
 input:focus,
-select:focus {
+select:focus,
+textarea:focus {
     outline: none;
     border-color: var(--olive);
     background-color: #ffffff;

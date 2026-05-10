@@ -19,21 +19,107 @@ body {
   background: var(--cream);
   color: var(--text);
   font-family: 'DM Sans', sans-serif;
-  min-height: 100vh;
   display: flex;
-  justify-content: center;
+  min-height: 100vh;
+}
+
+/* ── SIDEBAR ── */
+.sidebar {
+  width: 260px;
+  min-height: 100vh;
+  background: var(--white);
+  border-right: 1px solid var(--border);
+  padding: 32px 20px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  position: fixed;
+  top: 0; left: 0;
+}
+
+.brand {
+  display: flex;
   align-items: center;
-  padding: 40px 24px;
+  gap: 12px;
+  margin-bottom: 48px;
+}
+
+.brand-logo {
+  width: 48px;
+  height: 48px;
+  object-fit: contain;
+}
+
+.brand-logo-fallback {
+  width: 48px;
+  height: 48px;
+  background: var(--green-mid);
+  border-radius: 14px;
+}
+
+.brand-text h2 {
+  font-family: 'Playfair Display', serif;
+  font-size: 20px;
+  color: var(--text);
+}
+
+.brand-text small {
+  color: var(--text-muted);
+  font-size: 12px;
+}
+
+.nav {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.nav-link {
+  text-decoration: none;
+  color: var(--text);
+  padding: 13px 18px;
+  border-radius: 14px;
+  font-size: 15px;
+  transition: background 0.2s, color 0.2s;
+}
+
+.nav-link:hover { background: #f1eee8; }
+
+.nav-link.active {
+  background: var(--green-light);
+  color: var(--green-dark);
+  font-weight: 700;
+}
+
+.logout {
+  display: block;
+  text-decoration: none;
+  color: var(--text-muted);
+  font-size: 14px;
+  padding: 12px 18px;
+  border-radius: 14px;
+  transition: background 0.2s;
+}
+
+.logout:hover { background: #f1eee8; }
+
+/* ── MAIN ── */
+.main {
+  margin-left: 260px;
+  width: calc(100% - 260px);
+  padding: 40px 48px;
 }
 
 /* ── CONTAINER ── */
 .container {
-  width: min(92vw, 560px);
+  width: 100%;
+  max-width: 560px;
   background: var(--white);
   border: 1px solid var(--border);
   border-radius: 28px;
   padding: 48px 44px;
   box-shadow: 0 12px 40px rgba(63, 45, 32, 0.07);
+  margin: 0 auto;
 }
 
 /* ── HEADER ── */
@@ -106,11 +192,6 @@ form {
   box-shadow: 0 10px 28px rgba(45, 76, 30, 0.12);
 }
 
-.goal-icon {
-  font-size: 28px;
-  margin-bottom: 4px;
-}
-
 .goal-title {
   font-size: 17px;
   font-weight: 700;
@@ -150,6 +231,42 @@ form {
 
 /* ── RESPONSIVE ── */
 @media (max-width: 480px) {
+  .sidebar {
+    width: 100%;
+    min-height: auto;
+    border-right: none;
+    border-bottom: 1px solid var(--border);
+    padding: 20px;
+    position: relative;
+    top: auto;
+    left: auto;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .brand {
+    margin-bottom: 0;
+  }
+
+  .brand-text h2 {
+    font-size: 16px;
+  }
+
+  .nav {
+    display: none;
+  }
+
+  .logout {
+    display: none;
+  }
+
+  .main {
+    margin-left: 0;
+    width: 100%;
+    padding: 24px 16px;
+  }
+
   .container {
     padding: 36px 24px;
   }
