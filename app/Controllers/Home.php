@@ -59,8 +59,7 @@ class Home extends BaseController
                 $objectifNom = $objectif['nom'];
             }
         }
-
-        $regimes   = [];
+        $regimes = [];
         $activites = [];
 
         if ($userObjectif) {
