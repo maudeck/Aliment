@@ -123,7 +123,7 @@
               <?php if ($r['achete']): ?>
                 <button class="btn-validated" disabled>✓ Achat validé</button>
               <?php else: ?>
-                <form method="POST" action="<?= base_url('/home/acheter'); ?>">
+                <form method="POST" action="<?= base_url('/home/acheter'); ?>" class="ajax-home-form ajax-buy-form" data-regime-id="<?= $r['id']; ?>">
                   <?= csrf_field(); ?>
                   <input type="hidden" name="regime_id" value="<?= $r['id']; ?>">
                   <input type="hidden" name="duree_id"  value="3">
@@ -150,7 +150,7 @@
         <?php if (!empty($isGold)): ?>
           <button class="btn-validated" disabled>Gold actif</button>
         <?php else: ?>
-          <form method="POST" action="<?= base_url('/home/gold'); ?>">
+          <form method="POST" action="<?= base_url('/home/gold'); ?>" class="ajax-home-form ajax-gold-form">
             <?= csrf_field(); ?>
             <button type="submit">Devenir Gold</button>
           </form>
@@ -202,7 +202,7 @@
           </div>
         <?php endif; ?>
 
-        <form method="POST" action="<?= base_url('/home/recharger'); ?>">
+        <form method="POST" action="<?= base_url('/home/recharger'); ?>" class="ajax-home-form ajax-wallet-form">
           <?= csrf_field(); ?>
           <input type="text" name="code" placeholder="Entrer un code" autocomplete="off" required>
           <button type="submit">Ajouter de l'argent</button>
@@ -227,10 +227,10 @@
             <?php if (!empty($regime['prix'])): ?>
               <p class="price"><?= number_format($regime['prix'], 0, ',', ' '); ?> Ar</p>
             <?php endif; ?>
-            <?php if ($regime['achete']): ?>
-              <button class="btn-validated" disabled>✓ Achat validé</button>
-            <?php else: ?>
-              <form method="POST" action="<?= base_url('/home/acheter'); ?>">
+              <?php if ($regime['achete']): ?>
+                <button class="btn-validated" disabled>✓ Achat validé</button>
+              <?php else: ?>
+                <form method="POST" action="<?= base_url('/home/acheter'); ?>" class="ajax-home-form ajax-buy-form" data-regime-id="<?= $regime['id']; ?>">
                 <?= csrf_field(); ?>
                 <input type="hidden" name="regime_id" value="<?= $regime['id']; ?>">
                 <input type="hidden" name="duree_id"  value="3">
@@ -244,6 +244,98 @@
     <?php endif; ?>
 
   </div><!-- /main -->
+
+  <script>
+    (function () {
+      const forms = document.querySelectorAll('.ajax-home-form');
+
+      function escapeHtml(value) {
+        return String(value)
+          .replace(/&/g, '&amp;')
+          .replace(/</g, '&lt;')
+          .replace(/>/g, '&gt;')
+          .replace(/"/g, '&quot;');
+      }
+
+      function showNotice(target, message, type) {
+        const box = document.createElement('div');
+        box.className = type === 'success' ? 'flash-succes' : 'flash-erreur';
+        box.style.marginTop = '10px';
+        box.textContent = message;
+        target.parentNode.insertBefore(box, target);
+        setTimeout(() => box.remove(), 3000);
+      }
+
+      function setSubmitting(form, submitting) {
+        const btn = form.querySelector('button[type="submit"]');
+        if (!btn) return;
+        if (submitting) {
+          btn.dataset.originalText = btn.textContent;
+          btn.disabled = true;
+          btn.textContent = 'Chargement...';
+        } else {
+          btn.disabled = false;
+          if (btn.dataset.originalText) {
+            btn.textContent = btn.dataset.originalText;
+          }
+        }
+      }
+
+      forms.forEach((form) => {
+        form.addEventListener('submit', async function (e) {
+          e.preventDefault();
+          setSubmitting(form, true);
+
+          try {
+            const response = await fetch(form.action, {
+              method: 'POST',
+              headers: {
+                'X-Requested-With': 'XMLHttpRequest'
+              },
+              body: new FormData(form)
+            });
+
+            const payload = await response.json();
+
+            if (!payload.success) {
+              throw new Error(payload.message || 'Une erreur est survenue.');
+            }
+
+            if (form.classList.contains('ajax-wallet-form')) {
+              const walletCard = form.closest('.wallet');
+              if (walletCard) {
+                const balance = walletCard.querySelector('.wallet-balance h1');
+                if (balance && payload.data && typeof payload.data.solde !== 'undefined') {
+                  balance.textContent = `${Number(payload.data.solde).toLocaleString('fr-FR')} Ar`;
+                }
+              }
+              form.reset();
+            }
+
+            if (form.classList.contains('ajax-gold-form')) {
+              showNotice(form, payload.message || 'Opération réussie.', 'success');
+              form.outerHTML = '<button class="btn-validated" disabled>Gold actif</button>';
+              return;
+            }
+
+            if (form.classList.contains('ajax-buy-form')) {
+              showNotice(form, payload.message || 'Opération réussie.', 'success');
+              form.outerHTML = '<button class="btn-validated" disabled>✓ Achat validé</button>';
+              return;
+            }
+
+            showNotice(form, payload.message || 'Opération réussie.', 'success');
+          } catch (error) {
+            showNotice(form, escapeHtml(error.message || 'Erreur réseau.'), 'error');
+          } finally {
+            if (document.body.contains(form)) {
+              setSubmitting(form, false);
+            }
+          }
+        });
+      });
+    })();
+  </script>
 
 </body>
 </html>

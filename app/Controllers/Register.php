@@ -9,6 +9,7 @@ use App\Models\UserObjectif;
 use App\Models\Portefeuille;
 use App\Models\Admin;
 use CodeIgniter\HTTP\RedirectResponse;
+use CodeIgniter\HTTP\ResponseInterface;
 
 class Register extends BaseController
 {
@@ -189,9 +190,16 @@ class Register extends BaseController
 
     }
 
-    public function storeObjectif(): RedirectResponse
+    public function storeObjectif(): RedirectResponse|ResponseInterface
     {
         if (!session()->has('user_id')) {
+            if ($this->request->isAJAX()) {
+                return $this->response->setJSON([
+                    'success' => false,
+                    'message' => 'Session expirée.'
+                ]);
+            }
+
             return redirect()->to(base_url('/register'));
         }
 
@@ -200,6 +208,14 @@ class Register extends BaseController
         ];
 
         if (!$this->validate($rules)) {
+            if ($this->request->isAJAX()) {
+                return $this->response->setJSON([
+                    'success' => false,
+                    'message' => 'Objectif invalide.',
+                    'errors' => $this->validator->getErrors(),
+                ]);
+            }
+
             return redirect()->back()
                 ->withInput()
                 ->with('errors', $this->validator->getErrors());
@@ -219,6 +235,13 @@ class Register extends BaseController
             $this->userObjectifModel->insert([
                 'user_id' => $userId,
                 'objectif_id' => $objectifId,
+            ]);
+        }
+
+        if ($this->request->isAJAX()) {
+            return $this->response->setJSON([
+                'success' => true,
+                'message' => 'Objectif enregistré.',
             ]);
         }
 

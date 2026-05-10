@@ -59,7 +59,7 @@
             </div>
         <?php endif; ?>
 
-        <form action="<?= base_url('/register/objectif/store'); ?>" method="POST" id="objectifForm">
+        <form action="<?= base_url('/register/objectif/store'); ?>" method="POST" id="objectifForm" class="ajax-objectif-form">
             <?= csrf_field(); ?>
 
             <?php if (!empty($objectifs)): ?>
@@ -111,6 +111,57 @@
                 }
             });
         });
+
+        (function () {
+            const form = document.getElementById('objectifForm');
+            if (!form) return;
+
+            function showNotice(target, message, type) {
+                const box = document.createElement('div');
+                box.className = type === 'success' ? 'flash-succes' : 'flash-erreur';
+                box.style.marginTop = '10px';
+                box.textContent = message;
+                target.parentNode.insertBefore(box, target);
+                setTimeout(() => box.remove(), 3000);
+            }
+
+            form.addEventListener('submit', async function (e) {
+                e.preventDefault();
+                const button = form.querySelector('button[type="submit"]');
+                const original = button ? button.textContent : '';
+
+                if (button) {
+                    button.disabled = true;
+                    button.textContent = 'Chargement...';
+                }
+
+                try {
+                    const response = await fetch(form.action, {
+                        method: 'POST',
+                        headers: { 'X-Requested-With': 'XMLHttpRequest' },
+                        body: new FormData(form)
+                    });
+
+                    const payload = await response.json();
+
+                    if (!payload.success) {
+                        throw new Error(payload.message || 'Objectif invalide.');
+                    }
+
+                    showNotice(form, payload.message || 'Objectif enregistré.', 'success');
+                    setTimeout(() => {
+                        window.location.href = '<?= base_url('/home'); ?>';
+                    }, 700);
+                } catch (error) {
+                    showNotice(form, error.message || 'Erreur réseau.', 'error');
+                } finally {
+                    if (button) {
+                        button.disabled = false;
+                        button.textContent = original;
+                    }
+                }
+            });
+        })();
     </script>
 </body>
 </html>

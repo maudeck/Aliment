@@ -70,7 +70,7 @@
         <h2>Recharger mon portefeuille</h2>
         <p>Entrez un code de recharge pour créditer votre solde instantanément.</p>
 
-        <form method="POST" action="<?= base_url('/portefeuille/recharger'); ?>" class="code-form">
+        <form method="POST" action="<?= base_url('/portefeuille/recharger'); ?>" class="code-form ajax-wallet-form">
           <?= csrf_field(); ?>
           <input
             type="text"
@@ -157,6 +157,62 @@
     </div><!-- /wallet-page -->
 
   </div><!-- /main -->
+
+  <script>
+    (function () {
+      const form = document.querySelector('.ajax-wallet-form');
+      if (!form) return;
+
+      function showNotice(target, message, type) {
+        const box = document.createElement('div');
+        box.className = type === 'success' ? 'flash-succes' : 'flash-erreur';
+        box.style.marginTop = '10px';
+        box.textContent = message;
+        target.parentNode.insertBefore(box, target);
+        setTimeout(() => box.remove(), 3000);
+      }
+
+      form.addEventListener('submit', async function (e) {
+        e.preventDefault();
+        const button = form.querySelector('button[type="submit"]');
+        const original = button ? button.textContent : '';
+
+        if (button) {
+          button.disabled = true;
+          button.textContent = 'Chargement...';
+        }
+
+        try {
+          const response = await fetch(form.action, {
+            method: 'POST',
+            headers: { 'X-Requested-With': 'XMLHttpRequest' },
+            body: new FormData(form)
+          });
+
+          const payload = await response.json();
+
+          if (!payload.success) {
+            throw new Error(payload.message || 'Code invalide.');
+          }
+
+          const balance = document.querySelector('.solde-info h1');
+          if (balance && payload.data && typeof payload.data.solde !== 'undefined') {
+            balance.textContent = `${Number(payload.data.solde).toLocaleString('fr-FR')} Ar`;
+          }
+
+          form.reset();
+          showNotice(form, payload.message || 'Recharge réussie.', 'success');
+        } catch (error) {
+          showNotice(form, error.message || 'Erreur réseau.', 'error');
+        } finally {
+          if (button) {
+            button.disabled = false;
+            button.textContent = original;
+          }
+        }
+      });
+    })();
+  </script>
 
 </body>
 </html>

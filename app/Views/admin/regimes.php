@@ -57,7 +57,7 @@
             <div class="admin-grid">
                 <article class="admin-card full">
                     <h3>Ajouter un nouveau régime</h3>
-                    <form id="regimeForm" class="admin-form">
+                    <form id="regimeForm" class="admin-form" method="post" action="<?= base_url('/admin/regimes/store'); ?>">
                         <div class="form-row">
                             <div class="form-group">
                                 <label for="regimeName">Nom du régime</label>
@@ -136,7 +136,7 @@
                     <div class="table-wrapper">
                         <table class="admin-table" id="regimesTable">
                             <thead>
-                                <tr>
+                                <tr data-search="régime keto perte de poids course à pied yoga 30 jours -5kg 299 ar">
                                     <th>Nom & Description</th>
                                     <th>Objectif</th>
                                     <th>Activités</th>
@@ -146,7 +146,7 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr>
+                                <tr data-search="prise de masse express prise de muscle musculation natation 45 jours +4kg 450 ar">
                                     <td>
                                         <strong>Régime Keto</strong><br>
                                         <small class="text-muted">30 jours • -5kg attendus</small>
@@ -181,25 +181,25 @@
                         (function(){
                             const input = document.getElementById('regimeSearch');
                             const table = document.getElementById('regimesTable');
-                            if (!input || !table) return;
-                            input.addEventListener('input', function(){
-                                const q = this.value.trim().toLowerCase();
-                                const rows = Array.from(table.tBodies[0].rows);
-                                if (!q) {
-                                    rows.forEach(r => r.style.display = '');
-                                    return;
-                                }
-                                rows.forEach(r => {
-                                    const text = r.textContent.replace(/\s+/g,' ').toLowerCase();
-                                    r.style.display = text.indexOf(q) !== -1 ? '' : 'none';
-                                });
-                            });
-
                             const form = document.getElementById('regimeForm');
-                            const tbody = table.tBodies[0];
-                            if (!form || !tbody) return;
-
+                            const tbody = table ? table.tBodies[0] : null;
                             const activitiesRows = document.getElementById('activitiesRows');
+
+                            if (input && table) {
+                                input.addEventListener('input', function(){
+                                    const q = this.value.trim().toLowerCase();
+                                    const rows = Array.from(table.tBodies[0].rows);
+                                    if (!q) {
+                                        rows.forEach(r => r.style.display = '');
+                                        return;
+                                    }
+                                    rows.forEach(r => {
+                                        const haystack = (r.dataset.search || r.textContent).toLowerCase();
+                                        r.style.display = haystack.indexOf(q) !== -1 ? '' : 'none';
+                                    });
+                                });
+                            }
+
                             if (activitiesRows) {
                                 activitiesRows.addEventListener('click', function(e){
                                     const addBtn = e.target.closest('.add-activity-row');
@@ -240,54 +240,77 @@
                                 });
                             }
 
-                            form.addEventListener('submit', function(e){
+                            if (!form || !tbody) return;
+
+                            form.addEventListener('submit', async function(e){
                                 e.preventDefault();
-                                const name = document.getElementById('regimeName').value.trim();
-                                const objectif = document.getElementById('regimeObjectif').value;
-                                const price = document.getElementById('regimePrice').value.trim();
-                                const desc = document.getElementById('regimeDesc').value.trim();
-                                const activities = Array.from(document.querySelectorAll('.regime-activity-select'))
-                                    .map(function(select){ return select.value.trim(); })
-                                    .filter(function(value){ return value !== ''; });
-                                const prot = document.getElementById('regimeProt').value || '0';
-                                const gluc = document.getElementById('regimeGlucides').value || '0';
-                                const lip = document.getElementById('regimeLipides').value || '0';
-
-                                if (!name) {
-                                    alert('Le nom du régime est requis.');
-                                    return;
+                                const submitButton = form.querySelector('button[type="submit"]');
+                                const originalLabel = submitButton ? submitButton.textContent : '';
+                                if (submitButton) {
+                                    submitButton.disabled = true;
+                                    submitButton.textContent = 'Enregistrement...';
                                 }
 
-                                const tr = document.createElement('tr');
-                                tr.innerHTML = `
-                                    <td>
-                                        <strong>${escapeHtml(name)}</strong><br>
-                                        <small class="text-muted">${escapeHtml(desc || 'Sans description')}</small>
-                                    </td>
-                                    <td><span class="badge-obj ${escapeHtml(objectif)}">${escapeHtml(capitalize(objectif))}</span></td>
-                                    <td><small>${escapeHtml(activities.length ? activities.join(', ') : 'Aucune activité')}</small></td>
-                                    <td><small>P:${escapeHtml(prot)} G:${escapeHtml(gluc)} L:${escapeHtml(lip)}</small></td>
-                                    <td><strong>${escapeHtml(price ? price + ' AR' : '0 AR')}</strong></td>
-                                    <td class="action-buttons">
-                                        <a href="#" class="btn-small primary">Modifier</a>
-                                        <a href="#" class="btn-small danger">Supprimer</a>
-                                    </td>
-                                `;
-                                tbody.appendChild(tr);
-                                form.reset();
-
-                                if (activitiesRows) {
-                                    const rows = Array.from(activitiesRows.querySelectorAll('.activity-row'));
-                                    rows.forEach(function(row, idx){
-                                        if (idx > 0) row.remove();
+                                try {
+                                    const response = await fetch(form.action, {
+                                        method: 'POST',
+                                        headers: {
+                                            'X-Requested-With': 'XMLHttpRequest'
+                                        },
+                                        body: new FormData(form)
                                     });
-                                }
 
-                                const notice = document.createElement('div');
-                                notice.className = 'alert';
-                                notice.textContent = 'Régime ajouté (simulation UI).';
-                                form.parentNode.insertBefore(notice, form);
-                                setTimeout(() => notice.remove(), 3000);
+                                    const payload = await response.json();
+
+                                    if (!payload.success) {
+                                        throw new Error(payload.message || 'Erreur inconnue');
+                                    }
+
+                                    const data = payload.data || {};
+                                    const tr = document.createElement('tr');
+                                    tr.dataset.search = [data.name, data.objectif, data.description, data.price, data.proteines, data.glucides, data.lipides, (data.activities || []).join(' ')].join(' ').toLowerCase();
+                                    tr.innerHTML = `
+                                        <td>
+                                            <strong>${escapeHtml(data.name || '')}</strong><br>
+                                            <small class="text-muted">${escapeHtml(data.description || 'Sans description')}</small>
+                                        </td>
+                                        <td><span class="badge-obj ${escapeHtml(data.objectif || '')}">${escapeHtml(capitalize(data.objectif || ''))}</span></td>
+                                        <td><small>${escapeHtml((data.activities && data.activities.length ? data.activities.join(', ') : 'Aucune activité'))}</small></td>
+                                        <td><small>P:${escapeHtml(data.proteines || '0')} G:${escapeHtml(data.glucides || '0')} L:${escapeHtml(data.lipides || '0')}</small></td>
+                                        <td><strong>${escapeHtml(data.price ? data.price + ' AR' : '0 AR')}</strong></td>
+                                        <td class="action-buttons">
+                                            <a href="#" class="btn-small primary">Modifier</a>
+                                            <a href="#" class="btn-small danger">Supprimer</a>
+                                        </td>
+                                    `;
+
+                                    tbody.appendChild(tr);
+                                    form.reset();
+
+                                    if (activitiesRows) {
+                                        const rows = Array.from(activitiesRows.querySelectorAll('.activity-row'));
+                                        rows.forEach(function(row, idx){
+                                            if (idx > 0) row.remove();
+                                        });
+                                    }
+
+                                    const notice = document.createElement('div');
+                                    notice.className = 'alert';
+                                    notice.textContent = payload.message || 'Régime ajouté avec succès.';
+                                    form.parentNode.insertBefore(notice, form);
+                                    setTimeout(() => notice.remove(), 3000);
+                                } catch (error) {
+                                    const notice = document.createElement('div');
+                                    notice.className = 'alert';
+                                    notice.textContent = error.message || 'Erreur lors de l’enregistrement.';
+                                    form.parentNode.insertBefore(notice, form);
+                                    setTimeout(() => notice.remove(), 3000);
+                                } finally {
+                                    if (submitButton) {
+                                        submitButton.disabled = false;
+                                        submitButton.textContent = originalLabel;
+                                    }
+                                }
                             });
 
                             function escapeHtml(s){

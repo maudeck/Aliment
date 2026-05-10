@@ -6,6 +6,7 @@ use App\Models\Portefeuille;
 use App\Models\User;
 use App\Models\UserRegime;
 use CodeIgniter\HTTP\RedirectResponse;
+use CodeIgniter\HTTP\ResponseInterface;
 
 class PortefeuilleController extends BaseController
 {
@@ -45,17 +46,31 @@ class PortefeuilleController extends BaseController
 
     // ── Recharge via code (POST depuis portefeuille.php) ──────────
 
-    public function recharger(): RedirectResponse
+    public function recharger(): RedirectResponse|ResponseInterface
     {
         $userId = session()->get('user_id');
 
         if (!$userId) {
+            if ($this->request->isAJAX()) {
+                return $this->response->setJSON([
+                    'success' => false,
+                    'message' => 'Session expirée.'
+                ]);
+            }
+
             return redirect()->to(base_url('/login'));
         }
 
         $code = trim($this->request->getPost('code') ?? '');
 
         if (empty($code)) {
+            if ($this->request->isAJAX()) {
+                return $this->response->setJSON([
+                    'success' => false,
+                    'message' => 'Veuillez entrer un code.'
+                ]);
+            }
+
             session()->setFlashdata('erreur', 'Veuillez entrer un code.');
             return redirect()->to(base_url('/portefeuille'));
         }
@@ -64,8 +79,27 @@ class PortefeuilleController extends BaseController
 
         if ($resultat['success']) {
             $montantFormate = number_format($resultat['montant'], 0, ',', ' ');
+
+            if ($this->request->isAJAX()) {
+                return $this->response->setJSON([
+                    'success' => true,
+                    'message' => $resultat['message'],
+                    'data' => [
+                        'montant' => $resultat['montant'],
+                        'solde' => $this->portefeuilleModel->getSolde($userId),
+                    ],
+                ]);
+            }
+
             session()->setFlashdata('succes', "✓ {$resultat['message']} +{$montantFormate} Ar ajoutés.");
         } else {
+            if ($this->request->isAJAX()) {
+                return $this->response->setJSON([
+                    'success' => false,
+                    'message' => $resultat['message'],
+                ]);
+            }
+
             session()->setFlashdata('erreur', $resultat['message']);
         }
 
