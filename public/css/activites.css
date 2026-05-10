@@ -1,0 +1,122 @@
+  /* ── Activités styles ── */
+    .activites-page { max-width: 860px; }
+
+    .section-title {
+      font-size: 0.75rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: .1em;
+      color: var(--text-muted);
+      margin: 32px 0 14px;
+    }
+
+    /* Groupe régime */
+    .regime-group {
+      background: var(--white);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 20px 22px;
+      margin-bottom: 20px;
+    }
+    .regime-header {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 16px;
+    }
+    .regime-badge {
+      background: var(--green-light);
+      color: var(--green-dark);
+      border-radius: 8px;
+      padding: 4px 12px;
+      font-size: 0.75rem;
+      font-weight: 700;
+    }
+    .regime-name { font-size: 1rem; font-weight: 700; color: var(--text); }
+
+    /* Grille activités */
+    .acts-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+      gap: 12px;
+    }
+    .act-card {
+      background: var(--cream);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 14px 16px;
+      transition: .2s;
+    }
+    .act-card:hover { border-color: var(--green-mid); transform: translateY(-2px); }
+    .act-icon { font-size: 1.6rem; margin-bottom: 8px; }
+    .act-name { font-size: 0.88rem; font-weight: 700; color: var(--text); margin-bottom: 4px; }
+    .act-desc { font-size: 0.78rem; color: var(--text-muted); line-height: 1.4; margin-bottom: 8px; }
+    .act-cal {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      background: #fff3e0;
+      color: #e65100;
+      border-radius: 20px;
+      padding: 2px 10px;
+      font-size: 0.72rem;
+      font-weight: 700;
+    }
+
+    /* Catalogue complet */
+    .catalogue-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.85rem;
+      background: var(--white);
+      border-radius: 16px;
+      overflow: hidden;
+      border: 1px solid var(--border);
+    }
+    .catalogue-table th {
+      text-align: left;
+      padding: 10px 16px;
+      font-size: 0.72rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: .06em;
+      color: var(--text-muted);
+      background: var(--cream);
+      border-bottom: 1px solid var(--border);
+    }
+    .catalogue-table td {
+      padding: 12px 16px;
+      border-bottom: 1px solid var(--border);
+      color: var(--text);
+    }
+    .catalogue-table tr:last-child td { border-bottom: none; }
+    .catalogue-table tr:hover td { background: var(--cream); }
+
+    .cal-pill {
+      background: #fff3e0;
+      color: #e65100;
+      border-radius: 20px;
+      padding: 3px 10px;
+      font-size: 0.75rem;
+      font-weight: 700;
+    }
+
+    /* Icônes selon intensité calories */
+    .intensity-low  { color: #4caf50; }
+    .intensity-mid  { color: #ff9800; }
+    .intensity-high { color: #f44336; }
+
+    /* Empty state */
+    .empty-state {
+      text-align: center;
+      padding: 40px 20px;
+      color: var(--text-muted);
+    }
+    .empty-state .emoji { font-size: 2.5rem; margin-bottom: 12px; }
+    .empty-state p { font-size: 0.9rem; }
+    .empty-state a { color: var(--green-dark); font-weight: 600; }
+
+    /* ── Responsive ── */
+    @media (max-width: 640px) {
+      .acts-grid { grid-template-columns: 1fr 1fr; }
+    }
