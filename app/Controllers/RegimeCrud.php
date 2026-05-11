@@ -30,7 +30,7 @@ class RegimeCrud extends Controller
 
         // Par défaut: retourner les régimes
         $builder = $db->table('regimes r')
-            ->select('r.id, r.nom, r.description, r.variation_poids, rp.prix, r.pourcentage_viande, r.pourcentage_poisson, r.pourcentage_volaille, o.id AS objectif_id, o.nom AS objectif_nom, a.id AS activity_id, a.nom AS activity_nom')
+            ->select('r.id, r.nom, r.description, r.variation_poids, rp.prix, r.pourcentage_viande, r.pourcentage_poisson, r.pourcentage_volaille, o.id AS objectif_id, o.nom AS objectif_nom, GROUP_CONCAT(DISTINCT a.id ORDER BY a.id SEPARATOR ",") AS activity_ids, GROUP_CONCAT(DISTINCT a.nom ORDER BY a.nom SEPARATOR ", ") AS activity_noms')
             ->join('regime_objectifs ro', 'ro.regime_id = r.id', 'left')
             ->join('objectifs o', 'o.id = ro.objectif_id', 'left')
             ->join('regime_activites ra', 'ra.regime_id = r.id', 'left')
@@ -46,7 +46,10 @@ class RegimeCrud extends Controller
                 ->groupEnd();
         }
 
-        $result = $builder->orderBy('r.id', 'DESC')->get()->getResultArray();
+        $result = $builder->groupBy('r.id')
+            ->orderBy('r.id', 'DESC')
+            ->get()
+            ->getResultArray();
 
         return $this->response->setJSON($result);
     }
@@ -76,7 +79,6 @@ class RegimeCrud extends Controller
             'price' => 'required|decimal',
             'prix' => 'required|decimal',
             'objectif' => 'required|numeric',
-            'activity_id' => 'required|numeric',
             'proteines' => 'permit_empty|numeric',
             'glucides' => 'permit_empty|numeric',
             'lipides' => 'permit_empty|numeric',
@@ -91,6 +93,23 @@ class RegimeCrud extends Controller
                 ]);
             }
             session()->setFlashdata('validation', $this->validator);
+            return redirect()->back()->withInput();
+        }
+
+        $activityIds = $this->request->getPost('activity_id') ?? [];
+        if (!is_array($activityIds)) {
+            $activityIds = [$activityIds];
+        }
+        $activityIds = array_values(array_unique(array_filter(array_map('intval', $activityIds), static fn ($value) => $value > 0)));
+        if (empty($activityIds)) {
+            if ($this->isAjaxRequest()) {
+                return $this->response->setStatusCode(422)->setJSON([
+                    'success' => false,
+                    'message' => 'Erreur de validation.',
+                    'errors' => ['activity_id' => 'Veuillez sélectionner au moins une activité.']
+                ]);
+            }
+            session()->setFlashdata('validation', ['activity_id' => 'Veuillez sélectionner au moins une activité.']);
             return redirect()->back()->withInput();
         }
 
@@ -119,9 +138,8 @@ class RegimeCrud extends Controller
             }
 
             // Ajouter les activités
-            $activityId = (int) $this->request->getPost('activity_id');
-            if ($activityId) {
-                $db = \Config\Database::connect();
+            $db = \Config\Database::connect();
+            foreach ($activityIds as $activityId) {
                 $db->table('regime_activites')->insert([
                     'regime_id' => $regimeId,
                     'activite_id' => $activityId
@@ -168,7 +186,6 @@ class RegimeCrud extends Controller
             'price' => 'required|decimal',
             'prix' => 'required|decimal',
             'objectif' => 'required|numeric',
-            'activity_id' => 'required|numeric',
             'proteines' => 'permit_empty|numeric',
             'glucides' => 'permit_empty|numeric',
             'lipides' => 'permit_empty|numeric',
@@ -184,6 +201,24 @@ class RegimeCrud extends Controller
             }
             $data['regime'] = $model->find($id);
             $data['validation'] = $this->validator;
+            return view('pages/regimes', $data);
+        }
+
+        $activityIds = $this->request->getPost('activity_id') ?? [];
+        if (!is_array($activityIds)) {
+            $activityIds = [$activityIds];
+        }
+        $activityIds = array_values(array_unique(array_filter(array_map('intval', $activityIds), static fn ($value) => $value > 0)));
+        if (empty($activityIds)) {
+            if ($this->isAjaxRequest()) {
+                return $this->response->setStatusCode(422)->setJSON([
+                    'success' => false,
+                    'message' => 'Erreur de validation.',
+                    'errors' => ['activity_id' => 'Veuillez sélectionner au moins une activité.']
+                ]);
+            }
+            $data['regime'] = $model->find($id);
+            $data['validation'] = ['activity_id' => 'Veuillez sélectionner au moins une activité.'];
             return view('pages/regimes', $data);
         }
 
@@ -214,8 +249,7 @@ class RegimeCrud extends Controller
 
             // Mettre à jour l'activité unique
             $db->table('regime_activites')->where('regime_id', $id)->delete();
-            $activityId = (int) $this->request->getPost('activity_id');
-            if ($activityId) {
+            foreach ($activityIds as $activityId) {
                 $db->table('regime_activites')->insert([
                     'regime_id' => $id,
                     'activite_id' => $activityId
