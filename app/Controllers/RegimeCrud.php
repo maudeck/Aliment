@@ -30,11 +30,12 @@ class RegimeCrud extends Controller
 
         // Par défaut: retourner les régimes
         $builder = $db->table('regimes r')
-            ->select('r.id, r.nom, r.description, r.variation_poids, r.pourcentage_viande, r.pourcentage_poisson, r.pourcentage_volaille, o.id AS objectif_id, o.nom AS objectif_nom, a.id AS activity_id, a.nom AS activity_nom')
+            ->select('r.id, r.nom, r.description, r.variation_poids, rp.prix, r.pourcentage_viande, r.pourcentage_poisson, r.pourcentage_volaille, o.id AS objectif_id, o.nom AS objectif_nom, a.id AS activity_id, a.nom AS activity_nom')
             ->join('regime_objectifs ro', 'ro.regime_id = r.id', 'left')
             ->join('objectifs o', 'o.id = ro.objectif_id', 'left')
             ->join('regime_activites ra', 'ra.regime_id = r.id', 'left')
-            ->join('activites_sportives a', 'a.id = ra.activite_id', 'left');
+            ->join('activites_sportives a', 'a.id = ra.activite_id', 'left')
+            ->join('regime_prix rp', 'rp.regime_id = r.id AND rp.duree_id = 3', 'left');
 
         if ($search !== '') {
             $builder->groupStart()
@@ -73,6 +74,7 @@ class RegimeCrud extends Controller
             'name' => 'required|max_length[150]',
             'description' => 'required',
             'price' => 'required|decimal',
+            'prix' => 'required|decimal',
             'objectif' => 'required|numeric',
             'activity_id' => 'required|numeric',
             'proteines' => 'permit_empty|numeric',
@@ -103,6 +105,8 @@ class RegimeCrud extends Controller
             ];
 
             $regimeId = $model->insert($regimeData);
+            $prix = (float) ($this->request->getPost('prix') ?? 0);
+            $model->upsertPrix((int) $regimeId, 3, $prix);
 
             // Ajouter l'objectif
             $objectifId = (int) $this->request->getPost('objectif');
@@ -162,6 +166,7 @@ class RegimeCrud extends Controller
             'name' => 'required|max_length[150]',
             'description' => 'required',
             'price' => 'required|decimal',
+            'prix' => 'required|decimal',
             'objectif' => 'required|numeric',
             'activity_id' => 'required|numeric',
             'proteines' => 'permit_empty|numeric',
@@ -193,6 +198,8 @@ class RegimeCrud extends Controller
             ];
 
             $model->update($id, $regimeData);
+            $prix = (float) ($this->request->getPost('prix') ?? 0);
+            $model->upsertPrix((int) $id, 3, $prix);
 
             // Mettre à jour l'objectif
             $db = \Config\Database::connect();

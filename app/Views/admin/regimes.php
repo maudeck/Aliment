@@ -49,6 +49,10 @@
                                 <input id="price" name="price" type="number" step="0.01" placeholder="ex: 2.5" required>
                             </div>
                             <div class="form-group">
+                                <label for="prix">Prix du régime (Ar) *</label>
+                                <input id="prix" name="prix" type="number" step="0.01" placeholder="ex: 50000" required>
+                            </div>
+                            <div class="form-group">
                                 <label for="proteines">Viande (%)</label>
                                 <input id="proteines" name="proteines" type="number" value="30" step="0.01">
                             </div>
@@ -98,12 +102,13 @@
                                     <th>Nom & Description</th>
                                     <th>Objectif</th>
                                     <th>Variation poids</th>
+                                    <th>Prix</th>
                                     <th>Macros</th>
                                     <th>Actions</th>
                                 </tr>
                             </thead>
                             <tbody id="regimesTableBody">
-                                <tr><td colspan="5" style="text-align:center; padding: 20px;">Chargement...</td></tr>
+                                <tr><td colspan="6" style="text-align:center; padding: 20px;">Chargement...</td></tr>
                             </tbody>
                         </table>
                     </div>
@@ -197,7 +202,7 @@
                 const regimes = await response.json();
                 renderRegimes(regimes);
             } catch (e) {
-                tbody.innerHTML = '<tr><td colspan="5" style="text-align:center; color:red;">Erreur chargement régimes</td></tr>';
+                tbody.innerHTML = '<tr><td colspan="6" style="text-align:center; color:red;">Erreur chargement régimes</td></tr>';
             }
         }
 
@@ -223,7 +228,7 @@
 
         function renderRegimes(regimes) {
             if (!Array.isArray(regimes) || regimes.length === 0) {
-                tbody.innerHTML = '<tr><td colspan="5" style="text-align:center; padding: 20px;">Aucun régime trouvé.</td></tr>';
+                tbody.innerHTML = '<tr><td colspan="6" style="text-align:center; padding: 20px;">Aucun régime trouvé.</td></tr>';
                 return;
             }
 
@@ -235,6 +240,7 @@
                     </td>
                     <td><small>Objectif: ${escapeHtml(regime.objectif_nom || '—')}<br>Activité: ${escapeHtml(regime.activity_nom || '—')}</small></td>
                     <td><strong>${escapeHtml(regime.variation_poids || '0')} kg</strong></td>
+                    <td><strong>${escapeHtml(regime.prix || '0')} Ar</strong></td>
                     <td><small>V:${escapeHtml(regime.pourcentage_viande || '0')}% P:${escapeHtml(regime.pourcentage_poisson || '0')}% Vol:${escapeHtml(regime.pourcentage_volaille || '0')}%</small></td>
                     <td class="action-buttons">
                         <button type="button" class="btn-small primary edit-regime" data-id="${regime.id}">Modifier</button>
@@ -269,6 +275,7 @@
             document.getElementById('name').value = regime.nom || '';
             document.getElementById('description').value = regime.description || '';
             document.getElementById('price').value = regime.variation_poids || '';
+            document.getElementById('prix').value = regime.prix || '';
             document.getElementById('proteines').value = regime.pourcentage_viande || '30';
             document.getElementById('glucides').value = regime.pourcentage_poisson || '40';
             document.getElementById('lipides').value = regime.pourcentage_volaille || '30';
