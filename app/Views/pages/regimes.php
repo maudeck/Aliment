@@ -13,18 +13,18 @@
     <div class="page-header">
       <div>
         <p class="eyebrow">Mon espace</p>
-        <h1>Regimes</h1>
-        <p class="subtitle">Vos regimes achetes</p>
+        <h1>Mes regimes achetes</h1>
+        <p class="subtitle">Voici la liste des regimes que vous avez achetes.</p>
       </div>
     </div>
 
     <div class="hero-card">
       <div class="list-panel visible" id="regimeListPanel">
         <div class="list-panel-header">
-          <div>
+          <!-- <div>
             <h2>Mes regimes achetes</h2>
             <p>Voici la liste des regimes que vous avez achetes.</p>
-          </div>
+          </div> -->
           <div>
             <a href="<?= base_url('regimes/export/0'); ?>" class="btn-secondary" title="Exporter tous mes regimes en PDF">Exporter en PDF</a>
           </div>

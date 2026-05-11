@@ -308,6 +308,10 @@ body {
 
 .list-panel.visible {
   display: block;
+  background:
+    linear-gradient(rgba(255, 255, 255, 0.14), rgba(255, 255, 255, 0.14)),
+    url('../image/regime.jpg') center/cover no-repeat;
+  
 }
 
 .list-panel-header {
@@ -338,9 +342,10 @@ body {
   border: 1px solid rgba(236, 230, 222, 0.88);
   border-radius: 20px;
   padding: 20px;
-  background:
+  background: rgba(255, 255, 255, 0.82);
+  /* background:
     linear-gradient(rgba(255, 255, 255, 0.14), rgba(255, 255, 255, 0.14)),
-    url('../image/regime.jpg') center/cover no-repeat;
+    url('../image/regime.jpg') center/cover no-repeat; */
   position: relative;
   overflow: hidden;
 }
