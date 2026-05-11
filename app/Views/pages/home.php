@@ -68,24 +68,27 @@
         <?php if (!empty($regimes)): ?>
           <?php $r = $regimes[0]; ?>
           <div class="regime-detail">
-            <h2><?= esc($r['nom']); ?></h2>
+            <h2><?= esc((string) ($r['nom'] ?? '')); ?></h2>
             <p>
-              <?= $r['variation_poids'] > 0 ? '+' : ''; ?><?= esc($r['variation_poids']); ?> kg
-              <?= !empty($r['duree']) ? 'en ' . esc($r['duree']) : ''; ?>
+              <?= ($r['variation_poids'] ?? 0) > 0 ? '+' : ''; ?><?= esc((string) ($r['variation_poids'] ?? '0')); ?> kg
+              <?= !empty($r['duree']) ? 'en ' . esc((string) $r['duree']) : ''; ?>
             </p>
 
             <div class="nutrition">
               <div>
+                <img class="nutrition-icon" src="<?= base_url('icon/viande.png'); ?>" alt="Viande">
                 <p>Viande</p>
-                <h3><?= esc($r['pourcentage_viande']); ?>%</h3>
+                <h3><?= esc((string) ($r['pourcentage_viande'] ?? '0')); ?>%</h3>
               </div>
               <div>
+                <img class="nutrition-icon" src="<?= base_url('icon/poisson.png'); ?>" alt="Poisson">
                 <p>Poisson</p>
-                <h3><?= esc($r['pourcentage_poisson']); ?>%</h3>
+                <h3><?= esc((string) ($r['pourcentage_poisson'] ?? '0')); ?>%</h3>
               </div>
               <div>
+                <img class="nutrition-icon" src="<?= base_url('icon/jambe-de-dinde.png'); ?>" alt="Volaille">
                 <p>Volaille</p>
-                <h3><?= esc($r['pourcentage_volaille']); ?>%</h3>
+                <h3><?= esc((string) ($r['pourcentage_volaille'] ?? '0')); ?>%</h3>
               </div>
             </div>
 
@@ -141,12 +144,12 @@
         <?php if (!empty($activites)): ?>
           <?php foreach ($activites as $activite): ?>
             <div class="activity-item">
-              <strong><?= esc($activite['nom']); ?></strong>
+              <strong><?= esc((string) ($activite['nom'] ?? '')); ?></strong>
               <?php if (!empty($activite['description'])): ?>
-                <p class="activity-desc"><?= esc($activite['description']); ?></p>
+                <p class="activity-desc"><?= esc((string) ($activite['description'] ?? '')); ?></p>
               <?php endif; ?>
               <?php if (!empty($activite['calories_brulees_heure'])): ?>
-                <span class="activity-cal"><?= esc($activite['calories_brulees_heure']); ?> kcal/h</span>
+                <span class="activity-cal"><?= esc((string) ($activite['calories_brulees_heure'] ?? '')); ?> kcal/h</span>
               <?php endif; ?>
             </div>
           <?php endforeach; ?>
@@ -193,11 +196,25 @@
       <div class="regime-list">
         <?php foreach (array_slice($regimes, 1) as $regime): ?>
           <div class="regime-card">
-            <h3><?= esc($regime['nom']); ?></h3>
+            <h3><?= esc((string) ($regime['nom'] ?? '')); ?></h3>
             <p>
-              <?= $regime['variation_poids'] > 0 ? '+' : ''; ?><?= esc($regime['variation_poids']); ?> kg
-              <?= !empty($regime['duree']) ? 'en ' . esc($regime['duree']) : ''; ?>
+              <?= ($regime['variation_poids'] ?? 0) > 0 ? '+' : ''; ?><?= esc((string) ($regime['variation_poids'] ?? '0')); ?> kg
+              <?= !empty($regime['duree']) ? 'en ' . esc((string) $regime['duree']) : ''; ?>
             </p>
+            <div class="regime-icons">
+              <span class="regime-chip">
+                <img src="<?= base_url('icon/viande.png'); ?>" alt="Viande">
+                <?= esc((string) ($regime['pourcentage_viande'] ?? '0')); ?>% viande
+              </span>
+              <span class="regime-chip">
+                <img src="<?= base_url('icon/poisson.png'); ?>" alt="Poisson">
+                <?= esc((string) ($regime['pourcentage_poisson'] ?? '0')); ?>% poisson
+              </span>
+              <span class="regime-chip">
+                <img src="<?= base_url('icon/jambe-de-dinde.png'); ?>" alt="Volaille">
+                <?= esc((string) ($regime['pourcentage_volaille'] ?? '0')); ?>% volaille
+              </span>
+            </div>
             <?php if (!empty($regime['prix'])): ?>
               <p class="price"><?= number_format($regime['prix'], 0, ',', ' '); ?> Ar</p>
             <?php endif; ?>

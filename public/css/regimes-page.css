@@ -418,6 +418,19 @@ body {
   border: 1px solid var(--border);
 }
 
+.regime-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.regime-chip img {
+  width: 16px;
+  height: 16px;
+  object-fit: contain;
+  flex-shrink: 0;
+}
+
 .regime-actions {
   display: flex;
   flex-wrap: wrap;
