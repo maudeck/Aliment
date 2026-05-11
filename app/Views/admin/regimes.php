@@ -72,10 +72,16 @@
                         </div>
 
                         <div class="form-group">
-                            <label for="activityId">Activité sportive *</label>
-                            <select id="activityId" name="activity_id" required>
-                                <option value="">-- Sélectionner une activité --</option>
-                            </select>
+                            <label>Activités sportives *</label>
+                            <div id="activitiesContainer" class="activity-selects">
+                                <div class="activity-select-row">
+                                    <select class="activity-select" name="activity_id[]" required>
+                                        <option value="">-- Sélectionner une activité --</option>
+                                    </select>
+                                    <button type="button" class="btn-small secondary remove-activity" aria-label="Supprimer l'activité">−</button>
+                                </div>
+                            </div>
+                            <button type="button" id="addActivity" class="btn-small primary">+ Ajouter une activité</button>
                         </div>
 
                         <div class="form-actions">
@@ -123,7 +129,8 @@
         const tbody = document.getElementById('regimesTableBody');
         const searchInput = document.getElementById('regimeSearch');
         const objectifSelect = document.getElementById('objectif');
-        const activitySelect = document.getElementById('activityId');
+        const activitiesContainer = document.getElementById('activitiesContainer');
+        const addActivityButton = document.getElementById('addActivity');
         const regimeIdInput = document.getElementById('regimeId');
         const notificationsDiv = document.getElementById('notifications');
 
@@ -158,7 +165,7 @@
         // Réinitialiser
         form.querySelector('button[type="reset"]').addEventListener('click', function() {
             regimeIdInput.value = '';
-            if (activitySelect) activitySelect.value = '';
+            resetActivityRows();
             form.querySelector('button[type="submit"]').textContent = 'Enregistrer';
         });
 
@@ -217,12 +224,76 @@
         }
 
         function populateActivities() {
-            activitySelect.innerHTML = '<option value="">-- Sélectionner une activité --</option>';
+            const selects = activitiesContainer.querySelectorAll('select.activity-select');
+            selects.forEach(select => {
+                const currentValue = select.value;
+                select.innerHTML = '<option value="">-- Sélectionner une activité --</option>';
+                allActivities.forEach(act => {
+                    const opt = document.createElement('option');
+                    opt.value = act.id;
+                    opt.textContent = act.nom;
+                    select.appendChild(opt);
+                });
+                if (currentValue) {
+                    select.value = currentValue;
+                }
+            });
+        }
+
+        function createActivityRow(selectedValue = '') {
+            const row = document.createElement('div');
+            row.className = 'activity-select-row';
+
+            const select = document.createElement('select');
+            select.className = 'activity-select';
+            select.name = 'activity_id[]';
+            select.required = true;
+
+            const defaultOption = document.createElement('option');
+            defaultOption.value = '';
+            defaultOption.textContent = '-- Sélectionner une activité --';
+            select.appendChild(defaultOption);
+
             allActivities.forEach(act => {
                 const opt = document.createElement('option');
                 opt.value = act.id;
                 opt.textContent = act.nom;
-                activitySelect.appendChild(opt);
+                select.appendChild(opt);
+            });
+
+            if (selectedValue) {
+                select.value = selectedValue;
+            }
+
+            const removeButton = document.createElement('button');
+            removeButton.type = 'button';
+            removeButton.className = 'btn-small secondary remove-activity';
+            removeButton.setAttribute('aria-label', "Supprimer l'activité");
+            removeButton.textContent = '−';
+            removeButton.addEventListener('click', () => removeActivityRow(row));
+
+            row.appendChild(select);
+            row.appendChild(removeButton);
+            return row;
+        }
+
+        function resetActivityRows() {
+            activitiesContainer.innerHTML = '';
+            activitiesContainer.appendChild(createActivityRow());
+        }
+
+        function removeActivityRow(row) {
+            const rows = activitiesContainer.querySelectorAll('.activity-select-row');
+            if (rows.length <= 1) {
+                row.querySelector('select').value = '';
+                return;
+            }
+            row.remove();
+        }
+
+        if (addActivityButton) {
+            addActivityButton.addEventListener('click', function() {
+                activitiesContainer.appendChild(createActivityRow());
             });
         }
 
@@ -238,7 +309,7 @@
                         <strong>${escapeHtml(regime.nom || '')}</strong><br>
                         <small class="text-muted">${escapeHtml(regime.description || 'Sans description')}</small>
                     </td>
-                    <td><small>Objectif: ${escapeHtml(regime.objectif_nom || '—')}<br>Activité: ${escapeHtml(regime.activity_nom || '—')}</small></td>
+                    <td><small>Objectif: ${escapeHtml(regime.objectif_nom || '—')}<br>Activités: ${escapeHtml(regime.activity_noms || '—')}</small></td>
                     <td><strong>${escapeHtml(regime.variation_poids || '0')} kg</strong></td>
                     <td><strong>${escapeHtml(regime.prix || '0')} Ar</strong></td>
                     <td><small>V:${escapeHtml(regime.pourcentage_viande || '0')}% P:${escapeHtml(regime.pourcentage_poisson || '0')}% Vol:${escapeHtml(regime.pourcentage_volaille || '0')}%</small></td>
@@ -280,8 +351,19 @@
             document.getElementById('glucides').value = regime.pourcentage_poisson || '40';
             document.getElementById('lipides').value = regime.pourcentage_volaille || '30';
             document.getElementById('objectif').value = regime.objectif_id || '';
-            if (activitySelect) {
-                activitySelect.value = regime.activity_id || '';
+            const selectedIds = (regime.activity_ids || '')
+                .toString()
+                .split(',')
+                .map(value => value.trim())
+                .filter(value => value !== '');
+
+            activitiesContainer.innerHTML = '';
+            if (selectedIds.length === 0) {
+                activitiesContainer.appendChild(createActivityRow());
+            } else {
+                selectedIds.forEach(activityId => {
+                    activitiesContainer.appendChild(createActivityRow(activityId));
+                });
             }
 
             form.querySelector('button[type="submit"]').textContent = 'Modifier le régime';
@@ -314,7 +396,7 @@
                 showNotification(payload.message || 'Opération réussie.', 'success');
                 form.reset();
                 regimeIdInput.value = '';
-                if (activitySelect) activitySelect.value = '';
+                resetActivityRows();
                 submitBtn.textContent = 'Enregistrer';
 
                 await loadRegimes();
