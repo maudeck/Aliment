@@ -181,17 +181,33 @@
     }
 
     .main > .page-header {
-      justify-content: center;
-      text-align: center;
+      min-height: 240px;
+      padding: 36px 40px;
+      border: 1px solid var(--border);
+      border-radius: 28px;
+      background:
+        linear-gradient(90deg, rgba(255, 255, 255, 0.90) 0%, rgba(255, 255, 255, 0.72) 42%, rgba(255, 255, 255, 0.22) 100%),
+        url('../image/banniere_activite.png') center/cover no-repeat;
+      justify-content: flex-start;
+      align-items: flex-end;
+      text-align: left;
+      box-shadow: 0 12px 40px rgba(63, 45, 32, 0.06);
+      overflow: hidden;
+      margin-bottom: 28px;
     }
 
     .main > .page-header .eyebrow,
     .main > .page-header .subtitle {
-      text-align: center;
+      text-align: left;
     }
 
     .main > .page-header > div {
-      width: 100%;
+      max-width: 560px;
+      background: rgba(255, 255, 255, 0.78);
+      backdrop-filter: blur(6px);
+      border: 1px solid rgba(236, 230, 222, 0.82);
+      border-radius: 22px;
+      padding: 24px 26px;
     }
 
     .activites-page {

@@ -26,86 +26,6 @@
       min-height: 100vh;
     }
  
-    /* ── SIDEBAR ── */
-    .sidebar {
-      width: 260px;
-      min-height: 100vh;
-      background: var(--white);
-      border-right: 1px solid var(--border);
-      padding: 32px 20px;
-      display: flex;
-      flex-direction: column;
-      justify-content: space-between;
-      position: fixed;
-      top: 0; left: 0;
-    }
- 
-    .brand {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-      margin-bottom: 48px;
-    }
- 
-    .brand-logo {
-      width: 48px;
-      height: 48px;
-      object-fit: contain;
-    }
- 
-    .brand-logo-fallback {
-      width: 48px;
-      height: 48px;
-      background: var(--green-mid);
-      border-radius: 14px;
-    }
- 
-    .brand-text h2 {
-      font-family: 'Playfair Display', serif;
-      font-size: 20px;
-      color: var(--text);
-    }
- 
-    .brand-text small {
-      color: var(--text-muted);
-      font-size: 12px;
-    }
- 
-    .nav {
-      display: flex;
-      flex-direction: column;
-      gap: 6px;
-    }
- 
-    .nav-link {
-      text-decoration: none;
-      color: var(--text);
-      padding: 13px 18px;
-      border-radius: 14px;
-      font-size: 15px;
-      transition: background 0.2s, color 0.2s;
-    }
- 
-    .nav-link:hover { background: #f1eee8; }
- 
-    .nav-link.active {
-      background: var(--green-light);
-      color: var(--green-dark);
-      font-weight: 700;
-    }
- 
-    .logout {
-      display: block;
-      text-decoration: none;
-      color: var(--text-muted);
-      font-size: 14px;
-      padding: 12px 18px;
-      border-radius: 14px;
-      transition: background 0.2s;
-    }
- 
-    .logout:hover { background: #f1eee8; }
- 
     /* ── MAIN ── */
     .main {
       margin-left: 260px;
@@ -195,28 +115,41 @@
     }
  
     .regime-box {
-      background: var(--white);
+      background:
+        linear-gradient(rgba(255, 255, 255, 0.14), rgba(255, 255, 255, 0.14)),
+        url('../image/regime.jpg') center/cover no-repeat;
       border: 1px solid var(--border);
       border-radius: 24px;
       padding: 32px;
+      position: relative;
+      overflow: hidden;
     }
  
     .regime-box > h2 {
       font-family: 'Playfair Display', serif;
       font-size: 22px;
       margin-bottom: 6px;
+      display: inline-block;
+      background: rgba(255, 255, 255, 0.78);
+      padding: 8px 14px;
+      border-radius: 14px;
     }
  
     .regime-box > p {
       color: var(--text-muted);
       font-size: 14px;
       margin-bottom: 20px;
+      display: inline-block;
+      background: rgba(255, 255, 255, 0.72);
+      padding: 8px 14px;
+      border-radius: 14px;
     }
  
     .regime-detail {
-      background: #f7faf3;
+      background: rgba(255, 255, 255, 0.82);
       border-radius: 20px;
       padding: 28px;
+      backdrop-filter: blur(6px);
     }
  
     .regime-detail h2 {
@@ -450,16 +383,24 @@
  
     /* ALL REGIMES */
     .all-regimes {
-      background: var(--white);
+      background:
+        linear-gradient(rgba(255, 255, 255, 0.14), rgba(255, 255, 255, 0.14)),
+        url('../image/regime.jpg') center/cover no-repeat;
       border: 1px solid var(--border);
       border-radius: 24px;
       padding: 32px;
+      position: relative;
+      overflow: hidden;
     }
  
     .all-regimes h2 {
       font-family: 'Playfair Display', serif;
       font-size: 20px;
       margin-bottom: 20px;
+      display: inline-block;
+      background: rgba(255, 255, 255, 0.78);
+      padding: 8px 14px;
+      border-radius: 14px;
     }
  
     .regime-list {
@@ -469,9 +410,11 @@
     }
  
     .regime-card {
-      border: 1px solid var(--border);
+      border: 1px solid rgba(236, 230, 222, 0.85);
       border-radius: 20px;
       padding: 24px;
+      background: rgba(255, 255, 255, 0.82);
+      backdrop-filter: blur(6px);
     }
  
     .regime-card h3 {

@@ -1,14 +1,24 @@
 <?php
 $active = $active ?? 'home';
 $logoPath = $logo_path ?? 'logo/logo_sans_background.png';
+$isGold = $isGold ?? false;
 
 $links = [
-    'home' => ['/home', 'Accueil'],
-    'objectif' => ['/register/objectif', 'Objectifs'],
-    'regimes' => ['/regimes', 'Régimes'],
-    'activites' => ['/activites', 'Activités'],
-    'portefeuille' => ['/portefeuille', 'Portefeuille'],
-    'gold' => ['/home#gold-offer', 'Option Gold'],
+    'home' => ['/home', 'Accueil', 'acceuil.png'],
+    'objectif' => ['/register/objectif', 'Objectifs', 'objectif.png'],
+    'regimes' => ['/regimes', 'Régimes', 'regime.png'],
+    'activites' => ['/activites', 'Activités', 'exercice.png'],
+    'portefeuille' => ['/portefeuille', 'Portefeuille', 'wallet.png'],
+    'gold' => ['/home#gold-offer', 'Option Gold', 'gold.png'],
+];
+
+$icons = [
+    'home' => 'acceuil.png',
+    'objectif' => 'objectif.png',
+    'regimes' => 'regime.png',
+    'activites' => 'exercice.png',
+    'portefeuille' => 'wallet.png',
+    'gold' => 'gold.png',
 ];
 ?>
 <div class="sidebar">
@@ -22,8 +32,11 @@ $links = [
     </div>
 
     <nav class="nav">
-      <?php foreach ($links as $key => [$url, $label]): ?>
-        <a class="nav-link <?= $active === $key ? 'active' : '' ?>" href="<?= base_url($url); ?>"><?= esc($label) ?></a>
+      <?php foreach ($links as $key => [$url, $label, $icon]): ?>
+        <a class="nav-link <?= $active === $key ? 'active' : '' ?> <?= $key === 'gold' && $isGold ? 'gold-active' : '' ?>" href="<?= base_url($url); ?>">
+          <img src="<?= base_url('icon/' . $icon); ?>" alt="<?= esc($label); ?>" class="nav-icon">
+          <span><?= esc($label) ?></span>
+        </a>
       <?php endforeach; ?>
     </nav>
   </div>

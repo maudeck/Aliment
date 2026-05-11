@@ -4,8 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Objectif – NutriLife</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="stylesheet" href="<?= base_url('css/objectif.css'); ?>">
+    <link rel="preconnect" href="https://fonts.googleapis.com">    <link rel="stylesheet" href="<?= base_url('css/sidebar.css'); ?>">    <link rel="stylesheet" href="<?= base_url('css/objectif.css'); ?>">
 </head>
 <body>
     <?= view('partials/sidebar_front', ['active' => 'objectif', 'logo_path' => $logo_path ?? null]); ?>

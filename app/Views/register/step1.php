@@ -25,7 +25,7 @@
                 <div class="logo-wrap">
                     <img src="<?= base_url('logo/logo_sans_background.png'); ?>" alt="Logo" class="logo">
                 </div>
-                <h1>Inscription</h1>
+                <h1>Créer mon profil santé</h1>
                 <p class="step">Healthy bowl</p>
 
                 <?php if (!empty($errors)): ?>
