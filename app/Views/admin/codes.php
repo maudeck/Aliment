@@ -3,175 +3,185 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title><?= esc($title); ?></title>
+    <title><?= esc((string) ($title ?? 'Codes de recharge')); ?></title>
     <link rel="stylesheet" href="<?= base_url('css/admin.css'); ?>">
-    <link rel="stylesheet" href="<?= base_url('css/admin-regimes.css'); ?>">
+    <link rel="stylesheet" href="<?= base_url('css/admin-codes.css'); ?>">
+    <style>
+     
+    </style>
 </head>
 <body>
-    <div class="admin-shell">
-        <aside class="admin-sidebar">
-            <div class="admin-brand">
-                <div class="admin-brand-mark"></div>
-                <div>
-                    <h1>NutriLife Admin</h1>
-                    <small>Gestion du système</small>
-                </div>
+<div class="admin-shell">
+    <?= view('partials/admin_sidebar'); ?>
+
+    <main class="admin-content">
+
+        <section class="admin-hero">
+            <div>
+                <h2>Codes de Recharge Portefeuille</h2>
+                <p>Créez, gérez et suivez l'utilisation des codes de recharge.</p>
             </div>
+            <div class="admin-pill">Gestion des codes</div>
+        </section>
 
-            <nav class="admin-nav">
-                <a href="<?= base_url('/admin'); ?>">
-                    <strong>Tableau de bord</strong>
-                    <span>Aperçu général des modules admin</span>
-                </a>
-                <a href="<?= base_url('/admin/regimes'); ?>">
-                    <strong>CRUD Régimes</strong>
-                    <span>Créer, lire, modifier, supprimer les régimes</span>
-                </a>
-                <a href="<?= base_url('/admin/activites'); ?>">
-                    <strong>CRUD Activités sportives</strong>
-                    <span>Gérer les activités liées aux régimes</span>
-                </a>
-                <a href="<?= base_url('/admin/codes'); ?>" class="active">
-                    <strong>Validation des codes</strong>
-                    <span>Contrôler les recharges du portefeuille</span>
-                </a>
-                <a href="<?= base_url('/admin/settings'); ?>">
-                    <strong>CRUD Paramètres</strong>
-                    <span>Gérer les données de référence et réglages</span>
-                </a>
-            </nav>
+        <!-- Flash messages -->
+        <?php if (!empty($flash_succes)): ?>
+            <div class="flash-ok">✓ <?= esc($flash_succes) ?></div>
+        <?php endif; ?>
+        <?php if (!empty($flash_erreur)): ?>
+            <div class="flash-err">✗ <?= esc($flash_erreur) ?></div>
+        <?php endif; ?>
 
-            <div class="admin-footer">
-                <a class="admin-logout" href="<?= base_url('/logout'); ?>">Se déconnecter</a>
+        <div class="filter-bar">
+            <input id="searchCode" type="text" placeholder="Rechercher un code">
+            <select id="filterStatus" onchange="filterTable()">
+                    <option value="">Tous les statuts</option>
+                    <option value="dispo">Disponibles</option>
+                    <option value="use">Utilisés</option>
+                </select>
+        </div>
+
+        <div class="table-wrapper">
+            <table class="codes-table" id="codesTable">
+                <thead>
+                    <tr>
+                        <th>#</th>
+                        <th>Code</th>
+                        <th>Montant</th>
+                        <th>Statut</th>
+                        <th>Utilisé par</th>
+                        <th>Utilisé le</th>
+                        <th>Créé le</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                <?php if (empty($codes)): ?>
+                    <tr class="empty-row"><td colspan="8">Aucun code pour le moment.</td></tr>
+                <?php else: ?>
+                    <?php foreach ($codes as $c): ?>
+                    <tr data-status="<?= $c['est_utilise'] ? 'use' : 'dispo' ?>">
+                        <td><?= esc((string) ($c['id'] ?? '')) ?></td>
+                        <td><span class="code-mono"><?= esc((string) ($c['code'] ?? '')) ?></span></td>
+                        <td><strong><?= number_format((float) ($c['montant'] ?? 0), 0, ',', ' ') ?> Ar</strong></td>
+                        <td>
+                            <?php if ($c['est_utilise']): ?>
+                                <span class="badge-use">✗ Utilisé</span>
+                            <?php else: ?>
+                                <span class="badge-dispo">✓ Disponible</span>
+                            <?php endif; ?>
+                        </td>
+                        <td>
+                            <?php if ($c['utilisateur_nom']): ?>
+                                <div style="font-weight:600"><?= esc((string) ($c['utilisateur_nom'] ?? '')) ?></div>
+                                <div style="font-size:0.75rem;color:var(--muted)"><?= esc((string) ($c['utilisateur_email'] ?? '')) ?></div>
+                            <?php else: ?>
+                                <span style="color:var(--muted)">—</span>
+                            <?php endif; ?>
+                        </td>
+                        <td style="font-size:0.8rem;color:var(--muted)">
+                            <?= $c['utilise_le'] ? date('d/m/Y H:i', strtotime($c['utilise_le'])) : '—' ?>
+                        </td>
+                        <td style="font-size:0.8rem;color:var(--muted)">
+                            <?= date('d/m/Y', strtotime($c['created_at'])) ?>
+                        </td>
+                        <td>
+                            <?php if (!$c['est_utilise']): ?>
+                            <form method="POST" action="<?= base_url('/admin/codes/delete/' . $c['id']) ?>" onsubmit="return confirm('Supprimer ce code ?')">
+                                <?= csrf_field() ?>
+                                <button type="submit" class="btn-danger">Supprimer</button>
+                            </form>
+                            <?php else: ?>
+                                <span style="color:var(--muted);font-size:0.78rem">—</span>
+                            <?php endif; ?>
+                        </td>
+                    </tr>
+                    <?php endforeach; ?>
+                <?php endif; ?>
+                </tbody>
+            </table>
+        </div>
+
+        <!-- Tab : Créer un code -->
+        <div id="tab-create" class="tab-panel">
+            <div class="codes-form">
+                <h4>Créer un code de recharge unique</h4>
+                <p style="font-size:0.82rem;color:var(--muted);margin-bottom:16px">
+                    Codes existants dans la BDD : <strong>NUTRI-2024-AAAA</strong>, <strong>NUTRI-2024-BBBB</strong>, <strong>NUTRI-2024-CCCC</strong>
+                </p>
+                <form method="POST" action="<?= base_url('/admin/codes/store') ?>">
+                    <?= csrf_field() ?>
+                    <div class="form-row-inline">
+                        <div class="form-group" style="flex:2">
+                            <label>Code *</label>
+                            <input type="text" name="code" placeholder="Ex : NUTRI-2025-PROMO" maxlength="100" required style="text-transform:uppercase">
+                        </div>
+                        <div class="form-group">
+                            <label>Montant (Ar) *</label>
+                            <input type="number" name="montant" placeholder="50000" min="1" step="1" required>
+                        </div>
+                        <button type="submit" class="btn-primary">✓ Créer</button>
+                    </div>
+                </form>
             </div>
-        </aside>
+        </div>
 
-        <main class="admin-content">
-            <section class="admin-hero">
-                <div>
-                    <h2>Validation des Codes Portefeuille</h2>
-                    <p>Vérifier et valider les codes de recharge pour les portefeuilles des utilisateurs.</p>
-                </div>
-            </section>
-
-            <section class="admin-grid">
-                <article class="admin-card full">
-                    <h3>Valider un code</h3>
-                    <form class="admin-form">
+        <!-- Tab : Génération en lot -->
+        <div id="tab-batch" class="tab-panel">
+            <div class="codes-form">
+                <h4>Générer plusieurs codes automatiquement</h4>
+                <p style="font-size:0.82rem;color:var(--muted);margin-bottom:16px">
+                    Les codes sont générés aléatoirement avec le préfixe choisi. Maximum 50 codes par lot.
+                </p>
+                <form method="POST" action="<?= base_url('/admin/codes/generate') ?>">
+                    <?= csrf_field() ?>
+                    <div class="form-row-inline">
                         <div class="form-group">
-                            <label for="code">Code de recharge *</label>
-                            <input type="text" id="code" name="code" required placeholder="Ex: CODE-2024-ABC123" maxlength="20">
+                            <label>Préfixe</label>
+                            <input type="text" name="prefix" value="NUTRI" maxlength="20" style="text-transform:uppercase">
                         </div>
-
-                        <div class="form-row">
-                            <div class="form-group">
-                                <label for="montant">Montant (AR) *</label>
-                                <input type="number" id="montant" name="montant" required placeholder="100" step="0.01" min="0">
-                            </div>
-                            <div class="form-group">
-                                <label for="utilisateurs_max">Limité à (utilisateurs) *</label>
-                                <input type="number" id="utilisateurs_max" name="utilisateurs_max" required placeholder="1" min="1">
-                            </div>
-                        </div>
-
                         <div class="form-group">
-                            <label for="note">Notes optionnelles</label>
-                            <textarea id="note" name="note" rows="2" placeholder="Raison ou détails du code..."></textarea>
+                            <label>Nombre (max 50)</label>
+                            <input type="number" name="nombre" value="5" min="1" max="50" required>
                         </div>
-
-                        <div class="form-actions">
-                            <button type="submit" class="admin-button primary">Valider le code</button>
-                            <button type="reset" class="admin-button secondary">Réinitialiser</button>
+                        <div class="form-group">
+                            <label>Montant par code (Ar) *</label>
+                            <input type="number" name="montant" placeholder="50000" min="1" step="1" required>
                         </div>
-                    </form>
-                </article>
-
-                <article class="admin-card full">
-                    <h3>Codes en attente de validation</h3>
-                    <div class="table-wrapper">
-                        <table class="admin-table">
-                            <thead>
-                                <tr>
-                                    <th>Code</th>
-                                    <th>Montant</th>
-                                    <th>Limité à</th>
-                                    <th>Créé le</th>
-                                    <th>Statut</th>
-                                    <th>Actions</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td><strong>CODE-2024-ABC123</strong></td>
-                                    <td>100 AR</td>
-                                    <td>1 utilisateur</td>
-                                    <td class="text-muted">15/05/2026</td>
-                                    <td><span class="status-badge pending">En attente</span></td>
-                                    <td class="action-buttons">
-                                        <a href="#" class="btn-small primary">Valider</a>
-                                        <a href="#" class="btn-small danger">Rejeter</a>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td><strong>CODE-2024-DEF456</strong></td>
-                                    <td>250 AR</td>
-                                    <td>5 utilisateurs</td>
-                                    <td class="text-muted">14/05/2026</td>
-                                    <td><span class="status-badge pending">En attente</span></td>
-                                    <td class="action-buttons">
-                                        <a href="#" class="btn-small primary">Valider</a>
-                                        <a href="#" class="btn-small danger">Rejeter</a>
-                                    </td>
-                                </tr>
-                                <tr class="not-saved">
-                                    <td colspan="6" class="text-muted text-center">
-                                        Les données de cette section sont simulées • Interface non connectée à la base de données
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </table>
+                        <button type="submit" class="btn-primary">⚡ Générer</button>
                     </div>
-                </article>
+                </form>
+            </div>
+        </div>
 
-                <article class="admin-card full">
-                    <h3>Historique des codes validés</h3>
-                    <div class="table-wrapper">
-                        <table class="admin-table">
-                            <thead>
-                                <tr>
-                                    <th>Code</th>
-                                    <th>Montant</th>
-                                    <th>Utilisations</th>
-                                    <th>Validé le</th>
-                                    <th>Statut</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td><strong>CODE-2024-XYZ789</strong></td>
-                                    <td>200 AR</td>
-                                    <td>1/3 utilisateurs</td>
-                                    <td class="text-muted">10/05/2026</td>
-                                    <td><span class="status-badge active">Actif</span></td>
-                                </tr>
-                                <tr>
-                                    <td><strong>CODE-2024-OLD001</strong></td>
-                                    <td>150 AR</td>
-                                    <td>2/2 utilisateurs</td>
-                                    <td class="text-muted">01/05/2026</td>
-                                    <td><span class="status-badge used">Épuisé</span></td>
-                                </tr>
-                                <tr class="not-saved">
-                                    <td colspan="5" class="text-muted text-center">
-                                        Les données de cette section sont simulées • Interface non connectée à la base de données
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                </article>
-            </section>
-        </main>
-    </div>
+    </main>
+</div>
+
+<script>
+function switchTab(name, btn) {
+    document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+    document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
+    btn.classList.add('active');
+    document.getElementById('tab-' + name).classList.add('active');
+}
+
+function filterTable() {
+    const search = document.getElementById('searchCode').value.toLowerCase();
+    const status = document.getElementById('filterStatus').value;
+    document.querySelectorAll('#codesTable tbody tr').forEach(tr => {
+        if (tr.classList.contains('empty-row')) return;
+        const code   = tr.querySelector('.code-mono')?.textContent.toLowerCase() ?? '';
+        const trStatus = tr.dataset.status;
+        const matchSearch = code.includes(search);
+        const matchStatus = !status || trStatus === status;
+        tr.style.display = (matchSearch && matchStatus) ? '' : 'none';
+    });
+}
+
+// Majuscules automatiques sur le champ code
+document.querySelectorAll('input[name="code"], input[name="prefix"]').forEach(el => {
+    el.addEventListener('input', () => { el.value = el.value.toUpperCase(); });
+});
+</script>
 </body>
 </html>

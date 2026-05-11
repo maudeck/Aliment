@@ -5,38 +5,12 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Accueil – NutriLife</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="stylesheet" href="<?= base_url('css/sidebar.css'); ?>">
   <link rel="stylesheet" href="<?= base_url('css/home.css'); ?>">
 </head>
 
 <body>
-
-  <!-- SIDEBAR -->
-  <div class="sidebar">
-    <div>
-      <div class="brand">
-        <?php if (!empty($logo_path)): ?>
-          <img src="<?= base_url('logo/logo_sans_background.png'); ?>" alt="Logo" class="brand-logo">
-        <?php else: ?>
-          <div class="brand-logo-fallback"></div>
-        <?php endif; ?>
-        <div class="brand-text">
-          <h2>NutriLife</h2>
-          <small>Suivi alimentaire</small>
-        </div>
-      </div>
-
-      <nav class="nav">
-        <a class="nav-link active" href="<?= base_url('/home'); ?>">Accueil</a>
-        <a class="nav-link" href="<?= base_url('/register/objectif'); ?>">Objectifs</a>
-        <a class="nav-link" href="<?= base_url('/regimes'); ?>">Régimes</a>
-        <a class="nav-link" href="<?= base_url('/activites'); ?>">Activités</a>
-        <a class="nav-link" href="<?= base_url('/portefeuille'); ?>">Portefeuille</a>
-        <a class="nav-link" href="<?= base_url('/home#gold-offer'); ?>">Option Gold</a>
-      </nav>
-    </div>
-
-    <a class="logout" href="<?= base_url('/logout'); ?>">Se déconnecter</a>
-  </div>
+  <?= view('partials/sidebar_front', ['active' => 'home', 'logo_path' => $logo_path ?? null]); ?>
 
   <!-- MAIN -->
   <div class="main">

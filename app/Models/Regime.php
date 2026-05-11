@@ -51,4 +51,28 @@ class Regime extends Model
 
         return $regime;
     }
+
+    public function upsertPrix(int $regimeId, int $dureeId, float $prix): void
+    {
+        $db = \Config\Database::connect();
+        $table = $db->table('regime_prix');
+
+        $exists = $table->where('regime_id', $regimeId)
+            ->where('duree_id', $dureeId)
+            ->get()
+            ->getRowArray();
+
+        if ($exists) {
+            $table->where('regime_id', $regimeId)
+                ->where('duree_id', $dureeId)
+                ->update(['prix' => $prix]);
+            return;
+        }
+
+        $table->insert([
+            'regime_id' => $regimeId,
+            'duree_id' => $dureeId,
+            'prix' => $prix,
+        ]);
+    }
 }

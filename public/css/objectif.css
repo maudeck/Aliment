@@ -23,103 +23,23 @@ body {
   min-height: 100vh;
 }
 
-/* ── SIDEBAR ── */
-.sidebar {
-  width: 260px;
-  min-height: 100vh;
-  background: var(--white);
-  border-right: 1px solid var(--border);
-  padding: 32px 20px;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  position: fixed;
-  top: 0; left: 0;
-}
-
-.brand {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  margin-bottom: 48px;
-}
-
-.brand-logo {
-  width: 48px;
-  height: 48px;
-  object-fit: contain;
-}
-
-.brand-logo-fallback {
-  width: 48px;
-  height: 48px;
-  background: var(--green-mid);
-  border-radius: 14px;
-}
-
-.brand-text h2 {
-  font-family: 'Playfair Display', serif;
-  font-size: 20px;
-  color: var(--text);
-}
-
-.brand-text small {
-  color: var(--text-muted);
-  font-size: 12px;
-}
-
-.nav {
-  display: flex;
-  flex-direction: column;
-  gap: 6px;
-}
-
-.nav-link {
-  text-decoration: none;
-  color: var(--text);
-  padding: 13px 18px;
-  border-radius: 14px;
-  font-size: 15px;
-  transition: background 0.2s, color 0.2s;
-}
-
-.nav-link:hover { background: #f1eee8; }
-
-.nav-link.active {
-  background: var(--green-light);
-  color: var(--green-dark);
-  font-weight: 700;
-}
-
-.logout {
-  display: block;
-  text-decoration: none;
-  color: var(--text-muted);
-  font-size: 14px;
-  padding: 12px 18px;
-  border-radius: 14px;
-  transition: background 0.2s;
-}
-
-.logout:hover { background: #f1eee8; }
-
 /* ── MAIN ── */
 .main {
   margin-left: 260px;
   width: calc(100% - 260px);
-  padding: 40px 48px;
+  padding: 40px 56px 40px 36px;
 }
 
 /* ── CONTAINER ── */
 .container {
   width: 100%;
-  max-width: 560px;
+  max-width: 1120px;
   background: var(--white);
   border: 1px solid var(--border);
   border-radius: 28px;
   padding: 48px 44px;
   box-shadow: 0 12px 40px rgba(63, 45, 32, 0.07);
-  margin: 0 auto;
+  margin: 0;
 }
 
 /* ── HEADER ── */
@@ -128,13 +48,13 @@ body {
   font-size: 32px;
   font-weight: 700;
   color: var(--text);
-  text-align: center;
+  text-align: left;
   margin-bottom: 16px;
   line-height: 1.2;
 }
 
 .imc {
-  text-align: center;
+  text-align: left;
   font-family: 'Playfair Display', serif;
   font-size: 52px;
   font-weight: 700;
@@ -144,7 +64,7 @@ body {
 }
 
 .description {
-  text-align: center;
+  text-align: left;
   color: var(--text-muted);
   font-size: 15px;
   line-height: 1.6;
@@ -165,7 +85,8 @@ body {
 /* ── FORM ── */
 form {
   display: grid;
-  gap: 14px;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 16px;
 }
 
 /* ── GOAL CARDS ── */
@@ -206,6 +127,12 @@ form {
   color: var(--text-muted);
   font-size: 13px;
   line-height: 1.5;
+}
+
+form .btn {
+  grid-column: 1 / -1;
+  max-width: 260px;
+  justify-self: start;
 }
 
 /* ── BOUTON ── */
@@ -268,6 +195,7 @@ form {
   }
 
   .container {
+    max-width: 100%;
     padding: 36px 24px;
   }
 
@@ -277,5 +205,14 @@ form {
 
   .imc {
     font-size: 42px;
+  }
+
+  form {
+    grid-template-columns: 1fr;
+  }
+
+  form .btn {
+    max-width: none;
+    justify-self: stretch;
   }
 }

@@ -139,6 +139,34 @@ body {
   border-radius: 14px;
   font-size: 15px;
   transition: background 0.2s, color 0.2s;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.nav-icon {
+  width: 20px;
+  height: 20px;
+  object-fit: contain;
+  flex-shrink: 0;
+}
+
+.nav-link span {
+  flex: 1;
+}
+
+.gold-badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 20px;
+  height: 20px;
+  background: #52b788;
+  color: var(--white);
+  border-radius: 50%;
+  font-size: 12px;
+  font-weight: 700;
+  flex-shrink: 0;
 }
 
 .nav-link:hover {
@@ -148,6 +176,11 @@ body {
 .nav-link.active {
   background: var(--green-light);
   color: var(--green-dark);
+  font-weight: 700;
+}
+
+.nav-link.gold-active span {
+  color: #d4a574;
   font-weight: 700;
 }
 
@@ -275,6 +308,10 @@ body {
 
 .list-panel.visible {
   display: block;
+  background:
+    linear-gradient(rgba(255, 255, 255, 0.14), rgba(255, 255, 255, 0.14)),
+    url('../image/regime.jpg') center/cover no-repeat;
+  
 }
 
 .list-panel-header {
@@ -302,10 +339,28 @@ body {
 }
 
 .regime-item {
-  border: 1px solid var(--border);
+  border: 1px solid rgba(236, 230, 222, 0.88);
   border-radius: 20px;
   padding: 20px;
-  background: var(--cream);
+  background: rgba(255, 255, 255, 0.82);
+  /* background:
+    linear-gradient(rgba(255, 255, 255, 0.14), rgba(255, 255, 255, 0.14)),
+    url('../image/regime.jpg') center/cover no-repeat; */
+  position: relative;
+  overflow: hidden;
+}
+
+.regime-item::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.10), rgba(255, 255, 255, 0.22));
+  pointer-events: none;
+}
+
+.regime-item > * {
+  position: relative;
+  z-index: 1;
 }
 
 .regime-item-top {
@@ -320,12 +375,21 @@ body {
   font-family: 'Playfair Display', serif;
   font-size: 22px;
   margin-bottom: 6px;
+  display: inline-block;
+  background: rgba(255, 255, 255, 0.80);
+  padding: 8px 14px;
+  border-radius: 14px;
 }
 
 .regime-desc {
   color: var(--text-muted);
   font-size: 14px;
   line-height: 1.5;
+  display: inline-block;
+  background: rgba(255, 255, 255, 0.72);
+  padding: 8px 14px;
+  border-radius: 14px;
+  margin-top: 4px;
 }
 
 .regime-meta {
@@ -344,12 +408,12 @@ body {
 }
 
 .badge-green {
-  background: var(--green-light);
+  background: rgba(223, 234, 211, 0.90);
   color: var(--green-dark);
 }
 
 .badge-cream {
-  background: var(--white);
+  background: rgba(255, 255, 255, 0.82);
   color: var(--text-muted);
   border: 1px solid var(--border);
 }
