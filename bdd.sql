@@ -370,6 +370,13 @@ INSERT INTO regimes (nom, description, variation_poids, pourcentage_viande, pour
 ('Régime Faible en Glucides', 'Réduction des apports en amidon et sucres', -2.0, 35, 25, 40),
 ('Régime Sportif Intensif', 'Conçu pour sportifs à fort besoin calorique', 5.0, 45, 25, 30);
 
+INSERT INTO regime_objectifs (regime_id, objectif_id) VALUES
+(1, 2), -- Régime Végan Léger -> Réduire son poids
+(2, 1), -- Régime Riche en Protéines -> Augmenter son poids
+(3, 3), -- Régime Méditerranéen -> Atteindre son IMC idéal
+(4, 2), -- Régime Faible en Glucides -> Réduire son poids
+(5, 1); -- Régime Sportif Intensif -> Augmenter son poids
+
 -- 5 Activités sportives
 INSERT INTO activites_sportives (nom, description, calories_brulees_heure) VALUES
 ('Randonnée', 'Marche prolongée sur terrains variés', 300),
@@ -378,6 +385,45 @@ INSERT INTO activites_sportives (nom, description, calories_brulees_heure) VALUE
 ('Boxe', 'Cardio et renforcement musculaire', 550),
 ('Aviron', 'Exercice complet du corps', 600);
 
+INSERT INTO regime_activites (regime_id, activite_id) VALUES
+(1, 1), (1, 3),
+(2, 2), (2, 4),
+(3, 1), (3, 3), (3, 5),
+(4, 1), (4, 4),
+(5, 2), (5, 4), (5, 5);
+
+-- 1 semaine
+INSERT INTO regime_prix (regime_id, duree_id, prix) VALUES
+(1, 1, 10000),
+(2, 1, 20000),
+(3, 1, 15000),
+(4, 1, 18000),
+(5, 1, 25000);
+
+-- 2 semaines
+INSERT INTO regime_prix (regime_id, duree_id, prix) VALUES
+(1, 2, 18000),
+(2, 2, 35000),
+(3, 2, 27000),
+(4, 2, 32000),
+(5, 2, 45000);
+
+-- 1 mois
+INSERT INTO regime_prix (regime_id, duree_id, prix) VALUES
+(1, 3, 35000),
+(2, 3, 65000),
+(3, 3, 50000),
+(4, 3, 60000),
+(5, 3, 85000);
+
+-- 3 mois
+INSERT INTO regime_prix (regime_id, duree_id, prix) VALUES
+(1, 4, 90000),
+(2, 4, 170000),
+(3, 4, 130000),
+(4, 4, 150000),
+(5, 4, 220000);
 --donnee d'acces pour le cote admin, le mdp est admin123
 INSERT INTO admins (username, password) VALUES
 ('admin', '$2y$10$rgl1TggXU5MXbZ0NsX2cYuZRl2sdarYRPbyYeU.MtEsWigbXGtGGO');
+
