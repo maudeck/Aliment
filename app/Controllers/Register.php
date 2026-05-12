@@ -8,6 +8,7 @@ use App\Models\Objectif;
 use App\Models\UserObjectif;
 use App\Models\Portefeuille;
 use App\Models\Admin;
+use App\Models\Genre;
 use CodeIgniter\HTTP\RedirectResponse;
 use CodeIgniter\HTTP\ResponseInterface;
 
@@ -19,6 +20,7 @@ class Register extends BaseController
     protected $userObjectifModel;
     protected $portefeuilleModel;
     protected $adminModel;
+    protected $genreModel;
 
     public function __construct()
     {
@@ -28,6 +30,7 @@ class Register extends BaseController
         $this->userObjectifModel = new UserObjectif();
         $this->portefeuilleModel = new Portefeuille();
         $this->adminModel = new Admin();
+        $this->genreModel = new Genre();
     }
 
     public function index()
@@ -35,6 +38,7 @@ class Register extends BaseController
         $data = [
             'title' => 'Inscription - Etape 1',
             'errors' => session()->getFlashdata('errors'),
+            'genres' => $this->genreModel->orderBy('id', 'ASC')->findAll(),
         ];
 
         return view('register/step1', $data);
