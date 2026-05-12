@@ -62,9 +62,15 @@
                         <label for="genre_id">Genre</label>
                         <select id="genre_id" name="genre_id" required>
                             <option value="">Selectionner</option>
-                            <option value="1" <?= old('genre_id') === '1' ? 'selected' : '' ?>>Masculin</option>
-                            <option value="2" <?= old('genre_id') === '2' ? 'selected' : '' ?>>Feminin</option>
-                            <option value="3" <?= old('genre_id') === '3' ? 'selected' : '' ?>>Autre</option>
+                            <?php foreach (($genres ?? []) as $genre): ?>
+                                <?php
+                                    $genreId = (string) ($genre['id'] ?? '');
+                                    $genreNom = (string) ($genre['nom'] ?? '');
+                                ?>
+                                <option value="<?= esc($genreId); ?>" <?= old('genre_id') === $genreId ? 'selected' : ''; ?>>
+                                    <?= esc($genreNom); ?>
+                                </option>
+                            <?php endforeach; ?>
                         </select>
                         <?php if (isset($errors['genre_id'])): ?>
                             <span class="error-text"><?= $errors['genre_id']; ?></span>
