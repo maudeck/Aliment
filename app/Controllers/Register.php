@@ -9,6 +9,7 @@ use App\Models\UserObjectif;
 use App\Models\Portefeuille;
 use App\Models\Admin;
 use App\Models\Genre;
+use App\Models\Duree;
 use CodeIgniter\HTTP\RedirectResponse;
 use CodeIgniter\HTTP\ResponseInterface;
 
@@ -21,6 +22,7 @@ class Register extends BaseController
     protected $portefeuilleModel;
     protected $adminModel;
     protected $genreModel;
+    protected $dureeModel;
 
     public function __construct()
     {
@@ -31,6 +33,7 @@ class Register extends BaseController
         $this->portefeuilleModel = new Portefeuille();
         $this->adminModel = new Admin();
         $this->genreModel = new Genre();
+        $this->dureeModel = new Duree();
     }
 
     public function index()
@@ -180,18 +183,18 @@ class Register extends BaseController
         }
 
         $objectifs = $this->objectifModel->orderBy('id', 'ASC')->findAll();
+        $durees = $this->dureeModel->orderBy('id', 'ASC')->findAll();
 
         $data = [
             'title'     => 'Votre objectif',
             'imc'       => session()->get('imc'),
             'statut'    => session()->get('statut'),
             'objectifs' => $objectifs,
+            'durees'    => $durees,
             'errors'    => session()->getFlashdata('errors'),
         ];
 
         return view('pages/objectif', $data);
-
-
     }
 
     public function storeObjectif(): RedirectResponse|ResponseInterface
@@ -209,13 +212,14 @@ class Register extends BaseController
 
         $rules = [
             'objectif_id' => 'required|is_not_unique[objectifs.id]',
+            'duree_id' => 'required|is_not_unique[durees.id]',
         ];
 
         if (!$this->validate($rules)) {
             if ($this->request->isAJAX()) {
                 return $this->response->setJSON([
                     'success' => false,
-                    'message' => 'Objectif invalide.',
+                    'message' => 'Objectif ou durée invalide.',
                     'errors' => $this->validator->getErrors(),
                 ]);
             }
@@ -227,6 +231,7 @@ class Register extends BaseController
 
         $userId = session()->get('user_id');
         $objectifId = $this->request->getPost('objectif_id');
+        $dureeId = $this->request->getPost('duree_id');
 
         $existing = $this->userObjectifModel->where('user_id', $userId)->first();
 
@@ -242,10 +247,13 @@ class Register extends BaseController
             ]);
         }
 
+        // Stocker la durée sélectionnée en session pour l'achat de régime
+        session()->set('selected_duree_id', $dureeId);
+
         if ($this->request->isAJAX()) {
             return $this->response->setJSON([
                 'success' => true,
-                'message' => 'Objectif enregistré.',
+                'message' => 'Objectif et durée enregistrés.',
             ]);
         }
 

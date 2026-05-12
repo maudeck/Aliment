@@ -34,6 +34,20 @@
         <form action="<?= base_url('/register/objectif/store'); ?>" method="POST" id="objectifForm" class="ajax-objectif-form">
             <?= csrf_field(); ?>
 
+            <div class="form-group">
+                <label for="duree_id" style="display: block; margin-bottom: 8px; font-weight: 500;">Durée du programme</label>
+                <select id="duree_id" name="duree_id" required style="width: 100%; padding: 10px; border: 1px solid var(--border, #ccc); border-radius: 8px; font-size: 14px;">
+                    <option value="">-- Sélectionner une durée --</option>
+                    <?php if (!empty($durees)): ?>
+                        <?php foreach ($durees as $duree): ?>
+                            <option value="<?= $duree['id']; ?>" <?= old('duree_id') == $duree['id'] ? 'selected' : ''; ?>>
+                                <?= htmlspecialchars($duree['nom']); ?>
+                            </option>
+                        <?php endforeach; ?>
+                    <?php endif; ?>
+                </select>
+            </div>
+
             <?php if (!empty($objectifs)): ?>
                 <?php foreach ($objectifs as $objectif): ?>
                     <label class="goal-card" for="objectif-<?= $objectif['id']; ?>" onclick="selectGoal(this, '<?= $objectif['id']; ?>')">
