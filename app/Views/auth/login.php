@@ -49,7 +49,18 @@
 
                     <div class="form-group">
                         <label for="password">Mot de passe</label>
-                        <input type="password" id="password" name="password" required>
+                        <div class="password-field">
+                            <input type="password" id="password" name="password" required>
+                            <button
+                                type="button"
+                                class="toggle-password"
+                                data-target="password"
+                                aria-label="Afficher le mot de passe"
+                                title="Afficher/Masquer"
+                            >
+                                <img src="<?= base_url('icon/oeil.png'); ?>" alt="Afficher le mot de passe">
+                            </button>
+                        </div>
                         <?php if (isset($errors['password'])): ?>
                             <span class="error-text"><?= $errors['password']; ?></span>
                         <?php endif; ?>
@@ -64,5 +75,22 @@
             </section>
         </section>
     </div>
+
+    <script>
+        document.querySelectorAll('.toggle-password').forEach((button) => {
+            button.addEventListener('click', () => {
+                const inputId = button.getAttribute('data-target');
+                const input = document.getElementById(inputId);
+                if (!input) return;
+
+                const isHidden = input.type === 'password';
+                input.type = isHidden ? 'text' : 'password';
+                button.setAttribute(
+                    'aria-label',
+                    isHidden ? 'Masquer le mot de passe' : 'Afficher le mot de passe'
+                );
+            });
+        });
+    </script>
 </body>
 </html>

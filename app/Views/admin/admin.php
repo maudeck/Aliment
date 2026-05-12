@@ -12,7 +12,43 @@
 </head>
 <body>
 <div class="admin-shell">
-    <?= view('partials/admin_sidebar'); ?>
+
+    <!-- Sidebar -->
+    <aside class="admin-sidebar">
+        <div class="admin-brand">
+
+            <div class="admin-brand-mark"></div>
+            <div>
+                <h1>NutriLife Admin</h1>
+                <small>Gestion du système</small>
+            </div>
+        </div>
+        <nav class="admin-nav">
+            <a href="<?= base_url('/admin'); ?>" class="active">
+                <strong>Tableau de bord</strong>
+                <span>Statistiques & graphes</span>
+            </a>
+            <a href="<?= base_url('/admin/regimes'); ?>">
+                <strong>CRUD Régimes</strong>
+                <span>Créer, lire, modifier, supprimer les régimes</span>
+            </a>
+            <a href="<?= base_url('/admin/activites'); ?>">
+                <strong>CRUD Activités sportives</strong>
+                <span>Gérer les activités liées aux régimes</span>
+            </a>
+            <a href="<?= base_url('/admin/codes'); ?>">
+                <strong>Validation des codes</strong>
+                <span>Contrôler les recharges du portefeuille</span>
+            </a>
+            <a href="<?= base_url('/admin/settings'); ?>">
+                <strong>CRUD Paramètres</strong>
+                <span>Gérer les données de référence et réglages</span>
+            </a>
+        </nav>
+        <div class="admin-footer">
+            <a class="admin-logout" href="<?= base_url('/logout'); ?>">Se déconnecter</a>
+        </div>
+    </aside>
 
     <!-- Main content -->
     <main class="admin-content">
@@ -162,7 +198,7 @@
 
             <!-- Utilisateurs récents -->
             <div class="chart-card">
-                <h4>🕐 Dernières inscriptions</h4>
+                <h4>utilisateurs</h4>
                 <?php if (empty($recentUsers)): ?>
                     <p style="color:var(--muted); font-size:0.85rem;">Aucun utilisateur pour le moment.</p>
                 <?php else: ?>

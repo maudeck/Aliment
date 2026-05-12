@@ -157,6 +157,37 @@ input:focus {
     box-shadow: 0 0 0 3px rgba(149, 213, 178, 0.24);
 }
 
+.password-field {
+    position: relative;
+}
+
+.password-field input {
+    padding-right: 44px;
+}
+
+.toggle-password {
+    position: absolute;
+    right: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    border: none;
+    background: transparent;
+    cursor: pointer;
+    padding: 2px;
+    line-height: 0;
+}
+
+.toggle-password img {
+    width: 18px;
+    height: 18px;
+    object-fit: contain;
+    opacity: 0.68;
+}
+
+.toggle-password:hover img {
+    opacity: 1;
+}
+
 .alert {
     background: rgba(216, 243, 220, 0.7);
     border-left: 4px solid var(--green-dark);
